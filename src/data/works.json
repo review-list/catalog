@@ -1,0 +1,23 @@
+{
+  "site_name": "テスト用 静的サイト",
+  "works": [
+    {
+      "id": "work-001",
+      "title": "サンプル作品Aレビュー",
+      "description": "これは作品Aの紹介ページです。静的HTMLを量産しています。",
+      "release_date": "2026-01-14",
+      "tags": ["初心者", "静的サイト", "Python"],
+      "official_url": "https://example.com",
+      "hero_image": "https://placehold.co/960x540?text=Work+A"
+    },
+    {
+      "id": "work-002",
+      "title": "サンプル作品Bレビュー",
+      "description": "これは作品Bの紹介ページです。複数ページ生成のテストです。",
+      "release_date": "2026-01-15",
+      "tags": ["Jinja2", "量産", "GitHub Pages"],
+      "official_url": "https://example.com",
+      "hero_image": "https://placehold.co/960x540?text=Work+B"
+    }
+  ]
+}
