@@ -3,374 +3,80 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Review Catalog</title>
+  <title>{{ site_name }}</title>
   <meta name="description" content="作品一覧ページです。" />
   <style>
-    body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans JP",sans-serif; margin:0; background:#f6f7f9;}
-    header{background:#111827; color:#fff; padding:18px 16px;}
-    main{max-width:920px; margin:18px auto; padding:0 16px;}
-    .list{display:grid; gap:12px;}
-    .item{background:#fff; border-radius:14px; box-shadow:0 6px 20px rgba(0,0,0,.06); padding:14px;}
-    .hero{width:100%; height:auto; border-radius:10px; margin-bottom:10px;}
-    .title{font-size:18px; margin:0 0 6px;}
-    .meta{color:#6b7280; font-size:13px;}
-    a{color:#2563eb; text-decoration:none;}
-    footer{color:#6b7280; text-align:center; padding:18px 0 30px;}
+    body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans JP",sans-serif;margin:0;background:#0b1220;color:#e5e7eb;}
+    header{position:sticky;top:0;background:rgba(11,18,32,.86);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.08);padding:14px 16px;z-index:5;}
+    header .wrap{max-width:1150px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+    header a{color:#fff;text-decoration:none;font-weight:800;letter-spacing:.2px;}
+    main{max-width:1150px;margin:18px auto;padding:0 16px;}
+    .heroTop{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:10px 0 14px;}
+    .heroTop h1{margin:0;font-size:28px;line-height:1.1;color:#fff;}
+    .sub{opacity:.75;font-size:13px;}
+    .chips{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 18px;}
+    .chip{border:1px solid rgba(255,255,255,.16);padding:7px 10px;border-radius:999px;font-size:13px;color:#fff;opacity:.9;}
+    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;}
+    @media (max-width: 980px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+    @media (max-width: 560px){.grid{grid-template-columns:1fr;}}
+    .card{background:#0f1a33;border:1px solid rgba(255,255,255,.08);border-radius:16px;overflow:hidden;}
+    .thumb{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:#111827;}
+    .pad{padding:12px 12px 14px;}
+    .title{margin:0 0 6px;font-size:15px;line-height:1.35;}
+    .title a{color:#fff;text-decoration:none;}
+    .title a:hover{color:#93c5fd;}
+    .meta{opacity:.7;font-size:12.5px;line-height:1.35;}
+    .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;}
+    .tag{background:rgba(59,130,246,.18);border:1px solid rgba(59,130,246,.22);color:#bfdbfe;padding:5px 9px;border-radius:999px;font-size:12px;}
+    footer{opacity:.65;text-align:center;padding:22px 0 34px;}
   </style>
 </head>
 <body>
   <header>
-    <strong>Review Catalog</strong>
+    <div class="wrap">
+      <a href="/">{{ site_name }}</a>
+      <span class="sub">Magazine style</span>
+    </div>
   </header>
 
   <main>
-    <h1>作品一覧</h1>
-
-    <div class="list">
-      
-        <div class="item">
-
-          <!-- ★ 画像を追加（無い場合はプレースホルダー） -->
-          <img class="hero"
-               src="https://pics.dmm.co.jp/digital/video/vrkm01759/vrkm01759pl.jpg"
-               alt="【VR】新村あかりに沼る"
-               loading="lazy">
-
-          <p class="title">
-            <a href="/works/vrkm01759/">【VR】新村あかりに沼る</a>
-          </p>
-
-          <div class="meta">公開日：2026-03-05 00:00:00</div>
-          <div class="meta">【VR】新村あかりに沼る</div>
-
-        </div>
-      
-        <div class="item">
-
-          <!-- ★ 画像を追加（無い場合はプレースホルダー） -->
-          <img class="hero"
-               src="https://pics.dmm.co.jp/digital/video/savr00909/savr00909pl.jpg"
-               alt="【VR】おいでよパコパコ学園祭！！クラスの顔面ビジュアル最高峰の制服美少女とヤリまくり絶頂FESTIVALクラスのTOPグループとハーレムSEX！！編 百瀬あすか 斎藤あみり 新井リマ 蘭々 尾崎えりか"
-               loading="lazy">
-
-          <p class="title">
-            <a href="/works/savr00909/">【VR】おいでよパコパコ学園祭！！クラスの顔面ビジュアル最高峰の制服美少女とヤリまくり絶頂FESTIVALクラスのTOPグループとハーレムSEX！！編 百瀬あすか 斎藤あみり 新井リマ 蘭々 尾崎えりか</a>
-          </p>
-
-          <div class="meta">公開日：2026-02-27 00:00:00</div>
-          <div class="meta">【VR】おいでよパコパコ学園祭！！クラスの顔面ビジュアル最高峰の制服美少女とヤリまくり絶頂FESTIVALクラスのTOPグループとハーレムSEX！！編 百瀬あすか 斎藤あみり 新井リマ 蘭々 尾崎えりか</div>
-
-        </div>
-      
-        <div class="item">
-
-          <!-- ★ 画像を追加（無い場合はプレースホルダー） -->
-          <img class="hero"
-               src="https://pics.dmm.co.jp/digital/video/vrkm01761/vrkm01761pl.jpg"
-               alt="【VR】天井特化アングルVR ～皆月ひかるを1日貸切→抜かずの騎乗位中出し2連発～"
-               loading="lazy">
-
-          <p class="title">
-            <a href="/works/vrkm01761/">【VR】天井特化アングルVR ～皆月ひかるを1日貸切→抜かずの騎乗位中出し2連発～</a>
-          </p>
-
-          <div class="meta">公開日：2026-02-23 00:00:00</div>
-          <div class="meta">【VR】天井特化アングルVR ～皆月ひかるを1日貸切→抜かずの騎乗位中出し2連発～</div>
-
-        </div>
-      
-        <div class="item">
-
-          <!-- ★ 画像を追加（無い場合はプレースホルダー） -->
-          <img class="hero"
-               src="https://pics.dmm.co.jp/digital/video/vrkm01736/vrkm01736pl.jpg"
-               alt="【VR】ぼくはオンナになってオトコの数百倍の快楽を覚えてしまい現世界に戻れなくなった。心も体もオンナになる異世界転生女体化実験ノーカット467分"
-               loading="lazy">
-
-          <p class="title">
-            <a href="/works/vrkm01736/">【VR】ぼくはオンナになってオトコの数百倍の快楽を覚えてしまい現世界に戻れなくなった。心も体もオンナになる異世界転生女体化実験ノーカット467分</a>
-          </p>
-
-          <div class="meta">公開日：2026-02-21 00:00:00</div>
-          <div class="meta">【VR】ぼくはオンナになってオトコの数百倍の快楽を覚えてしまい現世界に戻れなくなった。心も体もオンナになる異世界転生女体化実験ノーカット467分</div>
-
-        </div>
-      
-        <div class="item">
-
-          <!-- ★ 画像を追加（無い場合はプレースホルダー） -->
-          <img class="hero"
-               src="https://pics.dmm.co.jp/digital/video/savr00908/savr00908pl.jpg"
-               alt="【VR】おいでよパコパコ学園祭！！クラスの顔面ビジュアル最高峰の制服美少女とヤリまくり絶頂FESTIVALカワイイ＆キレイな生徒たちと3PSEX編 百瀬あすか 斎藤あみり"
-               loading="lazy">
-
-          <p class="title">
-            <a href="/works/savr00908/">【VR】おいでよパコパコ学園祭！！クラスの顔面ビジュアル最高峰の制服美少女とヤリまくり絶頂FESTIVALカワイイ＆キレイな生徒たちと3PSEX編 百瀬あすか 斎藤あみり</a>
-          </p>
-
-          <div class="meta">公開日：2026-02-20 00:00:00</div>
-          <div class="meta">【VR】おいでよパコパコ学園祭！！クラスの顔面ビジュアル最高峰の制服美少女とヤリまくり絶頂FESTIVALカワイイ＆キレイな生徒たちと3PSEX編 百瀬あすか 斎藤あみり</div>
-
-        </div>
-      
-        <div class="item">
-
-          <!-- ★ 画像を追加（無い場合はプレースホルダー） -->
-          <img class="hero"
-               src="https://pics.dmm.co.jp/digital/video/vrkm01764/vrkm01764pl.jpg"
-               alt="【VR】アヘ顔の天才！！ あかり ～ボクに厳しい元ヤンキーのシゴデキ先輩あかりは、実はSEXするとアヘ顔でイキまくる変態OLだった件～ 新村あかり"
-               loading="lazy">
-
-          <p class="title">
-            <a href="/works/vrkm01764/">【VR】アヘ顔の天才！！ あかり ～ボクに厳しい元ヤンキーのシゴデキ先輩あかりは、実はSEXするとアヘ顔でイキまくる変態OLだった件～ 新村あかり</a>
-          </p>
-
-          <div class="meta">公開日：2026-02-19 00:00:00</div>
-          <div class="meta">【VR】アヘ顔の天才！！ あかり ～ボクに厳しい元ヤンキーのシゴデキ先輩あかりは、実はSEXするとアヘ顔でイキまくる変態OLだった件～ 新村あかり</div>
-
-        </div>
-      
-        <div class="item">
-
-          <!-- ★ 画像を追加（無い場合はプレースホルダー） -->
-          <img class="hero"
-               src="https://pics.dmm.co.jp/digital/video/vrkm01747/vrkm01747pl.jpg"
-               alt="【VR】東京都〇〇区童貞筆おろしプロジェクト 宮西ひかる"
-               loading="lazy">
-
-          <p class="title">
-            <a href="/works/vrkm01747/">【VR】東京都〇〇区童貞筆おろしプロジェクト 宮西ひかる</a>
-          </p>
-
-          <div class="meta">公開日：2026-02-18 00:00:00</div>
-          <div class="meta">【VR】東京都〇〇区童貞筆おろしプロジェクト 宮西ひかる</div>
-
-        </div>
-      
-        <div class="item">
-
-          <!-- ★ 画像を追加（無い場合はプレースホルダー） -->
-          <img class="hero"
-               src="https://pics.dmm.co.jp/digital/video/sorafk00011/sorafk00011pl.jpg"
-               alt="【配信限定】【福袋】野外露出1362分山と空スペシャル！"
-               loading="lazy">
-
-          <p class="title">
-            <a href="/works/sorafk00011/">【配信限定】【福袋】野外露出1362分山と空スペシャル！</a>
-          </p>
-
-          <div class="meta">公開日：2026-02-15 00:00:00</div>
-          <div class="meta">【配信限定】【福袋】野外露出1362分山と空スペシャル！</div>
-
-        </div>
-      
-        <div class="item">
-
-          <!-- ★ 画像を追加（無い場合はプレースホルダー） -->
-          <img class="hero"
-               src="https://pics.dmm.co.jp/digital/video/savr00961/savr00961pl.jpg"
-               alt="【VR】∞に射精してしまう小悪魔エロ挑発雑魚チ〇ポをたっくさんイカせる年下ギャル従妹に連続ナマ中出し 北岡果林"
-               loading="lazy">
-
-          <p class="title">
-            <a href="/works/savr00961/">【VR】∞に射精してしまう小悪魔エロ挑発雑魚チ〇ポをたっくさんイカせる年下ギャル従妹に連続ナマ中出し 北岡果林</a>
-          </p>
-
-          <div class="meta">公開日：2026-02-14 00:00:00</div>
-          <div class="meta">【VR】∞に射精してしまう小悪魔エロ挑発雑魚チ〇ポをたっくさんイカせる年下ギャル従妹に連続ナマ中出し 北岡果林</div>
-
-        </div>
-      
-        <div class="item">
-
-          <!-- ★ 画像を追加（無い場合はプレースホルダー） -->
-          <img class="hero"
-               src="https://pics.dmm.co.jp/digital/video/savr00915/savr00915pl.jpg"
-               alt="【VR】ふわふわ授乳手コキ 男の全てを褒めながら好き放題オギャらせてくれるみな先生と子供になったボク。"
-               loading="lazy">
-
-          <p class="title">
-            <a href="/works/savr00915/">【VR】ふわふわ授乳手コキ 男の全てを褒めながら好き放題オギャらせてくれるみな先生と子供になったボク。</a>
-          </p>
-
-          <div class="meta">公開日：2026-02-14 00:00:00</div>
-          <div class="meta">【VR】ふわふわ授乳手コキ 男の全てを褒めながら好き放題オギャらせてくれるみな先生と子供になったボク。</div>
-
-        </div>
-      
-        <div class="item">
-
-          <!-- ★ 画像を追加（無い場合はプレースホルダー） -->
-          <img class="hero"
-               src="https://pics.dmm.co.jp/digital/video/savr00907/savr00907pl.jpg"
-               alt="【VR】おいでよパコパコ学園祭！！クラスの顔面ビジュアル最高峰の制服美少女とヤリまくり絶頂FESTIVALサドっ娘メイドのWフェラ編 尾崎えりか 蘭々"
-               loading="lazy">
-
-          <p class="title">
-            <a href="/works/savr00907/">【VR】おいでよパコパコ学園祭！！クラスの顔面ビジュアル最高峰の制服美少女とヤリまくり絶頂FESTIVALサドっ娘メイドのWフェラ編 尾崎えりか 蘭々</a>
-          </p>
-
-          <div class="meta">公開日：2026-02-13 00:00:00</div>
-          <div class="meta">【VR】おいでよパコパコ学園祭！！クラスの顔面ビジュアル最高峰の制服美少女とヤリまくり絶頂FESTIVALサドっ娘メイドのWフェラ編 尾崎えりか 蘭々</div>
-
-        </div>
-      
-        <div class="item">
-
-          <!-- ★ 画像を追加（無い場合はプレースホルダー） -->
-          <img class="hero"
-               src="https://pics.dmm.co.jp/digital/video/vrkm01737/vrkm01737pl.jpg"
-               alt="【VR】ヤってはイケないのに…ヤリたい！！禁じられた関係だと勃起率120％！！不倫は文化！！1000分overノーカット"
-               loading="lazy">
-
-          <p class="title">
-            <a href="/works/vrkm01737/">【VR】ヤってはイケないのに…ヤリたい！！禁じられた関係だと勃起率120％！！不倫は文化！！1000分overノーカット</a>
-          </p>
-
-          <div class="meta">公開日：2026-02-12 00:00:00</div>
-          <div class="meta">【VR】ヤってはイケないのに…ヤリたい！！禁じられた関係だと勃起率120％！！不倫は文化！！1000分overノーカット</div>
-
-        </div>
-      
-        <div class="item">
-
-          <!-- ★ 画像を追加（無い場合はプレースホルダー） -->
-          <img class="hero"
-               src="https://pics.dmm.co.jp/digital/video/vrkm01728/vrkm01728pl.jpg"
-               alt="【VR】神スペック美女に完全ノックアウト！濃密すぎるSEX！フェロモンホディスペシャルBEST5時間"
-               loading="lazy">
-
-          <p class="title">
-            <a href="/works/vrkm01728/">【VR】神スペック美女に完全ノックアウト！濃密すぎるSEX！フェロモンホディスペシャルBEST5時間</a>
-          </p>
-
-          <div class="meta">公開日：2026-02-12 00:00:00</div>
-          <div class="meta">【VR】神スペック美女に完全ノックアウト！濃密すぎるSEX！フェロモンホディスペシャルBEST5時間</div>
-
-        </div>
-      
-        <div class="item">
-
-          <!-- ★ 画像を追加（無い場合はプレースホルダー） -->
-          <img class="hero"
-               src="https://pics.dmm.co.jp/digital/video/vrkm01745/vrkm01745pl.jpg"
-               alt="【VR】天井特化アングルVR ～童貞大好きなヒカリさん～ 巴ひかり"
-               loading="lazy">
-
-          <p class="title">
-            <a href="/works/vrkm01745/">【VR】天井特化アングルVR ～童貞大好きなヒカリさん～ 巴ひかり</a>
-          </p>
-
-          <div class="meta">公開日：2026-02-11 00:00:00</div>
-          <div class="meta">【VR】天井特化アングルVR ～童貞大好きなヒカリさん～ 巴ひかり</div>
-
-        </div>
-      
-        <div class="item">
-
-          <!-- ★ 画像を追加（無い場合はプレースホルダー） -->
-          <img class="hero"
-               src="https://pics.dmm.co.jp/digital/video/tmnb00003/tmnb00003pl.jpg"
-               alt="逆コスぷるるん爆乳ビッ痴とハッピー中出しイチャパコBEST Vol.3"
-               loading="lazy">
-
-          <p class="title">
-            <a href="/works/tmnb00003/">逆コスぷるるん爆乳ビッ痴とハッピー中出しイチャパコBEST Vol.3</a>
-          </p>
-
-          <div class="meta">公開日：2026-02-10 00:00:00</div>
-          <div class="meta">逆コスぷるるん爆乳ビッ痴とハッピー中出しイチャパコBEST Vol.3</div>
-
-        </div>
-      
-        <div class="item">
-
-          <!-- ★ 画像を追加（無い場合はプレースホルダー） -->
-          <img class="hero"
-               src="https://pics.dmm.co.jp/digital/video/lboyf01003/lboyf01003pl.jpg"
-               alt="【福袋】女子より超絶可愛いニューハーフ・男の娘たち 1251分（20時間51分）収録"
-               loading="lazy">
-
-          <p class="title">
-            <a href="/works/lboyf01003/">【福袋】女子より超絶可愛いニューハーフ・男の娘たち 1251分（20時間51分）収録</a>
-          </p>
-
-          <div class="meta">公開日：2026-02-10 00:00:00</div>
-          <div class="meta">【福袋】女子より超絶可愛いニューハーフ・男の娘たち 1251分（20時間51分）収録</div>
-
-        </div>
-      
-        <div class="item">
-
-          <!-- ★ 画像を追加（無い場合はプレースホルダー） -->
-          <img class="hero"
-               src="https://pics.dmm.co.jp/digital/video/h_1596gns00146/h_1596gns00146pl.jpg"
-               alt="キャンプ場で起こった卑劣な犯行 山奥にこだまするソロキャン女子の悲鳴"
-               loading="lazy">
-
-          <p class="title">
-            <a href="/works/h_1596gns00146/">キャンプ場で起こった卑劣な犯行 山奥にこだまするソロキャン女子の悲鳴</a>
-          </p>
-
-          <div class="meta">公開日：2026-02-10 00:00:00</div>
-          <div class="meta">キャンプ場で起こった卑劣な犯行 山奥にこだまするソロキャン女子の悲鳴</div>
-
-        </div>
-      
-        <div class="item">
-
-          <!-- ★ 画像を追加（無い場合はプレースホルダー） -->
-          <img class="hero"
-               src="https://pics.dmm.co.jp/digital/video/59hez00875/59hez00875pl.jpg"
-               alt="郊外ラブホテル不貞人妻隠し撮り動画 越谷編12人4時間"
-               loading="lazy">
-
-          <p class="title">
-            <a href="/works/59hez00875/">郊外ラブホテル不貞人妻隠し撮り動画 越谷編12人4時間</a>
-          </p>
-
-          <div class="meta">公開日：2026-02-10 00:00:00</div>
-          <div class="meta">郊外ラブホテル不貞人妻隠し撮り動画 越谷編12人4時間</div>
-
-        </div>
-      
-        <div class="item">
-
-          <!-- ★ 画像を追加（無い場合はプレースホルダー） -->
-          <img class="hero"
-               src="https://pics.dmm.co.jp/digital/video/59hez00874/59hez00874pl.jpg"
-               alt="ただ、SEXがしたいだけなんです 欲求不満MAXの人妻たち5 恥ずかしいけど、本当は毎日したい…"
-               loading="lazy">
-
-          <p class="title">
-            <a href="/works/59hez00874/">ただ、SEXがしたいだけなんです 欲求不満MAXの人妻たち5 恥ずかしいけど、本当は毎日したい…</a>
-          </p>
-
-          <div class="meta">公開日：2026-02-10 00:00:00</div>
-          <div class="meta">ただ、SEXがしたいだけなんです 欲求不満MAXの人妻たち5 恥ずかしいけど、本当は毎日したい…</div>
-
-        </div>
-      
-        <div class="item">
-
-          <!-- ★ 画像を追加（無い場合はプレースホルダー） -->
-          <img class="hero"
-               src="https://pics.dmm.co.jp/digital/video/59hez00873/59hez00873pl.jpg"
-               alt="淫乱ドスケベなエロ変態の美女たち4 スイッチが入ったら、もう止まらない！"
-               loading="lazy">
-
-          <p class="title">
-            <a href="/works/59hez00873/">淫乱ドスケベなエロ変態の美女たち4 スイッチが入ったら、もう止まらない！</a>
-          </p>
-
-          <div class="meta">公開日：2026-02-10 00:00:00</div>
-          <div class="meta">淫乱ドスケベなエロ変態の美女たち4 スイッチが入ったら、もう止まらない！</div>
-
-        </div>
-      
+    <div class="heroTop">
+      <h1>新着カタログ</h1>
+      <div class="sub">更新：ビルド時点の最新データ</div>
     </div>
 
-    <footer>© 2026 Review Catalog</footer>
+    <div class="chips">
+      <span class="chip">新着</span>
+      <span class="chip">人気</span>
+      <span class="chip">ジャンル</span>
+      <span class="chip">女優</span>
+      <span class="chip">メーカー</span>
+    </div>
+
+    <div class="grid">
+      {% for w in works %}
+        <article class="card">
+          <img class="thumb"
+               src="{{ w.hero_image if w.hero_image else 'https://placehold.co/640x360?text=No+Image' }}"
+               alt="{{ w.title }}"
+               loading="lazy">
+          <div class="pad">
+            <h2 class="title"><a href="/works/{{ w.id }}/">{{ w.title }}</a></h2>
+            <div class="meta">公開日：{{ w.release_date }}</div>
+
+            {% if w.tags %}
+            <div class="tags">
+              {% for t in w.tags[:5] %}
+                <span class="tag">{{ t }}</span>
+              {% endfor %}
+            </div>
+            {% endif %}
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+
+    <footer>© 2026 {{ site_name }}</footer>
   </main>
 </body>
 </html>
