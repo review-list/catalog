@@ -3,52 +3,67 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>{{ title }}</title>
+  <title>{{ title }} | {{ site_name }}</title>
   <meta name="description" content="{{ description }}" />
   <style>
-    body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans JP",sans-serif; margin:0; background:#f6f7f9;}
-    header{background:#111827; color:#fff; padding:18px 16px;}
-    main{max-width:920px; margin:18px auto; padding:0 16px;}
-    .card{background:#fff; border-radius:14px; box-shadow:0 6px 20px rgba(0,0,0,.06); overflow:hidden;}
-    .hero{width:100%; height:auto; display:block;}
-    .pad{padding:16px;}
-    .meta{color:#6b7280; font-size:14px;}
-    .tags{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;}
-    .tag{background:#eef2ff; color:#3730a3; padding:6px 10px; border-radius:999px; font-size:13px;}
-    a.btn{display:inline-block; margin-top:14px; background:#2563eb; color:#fff; text-decoration:none; padding:10px 14px; border-radius:10px;}
-    footer{color:#6b7280; text-align:center; padding:18px 0 30px;}
+    body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans JP",sans-serif;margin:0;background:#f6f7f9;color:#111827;}
+    header{background:#111827;color:#fff;padding:16px;}
+    header .wrap{max-width:1100px;margin:0 auto;display:flex;gap:12px;align-items:center;justify-content:space-between;}
+    header a{color:#fff;text-decoration:none;font-weight:700;}
+    main{max-width:1100px;margin:18px auto;padding:0 16px;}
+    .card{background:#fff;border-radius:14px;box-shadow:0 6px 20px rgba(0,0,0,.06);overflow:hidden;}
+    .two{display:grid;grid-template-columns: 520px 1fr;}
+    @media (max-width: 980px){.two{grid-template-columns:1fr;}}
+    .hero{width:100%;height:auto;display:block;object-fit:cover;background:#e5e7eb;}
+    .pad{padding:14px 16px;}
+    h1{margin:0 0 8px;font-size:22px;line-height:1.25;}
+    .meta{color:#6b7280;font-size:13px;}
+    .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+    .tag{background:#eef2ff;color:#3730a3;padding:6px 10px;border-radius:999px;font-size:13px;}
+    a.btn{display:inline-block;margin-top:14px;background:#2563eb;color:#fff;text-decoration:none;padding:10px 14px;border-radius:10px;}
+    a.btn:hover{filter:brightness(.95);}
+    .back{display:inline-block;margin:14px 0 0;color:#2563eb;text-decoration:none;}
+    footer{color:#6b7280;text-align:center;padding:18px 0 30px;}
   </style>
 </head>
 <body>
   <header>
-    <strong>テスト用 静的サイト</strong>
+    <div class="wrap">
+      <a href="/">{{ site_name }}</a>
+      <a href="/" style="opacity:.85;font-weight:600;">一覧へ</a>
+    </div>
   </header>
 
   <main>
     <div class="card">
-      <img class="hero"
-     src="{{ hero_image if hero_image else 'https://placehold.co/960x540?text=No+Image' }}"
-     alt="{{ title }}"
-     loading="lazy">
+      <div class="two">
+        <img class="hero"
+             src="{{ hero_image if hero_image else 'https://placehold.co/960x540?text=No+Image' }}"
+             alt="{{ title }}"
+             loading="lazy">
+        <div class="pad">
+          <h1>{{ title }}</h1>
+          <div class="meta">公開日：{{ release_date }}</div>
+          <p style="margin:10px 0 0;">{{ description }}</p>
 
-      <div class="pad">
-        <h1>{{ title }}</h1>
-        <div class="meta">公開日：{{ release_date }}</div>
-        <p>{{ description }}</p>
+          {% if tags %}
+          <div class="tags">
+            {% for t in tags %}
+              <span class="tag">{{ t }}</span>
+            {% endfor %}
+          </div>
+          {% endif %}
 
-        <div class="tags">
-          {% for t in tags %}
-            <span class="tag">{{ t }}</span>
-          {% endfor %}
+          {% if official_url %}
+          <a class="btn" href="{{ official_url }}" target="_blank" rel="noopener">公式ページを見る</a>
+          {% endif %}
+
+          <a class="back" href="/">← 作品一覧に戻る</a>
         </div>
-
-        <a class="btn" href="{{ official_url }}" target="_blank" rel="noopener">
-          公式ページを見る
-        </a>
       </div>
     </div>
 
-    <footer>© 2026 テスト用 静的サイト</footer>
+    <footer>© 2026 {{ site_name }}</footer>
   </main>
 </body>
 </html>
