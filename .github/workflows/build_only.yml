@@ -1,4 +1,4 @@
-name: Build Only (no fetch)
+name: 🔧ビルドpyのみ実行（API取得なし）
 
 on:
   workflow_dispatch:   # 手動実行専用
