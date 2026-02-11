@@ -102,6 +102,8 @@ def main():
         tpl_index.render(
             site_name=site_name,
             works=works,
+            actresses_keys=actresses_keys,   # ← 追加
+            genres_keys=genres_keys,         # ← 追加
             css_path=CSS_ROOT,
             home_href="./",
             actresses_href="actresses/",
