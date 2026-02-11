@@ -2,7 +2,7 @@ name: Auto Update (fetch -> build -> commit)
 
 on:
   workflow_dispatch:
-  schedule:
+  #消すschedule:
     # 毎日 03:15 (JST 12:15) に実行したい例
     # GitHub ActionsのcronはUTCなので注意
     - cron: "15 3 * * *"
@@ -54,3 +54,4 @@ jobs:
 
           git commit -m "auto: update data + rebuild"
           git push
+
