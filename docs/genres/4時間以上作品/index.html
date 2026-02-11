@@ -4,15 +4,62 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Review Catalog</title>
-  <meta name="description" content="作品一覧ページです。" />
-  <link rel="stylesheet" href="../../assets/style.css">
+  <meta name="description" content="Review Catalog の作品一覧です。" />
+
+  
+    <link rel="stylesheet" href="../../assets/style.css">
+  
+
+  <style>
+    /* 最低限の検索UI（既存CSSを壊さないため控えめ） */
+    .controls{
+      margin: 14px 0 18px;
+      display: grid;
+      gap: 10px;
+    }
+    .controls .row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .controls input[type="search"], .controls select{
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(0,0,0,.12);
+      background: #fff;
+      min-width: 220px;
+    }
+    .controls button{
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(0,0,0,.12);
+      background: #fff;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .count{
+      color: rgba(0,0,0,.55);
+      font-size: 14px;
+      margin-left: auto;
+    }
+
+    /* 作品カードの“フィルタ用”に非表示制御 */
+    .is-hidden{ display:none !important; }
+  </style>
 </head>
+
 <body>
-  <header class="header">
-    <div class="container header-inner">
-      <div class="brand">Review Catalog</div>
-      <nav class="nav">
-        <a href="../../">作品</a>
+  <header class="site-header">
+    <div class="container">
+      <div class="brand">
+        <a href="../../" style="text-decoration:none; color:inherit;">
+          <strong>Review Catalog</strong>
+        </a>
+      </div>
+
+      <nav class="nav" style="margin-top:10px; display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="../../">ホーム</a>
         <a href="../../actresses/">女優</a>
         <a href="../">ジャンル</a>
       </nav>
@@ -20,1159 +67,2322 @@
   </header>
 
   <main class="container">
-    <section class="hero">
-      <h1>作品一覧</h1>
+    <h1 style="margin:16px 0 8px;">作品一覧</h1>
+
+    <!-- ✅ 検索＆絞り込み -->
+    <section class="controls" aria-label="検索と絞り込み">
+      <div class="row">
+        <input id="q" type="search" placeholder="タイトル / 女優 / タグで検索" autocomplete="off">
+        <select id="actress">
+          <option value="">女優（すべて）</option>
+          
+        </select>
+        <select id="tag">
+          <option value="">タグ（すべて）</option>
+          
+        </select>
+        <button id="reset" type="button">リセット</button>
+
+        <div class="count">
+          <span id="shown">0</span> / <span id="total">0</span> 件
+        </div>
+      </div>
     </section>
 
-    <div class="grid">
+    <!-- ✅ 一覧 -->
+    <section class="grid" id="works">
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/ktklh00002/ktklh00002pl.jpg" alt="男の子のようにボーイッシュな、か弱きイケメン女の子が、クッサいオヤジたちに手籠めにされた件。" loading="lazy">
-        <div class="pad">
-          <h2 class="title">男の子のようにボーイッシュな、か弱きイケメン女の子が、クッサいオヤジたちに手籠めにされた件。</h2>
-          <div class="meta">公開日：2026-03-10 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="男の子のようにボーイッシュな、か弱きイケメン女の子が、クッサいオヤジたちに手籠めにされた件。"
+          data-actresses=""
+          data-tags="4時間以上作品 妄想族 ハイビジョン 独占配信 スレンダー 貧乳・微乳 美少女"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">4時間以上作品</span>
-            
-              <span class="tag">妄想族</span>
-            
-              <span class="tag">ハイビジョン</span>
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">スレンダー</span>
-            
-              <span class="tag">貧乳・微乳</span>
-            
-              <span class="tag">美少女</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/ktklh00002/ktklh00002pl.jpg" alt="男の子のようにボーイッシュな、か弱きイケメン女の子が、クッサいオヤジたちに手籠めにされた件。" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/ktklh00002/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              男の子のようにボーイッシュな、か弱きイケメン女の子が、クッサいオヤジたちに手籠めにされた件。
+            </h2>
+
             
+              <div class="meta">公開日：2026-03-10 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dktklh00002&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">4時間以上作品</span>
+                
+                  <span class="tag">妄想族</span>
+                
+                  <span class="tag">ハイビジョン</span>
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">スレンダー</span>
+                
+                  <span class="tag">貧乳・微乳</span>
+                
+                  <span class="tag">美少女</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/ktklh00002/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dktklh00002&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/59hez00878/59hez00878pl.jpg" alt="～密室で繰り広げられる男女の秘め事～流出！ 出張人妻マッサージ2 こんな若い人妻が来たら男だったら我慢できない 生中された人妻12人" loading="lazy">
-        <div class="pad">
-          <h2 class="title">～密室で繰り広げられる男女の秘め事～流出！ 出張人妻マッサージ2 こんな若い人妻が来たら男だったら我慢できない 生中された人妻12人</h2>
-          <div class="meta">公開日：2026-03-10 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="～密室で繰り広げられる男女の秘め事～流出！ 出張人妻マッサージ2 こんな若い人妻が来たら男だったら我慢できない 生中された人妻12人"
+          data-actresses=""
+          data-tags="ハイビジョン 中出し 巨乳 素人 マッサージ・リフレ 人妻・主婦 4時間以上作品"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">ハイビジョン</span>
-            
-              <span class="tag">中出し</span>
-            
-              <span class="tag">巨乳</span>
-            
-              <span class="tag">素人</span>
-            
-              <span class="tag">マッサージ・リフレ</span>
-            
-              <span class="tag">人妻・主婦</span>
-            
-              <span class="tag">4時間以上作品</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/59hez00878/59hez00878pl.jpg" alt="～密室で繰り広げられる男女の秘め事～流出！ 出張人妻マッサージ2 こんな若い人妻が来たら男だったら我慢できない 生中された人妻12人" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/59hez00878/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              ～密室で繰り広げられる男女の秘め事～流出！ 出張人妻マッサージ2 こんな若い人妻が来たら男だったら我慢できない 生中された人妻12人
+            </h2>
+
             
+              <div class="meta">公開日：2026-03-10 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3D59hez00878&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">ハイビジョン</span>
+                
+                  <span class="tag">中出し</span>
+                
+                  <span class="tag">巨乳</span>
+                
+                  <span class="tag">素人</span>
+                
+                  <span class="tag">マッサージ・リフレ</span>
+                
+                  <span class="tag">人妻・主婦</span>
+                
+                  <span class="tag">4時間以上作品</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/59hez00878/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3D59hez00878&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/59hez00877/59hez00877pl.jpg" alt="ただ、SEXがしたいだけなんです 欲求不満MAXの人妻たち6 このまま終わってしまうのは、嫌なんです…" loading="lazy">
-        <div class="pad">
-          <h2 class="title">ただ、SEXがしたいだけなんです 欲求不満MAXの人妻たち6 このまま終わってしまうのは、嫌なんです…</h2>
-          <div class="meta">公開日：2026-03-10 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="ただ、sexがしたいだけなんです 欲求不満maxの人妻たち6 このまま終わってしまうのは、嫌なんです…"
+          data-actresses=""
+          data-tags="ハイビジョン 中出し 巨乳 素人 不倫 人妻・主婦 4時間以上作品"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">ハイビジョン</span>
-            
-              <span class="tag">中出し</span>
-            
-              <span class="tag">巨乳</span>
-            
-              <span class="tag">素人</span>
-            
-              <span class="tag">不倫</span>
-            
-              <span class="tag">人妻・主婦</span>
-            
-              <span class="tag">4時間以上作品</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/59hez00877/59hez00877pl.jpg" alt="ただ、SEXがしたいだけなんです 欲求不満MAXの人妻たち6 このまま終わってしまうのは、嫌なんです…" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/59hez00877/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              ただ、SEXがしたいだけなんです 欲求不満MAXの人妻たち6 このまま終わってしまうのは、嫌なんです…
+            </h2>
+
             
+              <div class="meta">公開日：2026-03-10 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3D59hez00877&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">ハイビジョン</span>
+                
+                  <span class="tag">中出し</span>
+                
+                  <span class="tag">巨乳</span>
+                
+                  <span class="tag">素人</span>
+                
+                  <span class="tag">不倫</span>
+                
+                  <span class="tag">人妻・主婦</span>
+                
+                  <span class="tag">4時間以上作品</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/59hez00877/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3D59hez00877&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/59hez00876/59hez00876pl.jpg" alt="業務中に社内不倫に勤しむ男女のNTR性交集 20名の不倫映像記録" loading="lazy">
-        <div class="pad">
-          <h2 class="title">業務中に社内不倫に勤しむ男女のNTR性交集 20名の不倫映像記録</h2>
-          <div class="meta">公開日：2026-03-10 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="業務中に社内不倫に勤しむ男女のntr性交集 20名の不倫映像記録"
+          data-actresses=""
+          data-tags="ハイビジョン フェラ 中出し 部下・同僚 ol 人妻・主婦 4時間以上作品"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">ハイビジョン</span>
-            
-              <span class="tag">フェラ</span>
-            
-              <span class="tag">中出し</span>
-            
-              <span class="tag">部下・同僚</span>
-            
-              <span class="tag">OL</span>
-            
-              <span class="tag">人妻・主婦</span>
-            
-              <span class="tag">4時間以上作品</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/59hez00876/59hez00876pl.jpg" alt="業務中に社内不倫に勤しむ男女のNTR性交集 20名の不倫映像記録" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/59hez00876/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              業務中に社内不倫に勤しむ男女のNTR性交集 20名の不倫映像記録
+            </h2>
+
             
+              <div class="meta">公開日：2026-03-10 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3D59hez00876&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">ハイビジョン</span>
+                
+                  <span class="tag">フェラ</span>
+                
+                  <span class="tag">中出し</span>
+                
+                  <span class="tag">部下・同僚</span>
+                
+                  <span class="tag">OL</span>
+                
+                  <span class="tag">人妻・主婦</span>
+                
+                  <span class="tag">4時間以上作品</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/59hez00876/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3D59hez00876&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/59ghz00045/59ghz00045pl.jpg" alt="厳選！働くおばさん 職場で性交する熟女の蒸れたカラダ BEST SELECTION vol.3" loading="lazy">
-        <div class="pad">
-          <h2 class="title">厳選！働くおばさん 職場で性交する熟女の蒸れたカラダ BEST SELECTION vol.3</h2>
-          <div class="meta">公開日：2026-03-10 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="厳選！働くおばさん 職場で性交する熟女の蒸れたカラダ best selection vol.3"
+          data-actresses=""
+          data-tags="ハイビジョン マッサージ・リフレ 職業色々 女将・女主人 看護婦・ナース 熟女 4時間以上作品"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">ハイビジョン</span>
-            
-              <span class="tag">マッサージ・リフレ</span>
-            
-              <span class="tag">職業色々</span>
-            
-              <span class="tag">女将・女主人</span>
-            
-              <span class="tag">看護婦・ナース</span>
-            
-              <span class="tag">熟女</span>
-            
-              <span class="tag">4時間以上作品</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/59ghz00045/59ghz00045pl.jpg" alt="厳選！働くおばさん 職場で性交する熟女の蒸れたカラダ BEST SELECTION vol.3" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/59ghz00045/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              厳選！働くおばさん 職場で性交する熟女の蒸れたカラダ BEST SELECTION vol.3
+            </h2>
+
             
+              <div class="meta">公開日：2026-03-10 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3D59ghz00045&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">ハイビジョン</span>
+                
+                  <span class="tag">マッサージ・リフレ</span>
+                
+                  <span class="tag">職業色々</span>
+                
+                  <span class="tag">女将・女主人</span>
+                
+                  <span class="tag">看護婦・ナース</span>
+                
+                  <span class="tag">熟女</span>
+                
+                  <span class="tag">4時間以上作品</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/59ghz00045/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3D59ghz00045&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/real00979/real00979pl.jpg" alt="生意気にデカ乳をぶら下げているオンナを●す！巨乳レ×プ REAL BEST 4時間" loading="lazy">
-        <div class="pad">
-          <h2 class="title">生意気にデカ乳をぶら下げているオンナを●す！巨乳レ×プ REAL BEST 4時間</h2>
-          <div class="meta">公開日：2026-03-07 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="生意気にデカ乳をぶら下げているオンナを●す！巨乳レ×プ real best 4時間"
+          data-actresses="ちなみん 逢月ひまり 一条みお 乙アリス 三岳ゆうな 高瀬りな 胡桃さくら 吉根ゆりあ 椿りか 七碧のあ 若宮はずき 小那海あや 新村あかり 森沢かな（飯岡かなこ） 瀬那ルミナ 花柳杏奈 月野かすみ 望月あやか 都月るいさ 藤沢麗央 如月りいさ 柏木こなつ 美園和花 美丘さとみ 美泉咲 美波汐里 姫咲はな 大槻ひびき 末広純 前乃菜々 弥生みづき 有岡みう 有村のぞみ 目黒ひな実"
+          data-tags="4時間以上作品 ハイビジョン 独占配信 巨乳 淫乱・ハード系 ベスト・総集編 3p・4p"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">4時間以上作品</span>
-            
-              <span class="tag">ハイビジョン</span>
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">巨乳</span>
-            
-              <span class="tag">淫乱・ハード系</span>
-            
-              <span class="tag">ベスト・総集編</span>
-            
-              <span class="tag">3P・4P</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/real00979/real00979pl.jpg" alt="生意気にデカ乳をぶら下げているオンナを●す！巨乳レ×プ REAL BEST 4時間" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/real00979/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              生意気にデカ乳をぶら下げているオンナを●す！巨乳レ×プ REAL BEST 4時間
+            </h2>
+
             
+              <div class="meta">公開日：2026-03-07 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dreal00979&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">ちなみん</span>
+                
+                  <span class="tag">逢月ひまり</span>
+                
+                  <span class="tag">一条みお</span>
+                
+                  <span class="tag">乙アリス</span>
+                
+                  <span class="tag">三岳ゆうな</span>
+                
+                  <span class="tag">高瀬りな</span>
+                
+                  <span class="tag">胡桃さくら</span>
+                
+                  <span class="tag">吉根ゆりあ</span>
+                
+                  <span class="tag">椿りか</span>
+                
+                  <span class="tag">七碧のあ</span>
+                
+                  <span class="tag">若宮はずき</span>
+                
+                  <span class="tag">小那海あや</span>
+                
+                  <span class="tag">新村あかり</span>
+                
+                  <span class="tag">森沢かな（飯岡かなこ）</span>
+                
+                  <span class="tag">瀬那ルミナ</span>
+                
+                  <span class="tag">花柳杏奈</span>
+                
+                  <span class="tag">月野かすみ</span>
+                
+                  <span class="tag">望月あやか</span>
+                
+                  <span class="tag">都月るいさ</span>
+                
+                  <span class="tag">藤沢麗央</span>
+                
+                  <span class="tag">如月りいさ</span>
+                
+                  <span class="tag">柏木こなつ</span>
+                
+                  <span class="tag">美園和花</span>
+                
+                  <span class="tag">美丘さとみ</span>
+                
+                  <span class="tag">美泉咲</span>
+                
+                  <span class="tag">美波汐里</span>
+                
+                  <span class="tag">姫咲はな</span>
+                
+                  <span class="tag">大槻ひびき</span>
+                
+                  <span class="tag">末広純</span>
+                
+                  <span class="tag">前乃菜々</span>
+                
+                  <span class="tag">弥生みづき</span>
+                
+                  <span class="tag">有岡みう</span>
+                
+                  <span class="tag">有村のぞみ</span>
+                
+                  <span class="tag">目黒ひな実</span>
+                
+              </div>
+            
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">4時間以上作品</span>
+                
+                  <span class="tag">ハイビジョン</span>
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">巨乳</span>
+                
+                  <span class="tag">淫乱・ハード系</span>
+                
+                  <span class="tag">ベスト・総集編</span>
+                
+                  <span class="tag">3P・4P</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/real00979/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dreal00979&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/nsfs00463/nsfs00463pl.jpg" alt="上司の前で・・ 私の妻がヌードモデルになりました。 ベストVOL.4" loading="lazy">
-        <div class="pad">
-          <h2 class="title">上司の前で・・ 私の妻がヌードモデルになりました。 ベストVOL.4</h2>
-          <div class="meta">公開日：2026-03-07 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="上司の前で・・ 私の妻がヌードモデルになりました。 ベストvol.4"
+          data-actresses="宝田もなみ 有賀みなほ 美丘さとみ 夏川あゆみ"
+          data-tags="ハイビジョン 4時間以上作品 独占配信 寝取り・寝取られ・ntr ドラマ 人妻・主婦 ベスト・総集編"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">ハイビジョン</span>
-            
-              <span class="tag">4時間以上作品</span>
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">寝取り・寝取られ・NTR</span>
-            
-              <span class="tag">ドラマ</span>
-            
-              <span class="tag">人妻・主婦</span>
-            
-              <span class="tag">ベスト・総集編</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/nsfs00463/nsfs00463pl.jpg" alt="上司の前で・・ 私の妻がヌードモデルになりました。 ベストVOL.4" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/nsfs00463/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              上司の前で・・ 私の妻がヌードモデルになりました。 ベストVOL.4
+            </h2>
+
             
+              <div class="meta">公開日：2026-03-07 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dnsfs00463&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">宝田もなみ</span>
+                
+                  <span class="tag">有賀みなほ</span>
+                
+                  <span class="tag">美丘さとみ</span>
+                
+                  <span class="tag">夏川あゆみ</span>
+                
+              </div>
+            
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">ハイビジョン</span>
+                
+                  <span class="tag">4時間以上作品</span>
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">寝取り・寝取られ・NTR</span>
+                
+                  <span class="tag">ドラマ</span>
+                
+                  <span class="tag">人妻・主婦</span>
+                
+                  <span class="tag">ベスト・総集編</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/nsfs00463/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dnsfs00463&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/nsfs00462/nsfs00462pl.jpg" alt="あなたの嫌うあの人と・・ ベストVOL.2 愛する夫のために肉体を捧げる" loading="lazy">
-        <div class="pad">
-          <h2 class="title">あなたの嫌うあの人と・・ ベストVOL.2 愛する夫のために肉体を捧げる</h2>
-          <div class="meta">公開日：2026-03-07 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="あなたの嫌うあの人と・・ ベストvol.2 愛する夫のために肉体を捧げる"
+          data-actresses="松永さな 小鳥遊ももえ 向井藍 平井栞奈 長瀬麻美 美月桜花 香椎佳穂"
+          data-tags="ハイビジョン 4時間以上作品 独占配信 複数話 人妻・主婦 ベスト・総集編 ドラマ 寝取り・寝取られ・ntr"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">ハイビジョン</span>
-            
-              <span class="tag">4時間以上作品</span>
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">複数話</span>
-            
-              <span class="tag">人妻・主婦</span>
-            
-              <span class="tag">ベスト・総集編</span>
-            
-              <span class="tag">ドラマ</span>
-            
-              <span class="tag">寝取り・寝取られ・NTR</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/nsfs00462/nsfs00462pl.jpg" alt="あなたの嫌うあの人と・・ ベストVOL.2 愛する夫のために肉体を捧げる" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/nsfs00462/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              あなたの嫌うあの人と・・ ベストVOL.2 愛する夫のために肉体を捧げる
+            </h2>
+
             
+              <div class="meta">公開日：2026-03-07 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dnsfs00462&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">松永さな</span>
+                
+                  <span class="tag">小鳥遊ももえ</span>
+                
+                  <span class="tag">向井藍</span>
+                
+                  <span class="tag">平井栞奈</span>
+                
+                  <span class="tag">長瀬麻美</span>
+                
+                  <span class="tag">美月桜花</span>
+                
+                  <span class="tag">香椎佳穂</span>
+                
+              </div>
+            
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">ハイビジョン</span>
+                
+                  <span class="tag">4時間以上作品</span>
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">複数話</span>
+                
+                  <span class="tag">人妻・主婦</span>
+                
+                  <span class="tag">ベスト・総集編</span>
+                
+                  <span class="tag">ドラマ</span>
+                
+                  <span class="tag">寝取り・寝取られ・NTR</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/nsfs00462/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dnsfs00462&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/much00200/much00200pl.jpg" alt="デカパイむっちりガールズBEST3 4時間" loading="lazy">
-        <div class="pad">
-          <h2 class="title">デカパイむっちりガールズBEST3 4時間</h2>
-          <div class="meta">公開日：2026-03-07 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="デカパイむっちりガールズbest3 4時間"
+          data-actresses="水原みその 菊池まや 七瀬沙菜 椎名めい 美里詩織"
+          data-tags="ハイビジョン 4時間以上作品 独占配信 ぽっちゃり ベスト・総集編 妄想族 超乳 巨乳"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">ハイビジョン</span>
-            
-              <span class="tag">4時間以上作品</span>
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">ぽっちゃり</span>
-            
-              <span class="tag">ベスト・総集編</span>
-            
-              <span class="tag">妄想族</span>
-            
-              <span class="tag">超乳</span>
-            
-              <span class="tag">巨乳</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/much00200/much00200pl.jpg" alt="デカパイむっちりガールズBEST3 4時間" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/much00200/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              デカパイむっちりガールズBEST3 4時間
+            </h2>
+
             
+              <div class="meta">公開日：2026-03-07 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dmuch00200&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">水原みその</span>
+                
+                  <span class="tag">菊池まや</span>
+                
+                  <span class="tag">七瀬沙菜</span>
+                
+                  <span class="tag">椎名めい</span>
+                
+                  <span class="tag">美里詩織</span>
+                
+              </div>
+            
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">ハイビジョン</span>
+                
+                  <span class="tag">4時間以上作品</span>
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">ぽっちゃり</span>
+                
+                  <span class="tag">ベスト・総集編</span>
+                
+                  <span class="tag">妄想族</span>
+                
+                  <span class="tag">超乳</span>
+                
+                  <span class="tag">巨乳</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/much00200/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dmuch00200&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/mkmp00717/mkmp00717pl.jpg" alt="痴女マ〇コ対戦チ〇ポ70本以上！！たくさんのチ〇ポVSド痴女の淫乱肉欲SEX 34コーナー240分BEST！！" loading="lazy">
-        <div class="pad">
-          <h2 class="title">痴女マ〇コ対戦チ〇ポ70本以上！！たくさんのチ〇ポVSド痴女の淫乱肉欲SEX 34コーナー240分BEST！！</h2>
-          <div class="meta">公開日：2026-03-07 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="痴女マ〇コ対戦チ〇ポ70本以上！！たくさんのチ〇ポvsド痴女の淫乱肉欲sex 34コーナー240分best！！"
+          data-actresses="逢沢みゆ 永井マリア 乙アリス 沙月恵奈 蘭々 有村のぞみ 木下ひまり（花沢ひまり） 末広純 北岡果林 百永さりな 尾崎えりか 美咲かんな 天馬ゆい 椿りか 水川スミレ 新井リマ 春陽モカ 七瀬アリス 美園和花"
+          data-tags="ハイビジョン 4時間以上作品 独占配信 痴女 ベスト・総集編 巨乳 3p・4p 中出し"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">ハイビジョン</span>
-            
-              <span class="tag">4時間以上作品</span>
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">痴女</span>
-            
-              <span class="tag">ベスト・総集編</span>
-            
-              <span class="tag">巨乳</span>
-            
-              <span class="tag">3P・4P</span>
-            
-              <span class="tag">中出し</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/mkmp00717/mkmp00717pl.jpg" alt="痴女マ〇コ対戦チ〇ポ70本以上！！たくさんのチ〇ポVSド痴女の淫乱肉欲SEX 34コーナー240分BEST！！" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/mkmp00717/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              痴女マ〇コ対戦チ〇ポ70本以上！！たくさんのチ〇ポVSド痴女の淫乱肉欲SEX 34コーナー240分BEST！！
+            </h2>
+
             
+              <div class="meta">公開日：2026-03-07 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dmkmp00717&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">逢沢みゆ</span>
+                
+                  <span class="tag">永井マリア</span>
+                
+                  <span class="tag">乙アリス</span>
+                
+                  <span class="tag">沙月恵奈</span>
+                
+                  <span class="tag">蘭々</span>
+                
+                  <span class="tag">有村のぞみ</span>
+                
+                  <span class="tag">木下ひまり（花沢ひまり）</span>
+                
+                  <span class="tag">末広純</span>
+                
+                  <span class="tag">北岡果林</span>
+                
+                  <span class="tag">百永さりな</span>
+                
+                  <span class="tag">尾崎えりか</span>
+                
+                  <span class="tag">美咲かんな</span>
+                
+                  <span class="tag">天馬ゆい</span>
+                
+                  <span class="tag">椿りか</span>
+                
+                  <span class="tag">水川スミレ</span>
+                
+                  <span class="tag">新井リマ</span>
+                
+                  <span class="tag">春陽モカ</span>
+                
+                  <span class="tag">七瀬アリス</span>
+                
+                  <span class="tag">美園和花</span>
+                
+              </div>
+            
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">ハイビジョン</span>
+                
+                  <span class="tag">4時間以上作品</span>
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">痴女</span>
+                
+                  <span class="tag">ベスト・総集編</span>
+                
+                  <span class="tag">巨乳</span>
+                
+                  <span class="tag">3P・4P</span>
+                
+                  <span class="tag">中出し</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/mkmp00717/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dmkmp00717&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/mght00371/mght00371pl.jpg" alt="たびじ 母と子のふたり旅 よりぬきスーパーベスト8時間2枚組（MGHT-371）" loading="lazy">
-        <div class="pad">
-          <h2 class="title">たびじ 母と子のふたり旅 よりぬきスーパーベスト8時間2枚組（MGHT-371）</h2>
-          <div class="meta">公開日：2026-03-07 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="たびじ 母と子のふたり旅 よりぬきスーパーベスト8時間2枚組（mght-371）"
+          data-actresses="加藤ツバキ（夏樹カオル） 姫川礼子 真木今日子 彩奈リナ（七原あかり） 本真ゆり 佐久間楓 白木優子 白河花清 寺島志保 竹内梨恵"
+          data-tags="4時間以上作品 ハイビジョン 4k 独占配信 熟女 人妻・主婦 ベスト・総集編"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">4時間以上作品</span>
-            
-              <span class="tag">ハイビジョン</span>
-            
-              <span class="tag">4K</span>
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">熟女</span>
-            
-              <span class="tag">人妻・主婦</span>
-            
-              <span class="tag">ベスト・総集編</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/mght00371/mght00371pl.jpg" alt="たびじ 母と子のふたり旅 よりぬきスーパーベスト8時間2枚組（MGHT-371）" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/mght00371/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              たびじ 母と子のふたり旅 よりぬきスーパーベスト8時間2枚組（MGHT-371）
+            </h2>
+
             
+              <div class="meta">公開日：2026-03-07 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dmght00371&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">加藤ツバキ（夏樹カオル）</span>
+                
+                  <span class="tag">姫川礼子</span>
+                
+                  <span class="tag">真木今日子</span>
+                
+                  <span class="tag">彩奈リナ（七原あかり）</span>
+                
+                  <span class="tag">本真ゆり</span>
+                
+                  <span class="tag">佐久間楓</span>
+                
+                  <span class="tag">白木優子</span>
+                
+                  <span class="tag">白河花清</span>
+                
+                  <span class="tag">寺島志保</span>
+                
+                  <span class="tag">竹内梨恵</span>
+                
+              </div>
+            
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">4時間以上作品</span>
+                
+                  <span class="tag">ハイビジョン</span>
+                
+                  <span class="tag">4K</span>
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">熟女</span>
+                
+                  <span class="tag">人妻・主婦</span>
+                
+                  <span class="tag">ベスト・総集編</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/mght00371/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dmght00371&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/mdbk00411/mdbk00411pl.jpg" alt="可愛いお顔とお口で搾り取られるド淫乱フェラチオBEST" loading="lazy">
-        <div class="pad">
-          <h2 class="title">可愛いお顔とお口で搾り取られるド淫乱フェラチオBEST</h2>
-          <div class="meta">公開日：2026-03-07 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="可愛いお顔とお口で搾り取られるド淫乱フェラチオbest"
+          data-actresses="あおいれな 一ノ瀬恋 一条みお 羽月乃蒼 玉木くるみ 七海ゆあ 桜結奈 大槻ひびき 姫咲はな 美澄玲衣 尾崎えりか 如月夏希 桃尻かのん 東條なつ 皆瀬あかり 皆月ひかる 希咲アリス 山本蓮加 乙アリス 佐藤ののか（加藤ももか） 佐知子 今井麻衣 高瀬りな 五十嵐星蘭 胡桃さくら 吉根ゆりあ 都月るいさ 天野碧 天然美月（天然かのん） 姫乃ひな 和久井美兎 鈴木真夕 流川莉央 有村のぞみ 目黒ひな実 木下ひまり（花沢ひまり） 末広純 鳳みゆ 平川琴菜 七碧のあ 若宮はずき 若宮穂乃 天馬ゆい 百瀬あすか 朝倉ここな 浜辺栞帆 跡美しゅり 西野たえ 枢木あおい 森日向子 新村あかり 新井リマ 春埼めい 冨安れおな"
+          data-tags="4時間以上作品 ハイビジョン 独占配信 フェラ ベスト・総集編 痴女 美少女"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">4時間以上作品</span>
-            
-              <span class="tag">ハイビジョン</span>
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">フェラ</span>
-            
-              <span class="tag">ベスト・総集編</span>
-            
-              <span class="tag">痴女</span>
-            
-              <span class="tag">美少女</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/mdbk00411/mdbk00411pl.jpg" alt="可愛いお顔とお口で搾り取られるド淫乱フェラチオBEST" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/mdbk00411/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              可愛いお顔とお口で搾り取られるド淫乱フェラチオBEST
+            </h2>
+
             
+              <div class="meta">公開日：2026-03-07 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dmdbk00411&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">あおいれな</span>
+                
+                  <span class="tag">一ノ瀬恋</span>
+                
+                  <span class="tag">一条みお</span>
+                
+                  <span class="tag">羽月乃蒼</span>
+                
+                  <span class="tag">玉木くるみ</span>
+                
+                  <span class="tag">七海ゆあ</span>
+                
+                  <span class="tag">桜結奈</span>
+                
+                  <span class="tag">大槻ひびき</span>
+                
+                  <span class="tag">姫咲はな</span>
+                
+                  <span class="tag">美澄玲衣</span>
+                
+                  <span class="tag">尾崎えりか</span>
+                
+                  <span class="tag">如月夏希</span>
+                
+                  <span class="tag">桃尻かのん</span>
+                
+                  <span class="tag">東條なつ</span>
+                
+                  <span class="tag">皆瀬あかり</span>
+                
+                  <span class="tag">皆月ひかる</span>
+                
+                  <span class="tag">希咲アリス</span>
+                
+                  <span class="tag">山本蓮加</span>
+                
+                  <span class="tag">乙アリス</span>
+                
+                  <span class="tag">佐藤ののか（加藤ももか）</span>
+                
+                  <span class="tag">佐知子</span>
+                
+                  <span class="tag">今井麻衣</span>
+                
+                  <span class="tag">高瀬りな</span>
+                
+                  <span class="tag">五十嵐星蘭</span>
+                
+                  <span class="tag">胡桃さくら</span>
+                
+                  <span class="tag">吉根ゆりあ</span>
+                
+                  <span class="tag">都月るいさ</span>
+                
+                  <span class="tag">天野碧</span>
+                
+                  <span class="tag">天然美月（天然かのん）</span>
+                
+                  <span class="tag">姫乃ひな</span>
+                
+                  <span class="tag">和久井美兎</span>
+                
+                  <span class="tag">鈴木真夕</span>
+                
+                  <span class="tag">流川莉央</span>
+                
+                  <span class="tag">有村のぞみ</span>
+                
+                  <span class="tag">目黒ひな実</span>
+                
+                  <span class="tag">木下ひまり（花沢ひまり）</span>
+                
+                  <span class="tag">末広純</span>
+                
+                  <span class="tag">鳳みゆ</span>
+                
+                  <span class="tag">平川琴菜</span>
+                
+                  <span class="tag">七碧のあ</span>
+                
+                  <span class="tag">若宮はずき</span>
+                
+                  <span class="tag">若宮穂乃</span>
+                
+                  <span class="tag">天馬ゆい</span>
+                
+                  <span class="tag">百瀬あすか</span>
+                
+                  <span class="tag">朝倉ここな</span>
+                
+                  <span class="tag">浜辺栞帆</span>
+                
+                  <span class="tag">跡美しゅり</span>
+                
+                  <span class="tag">西野たえ</span>
+                
+                  <span class="tag">枢木あおい</span>
+                
+                  <span class="tag">森日向子</span>
+                
+                  <span class="tag">新村あかり</span>
+                
+                  <span class="tag">新井リマ</span>
+                
+                  <span class="tag">春埼めい</span>
+                
+                  <span class="tag">冨安れおな</span>
+                
+              </div>
+            
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">4時間以上作品</span>
+                
+                  <span class="tag">ハイビジョン</span>
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">フェラ</span>
+                
+                  <span class="tag">ベスト・総集編</span>
+                
+                  <span class="tag">痴女</span>
+                
+                  <span class="tag">美少女</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/mdbk00411/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dmdbk00411&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/ktra00777/ktra00777pl.jpg" alt="えっちな小悪魔に種付け2 4時間" loading="lazy">
-        <div class="pad">
-          <h2 class="title">えっちな小悪魔に種付け2 4時間</h2>
-          <div class="meta">公開日：2026-03-07 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="えっちな小悪魔に種付け2 4時間"
+          data-actresses="松本いちか 真白みのり 双葉くるみ 越智あいら 南いろは"
+          data-tags="ハイビジョン 4時間以上作品 独占配信 痴女 ベスト・総集編 美少女 中出し"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">ハイビジョン</span>
-            
-              <span class="tag">4時間以上作品</span>
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">痴女</span>
-            
-              <span class="tag">ベスト・総集編</span>
-            
-              <span class="tag">美少女</span>
-            
-              <span class="tag">中出し</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/ktra00777/ktra00777pl.jpg" alt="えっちな小悪魔に種付け2 4時間" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/ktra00777/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              えっちな小悪魔に種付け2 4時間
+            </h2>
+
             
+              <div class="meta">公開日：2026-03-07 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dktra00777&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">松本いちか</span>
+                
+                  <span class="tag">真白みのり</span>
+                
+                  <span class="tag">双葉くるみ</span>
+                
+                  <span class="tag">越智あいら</span>
+                
+                  <span class="tag">南いろは</span>
+                
+              </div>
+            
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">ハイビジョン</span>
+                
+                  <span class="tag">4時間以上作品</span>
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">痴女</span>
+                
+                  <span class="tag">ベスト・総集編</span>
+                
+                  <span class="tag">美少女</span>
+                
+                  <span class="tag">中出し</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/ktra00777/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dktra00777&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/ktra00776/ktra00776pl.jpg" alt="パイパン少女の従順ご奉仕えっち 4時間" loading="lazy">
-        <div class="pad">
-          <h2 class="title">パイパン少女の従順ご奉仕えっち 4時間</h2>
-          <div class="meta">公開日：2026-03-07 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="パイパン少女の従順ご奉仕えっち 4時間"
+          data-actresses="胡桃さくら 皆月ひかる 橘ひなの 涼宮うるは 木野香織"
+          data-tags="ハイビジョン 4時間以上作品 独占配信 美少女 パイパン ベスト・総集編"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">ハイビジョン</span>
-            
-              <span class="tag">4時間以上作品</span>
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">美少女</span>
-            
-              <span class="tag">パイパン</span>
-            
-              <span class="tag">ベスト・総集編</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/ktra00776/ktra00776pl.jpg" alt="パイパン少女の従順ご奉仕えっち 4時間" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/ktra00776/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              パイパン少女の従順ご奉仕えっち 4時間
+            </h2>
+
             
+              <div class="meta">公開日：2026-03-07 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dktra00776&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">胡桃さくら</span>
+                
+                  <span class="tag">皆月ひかる</span>
+                
+                  <span class="tag">橘ひなの</span>
+                
+                  <span class="tag">涼宮うるは</span>
+                
+                  <span class="tag">木野香織</span>
+                
+              </div>
+            
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">ハイビジョン</span>
+                
+                  <span class="tag">4時間以上作品</span>
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">美少女</span>
+                
+                  <span class="tag">パイパン</span>
+                
+                  <span class="tag">ベスト・総集編</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/ktra00776/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dktra00776&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/ktra00775/ktra00775pl.jpg" alt="かわいい巨乳妹たちとなかよしセックス 4時間" loading="lazy">
-        <div class="pad">
-          <h2 class="title">かわいい巨乳妹たちとなかよしセックス 4時間</h2>
-          <div class="meta">公開日：2026-03-07 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="かわいい巨乳妹たちとなかよしセックス 4時間"
+          data-actresses="弥生みづき 川口葉純 守永葵 宝田もなみ 小此木ひなの"
+          data-tags="ハイビジョン 4時間以上作品 独占配信 姉・妹 美少女 ベスト・総集編 巨乳"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">ハイビジョン</span>
-            
-              <span class="tag">4時間以上作品</span>
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">姉・妹</span>
-            
-              <span class="tag">美少女</span>
-            
-              <span class="tag">ベスト・総集編</span>
-            
-              <span class="tag">巨乳</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/ktra00775/ktra00775pl.jpg" alt="かわいい巨乳妹たちとなかよしセックス 4時間" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/ktra00775/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              かわいい巨乳妹たちとなかよしセックス 4時間
+            </h2>
+
             
+              <div class="meta">公開日：2026-03-07 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dktra00775&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">弥生みづき</span>
+                
+                  <span class="tag">川口葉純</span>
+                
+                  <span class="tag">守永葵</span>
+                
+                  <span class="tag">宝田もなみ</span>
+                
+                  <span class="tag">小此木ひなの</span>
+                
+              </div>
+            
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">ハイビジョン</span>
+                
+                  <span class="tag">4時間以上作品</span>
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">姉・妹</span>
+                
+                  <span class="tag">美少女</span>
+                
+                  <span class="tag">ベスト・総集編</span>
+                
+                  <span class="tag">巨乳</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/ktra00775/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dktra00775&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/cadv00943/cadv00943pl.jpg" alt="美巨乳パイパン美女12名8時間～濃厚性交でイキまくる～" loading="lazy">
-        <div class="pad">
-          <h2 class="title">美巨乳パイパン美女12名8時間～濃厚性交でイキまくる～</h2>
-          <div class="meta">公開日：2026-03-07 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="美巨乳パイパン美女12名8時間～濃厚性交でイキまくる～"
+          data-actresses="柏木こなつ 北野未奈 波多野結衣 羽月乃蒼 巴ひかり 佐山由依 鳳みゆ 凰華りん 大槻ひびき 天馬ゆい 春陽モカ 胡桃さくら"
+          data-tags="4時間以上作品 ハイビジョン 独占配信 メイド 競泳・スクール水着 人妻・主婦 幼なじみ パイパン 女子校生 痴女 バニーガール 巨乳 ベスト・総集編"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">4時間以上作品</span>
-            
-              <span class="tag">ハイビジョン</span>
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">メイド</span>
-            
-              <span class="tag">競泳・スクール水着</span>
-            
-              <span class="tag">人妻・主婦</span>
-            
-              <span class="tag">幼なじみ</span>
-            
-              <span class="tag">パイパン</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/cadv00943/cadv00943pl.jpg" alt="美巨乳パイパン美女12名8時間～濃厚性交でイキまくる～" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/cadv00943/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              美巨乳パイパン美女12名8時間～濃厚性交でイキまくる～
+            </h2>
+
             
+              <div class="meta">公開日：2026-03-07 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dcadv00943&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">柏木こなつ</span>
+                
+                  <span class="tag">北野未奈</span>
+                
+                  <span class="tag">波多野結衣</span>
+                
+                  <span class="tag">羽月乃蒼</span>
+                
+                  <span class="tag">巴ひかり</span>
+                
+                  <span class="tag">佐山由依</span>
+                
+                  <span class="tag">鳳みゆ</span>
+                
+                  <span class="tag">凰華りん</span>
+                
+                  <span class="tag">大槻ひびき</span>
+                
+                  <span class="tag">天馬ゆい</span>
+                
+                  <span class="tag">春陽モカ</span>
+                
+                  <span class="tag">胡桃さくら</span>
+                
+              </div>
+            
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">4時間以上作品</span>
+                
+                  <span class="tag">ハイビジョン</span>
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">メイド</span>
+                
+                  <span class="tag">競泳・スクール水着</span>
+                
+                  <span class="tag">人妻・主婦</span>
+                
+                  <span class="tag">幼なじみ</span>
+                
+                  <span class="tag">パイパン</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/cadv00943/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dcadv00943&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/bony00181/bony00181pl.jpg" alt="一人暮らしの美女を狙う鬼畜レ〇プ集団自宅押込み中出し性交 鬼畜陵●編" loading="lazy">
-        <div class="pad">
-          <h2 class="title">一人暮らしの美女を狙う鬼畜レ〇プ集団自宅押込み中出し性交 鬼畜陵●編</h2>
-          <div class="meta">公開日：2026-03-06 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="一人暮らしの美女を狙う鬼畜レ〇プ集団自宅押込み中出し性交 鬼畜陵●編"
+          data-actresses=""
+          data-tags="4時間以上作品 ハイビジョン 独占配信 おもちゃ イラマチオ 鬼畜 妄想族 放尿・お漏らし 中出し"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">4時間以上作品</span>
-            
-              <span class="tag">ハイビジョン</span>
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">おもちゃ</span>
-            
-              <span class="tag">イラマチオ</span>
-            
-              <span class="tag">鬼畜</span>
-            
-              <span class="tag">妄想族</span>
-            
-              <span class="tag">放尿・お漏らし</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/bony00181/bony00181pl.jpg" alt="一人暮らしの美女を狙う鬼畜レ〇プ集団自宅押込み中出し性交 鬼畜陵●編" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/bony00181/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              一人暮らしの美女を狙う鬼畜レ〇プ集団自宅押込み中出し性交 鬼畜陵●編
+            </h2>
+
             
+              <div class="meta">公開日：2026-03-06 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dbony00181&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">4時間以上作品</span>
+                
+                  <span class="tag">ハイビジョン</span>
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">おもちゃ</span>
+                
+                  <span class="tag">イラマチオ</span>
+                
+                  <span class="tag">鬼畜</span>
+                
+                  <span class="tag">妄想族</span>
+                
+                  <span class="tag">放尿・お漏らし</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/bony00181/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dbony00181&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/h_237zmar00155/h_237zmar00155pl.jpg" alt="まるっと！東條なつ2" loading="lazy">
-        <div class="pad">
-          <h2 class="title">まるっと！東條なつ2</h2>
-          <div class="meta">公開日：2026-03-05 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="まるっと！東條なつ2"
+          data-actresses="東條なつ"
+          data-tags="ハイビジョン 4時間以上作品 単体作品 女優ベスト・総集編 フェラ 中出し 貧乳・微乳 スレンダー"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">ハイビジョン</span>
-            
-              <span class="tag">4時間以上作品</span>
-            
-              <span class="tag">単体作品</span>
-            
-              <span class="tag">女優ベスト・総集編</span>
-            
-              <span class="tag">フェラ</span>
-            
-              <span class="tag">中出し</span>
-            
-              <span class="tag">貧乳・微乳</span>
-            
-              <span class="tag">スレンダー</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/h_237zmar00155/h_237zmar00155pl.jpg" alt="まるっと！東條なつ2" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/h_237zmar00155/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              まるっと！東條なつ2
+            </h2>
+
             
+              <div class="meta">公開日：2026-03-05 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dh_237zmar00155&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">東條なつ</span>
+                
+              </div>
+            
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">ハイビジョン</span>
+                
+                  <span class="tag">4時間以上作品</span>
+                
+                  <span class="tag">単体作品</span>
+                
+                  <span class="tag">女優ベスト・総集編</span>
+                
+                  <span class="tag">フェラ</span>
+                
+                  <span class="tag">中出し</span>
+                
+                  <span class="tag">貧乳・微乳</span>
+                
+                  <span class="tag">スレンダー</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/h_237zmar00155/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dh_237zmar00155&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/vrkm01757/vrkm01757pl.jpg" alt="【VR】ちっぱい×パイパン×ムッ尻 皆月ひかる 8Kオンリー300分SUPER BEST！！" loading="lazy">
-        <div class="pad">
-          <h2 class="title">【VR】ちっぱい×パイパン×ムッ尻 皆月ひかる 8Kオンリー300分SUPER BEST！！</h2>
-          <div class="meta">公開日：2026-03-02 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="【vr】ちっぱい×パイパン×ムッ尻 皆月ひかる 8kオンリー300分super best！！"
+          data-actresses="皆月ひかる 北岡果林 沙月恵奈 木下ひまり（花沢ひまり） 柏木こなつ 弥生みづき 小那海あや 浜崎真緒 東雲あずさ 須崎美羽"
+          data-tags="4時間以上作品 ハイクオリティvr 8kvr vr専用 独占配信 ベスト・総集編 貧乳・微乳 パイパン 巨尻 中出し"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">4時間以上作品</span>
-            
-              <span class="tag">ハイクオリティVR</span>
-            
-              <span class="tag">8KVR</span>
-            
-              <span class="tag">VR専用</span>
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">ベスト・総集編</span>
-            
-              <span class="tag">貧乳・微乳</span>
-            
-              <span class="tag">パイパン</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/vrkm01757/vrkm01757pl.jpg" alt="【VR】ちっぱい×パイパン×ムッ尻 皆月ひかる 8Kオンリー300分SUPER BEST！！" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/vrkm01757/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              【VR】ちっぱい×パイパン×ムッ尻 皆月ひかる 8Kオンリー300分SUPER BEST！！
+            </h2>
+
             
+              <div class="meta">公開日：2026-03-02 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dvrkm01757&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">皆月ひかる</span>
+                
+                  <span class="tag">北岡果林</span>
+                
+                  <span class="tag">沙月恵奈</span>
+                
+                  <span class="tag">木下ひまり（花沢ひまり）</span>
+                
+                  <span class="tag">柏木こなつ</span>
+                
+                  <span class="tag">弥生みづき</span>
+                
+                  <span class="tag">小那海あや</span>
+                
+                  <span class="tag">浜崎真緒</span>
+                
+                  <span class="tag">東雲あずさ</span>
+                
+                  <span class="tag">須崎美羽</span>
+                
+              </div>
+            
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">4時間以上作品</span>
+                
+                  <span class="tag">ハイクオリティVR</span>
+                
+                  <span class="tag">8KVR</span>
+                
+                  <span class="tag">VR専用</span>
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">ベスト・総集編</span>
+                
+                  <span class="tag">貧乳・微乳</span>
+                
+                  <span class="tag">パイパン</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/vrkm01757/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dvrkm01757&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/vrkm01756/vrkm01756pl.jpg" alt="【VR】SUPER LUCKY！！人妻も巨乳もスレンダーも女子校生も女上司も腐女子も全員とヤリまくり！！ラッキースケベ500分中出しBEST" loading="lazy">
-        <div class="pad">
-          <h2 class="title">【VR】SUPER LUCKY！！人妻も巨乳もスレンダーも女子校生も女上司も腐女子も全員とヤリまくり！！ラッキースケベ500分中出しBEST</h2>
-          <div class="meta">公開日：2026-03-02 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="【vr】super lucky！！人妻も巨乳もスレンダーも女子校生も女上司も腐女子も全員とヤリまくり！！ラッキースケベ500分中出しbest"
+          data-actresses="渚みつき 雪代美鳳 二羽紗愛 秋元さちか 本田もも 森本あかり 斉藤帆夏 神村さつき 波多野結衣 末広純 有馬みずき 結月りあ 宍戸里帆 藤田ゆず 澪川はるか 小那海あや 柏木こなつ 如月りいさ 鳳みゆ 花柳杏奈"
+          data-tags="ハイクオリティvr 8kvr vr専用 独占配信 中出し フェラ ベスト・総集編 痴女 巨乳 4時間以上作品"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">ハイクオリティVR</span>
-            
-              <span class="tag">8KVR</span>
-            
-              <span class="tag">VR専用</span>
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">中出し</span>
-            
-              <span class="tag">フェラ</span>
-            
-              <span class="tag">ベスト・総集編</span>
-            
-              <span class="tag">痴女</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/vrkm01756/vrkm01756pl.jpg" alt="【VR】SUPER LUCKY！！人妻も巨乳もスレンダーも女子校生も女上司も腐女子も全員とヤリまくり！！ラッキースケベ500分中出しBEST" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/vrkm01756/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              【VR】SUPER LUCKY！！人妻も巨乳もスレンダーも女子校生も女上司も腐女子も全員とヤリまくり！！ラッキースケベ500分中出しBEST
+            </h2>
+
             
+              <div class="meta">公開日：2026-03-02 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dvrkm01756&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">渚みつき</span>
+                
+                  <span class="tag">雪代美鳳</span>
+                
+                  <span class="tag">二羽紗愛</span>
+                
+                  <span class="tag">秋元さちか</span>
+                
+                  <span class="tag">本田もも</span>
+                
+                  <span class="tag">森本あかり</span>
+                
+                  <span class="tag">斉藤帆夏</span>
+                
+                  <span class="tag">神村さつき</span>
+                
+                  <span class="tag">波多野結衣</span>
+                
+                  <span class="tag">末広純</span>
+                
+                  <span class="tag">有馬みずき</span>
+                
+                  <span class="tag">結月りあ</span>
+                
+                  <span class="tag">宍戸里帆</span>
+                
+                  <span class="tag">藤田ゆず</span>
+                
+                  <span class="tag">澪川はるか</span>
+                
+                  <span class="tag">小那海あや</span>
+                
+                  <span class="tag">柏木こなつ</span>
+                
+                  <span class="tag">如月りいさ</span>
+                
+                  <span class="tag">鳳みゆ</span>
+                
+                  <span class="tag">花柳杏奈</span>
+                
+              </div>
+            
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">ハイクオリティVR</span>
+                
+                  <span class="tag">8KVR</span>
+                
+                  <span class="tag">VR専用</span>
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">中出し</span>
+                
+                  <span class="tag">フェラ</span>
+                
+                  <span class="tag">ベスト・総集編</span>
+                
+                  <span class="tag">痴女</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/vrkm01756/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dvrkm01756&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/vrkm01748/vrkm01748pl.jpg" alt="【VR】都合のいい愛人たちと本能の剥き出し中出しSEX BEST300分" loading="lazy">
-        <div class="pad">
-          <h2 class="title">【VR】都合のいい愛人たちと本能の剥き出し中出しSEX BEST300分</h2>
-          <div class="meta">公開日：2026-03-01 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="【vr】都合のいい愛人たちと本能の剥き出し中出しsex best300分"
+          data-actresses="稲森美優 永野つかさ 結城りの 戸川なみ 心菜りお 小松杏 小花のん 詩月まどか 斎藤あみり 佐藤しお 紺野ひかる 深月めい 倉多まお 中野真子 夕季ちとせ 優梨まいな 木下ひまり（花沢ひまり） 望月あやか 浜崎真緒 姫咲はな 八乃つばさ 波多野結衣 藤森里穂 辻井ほのか 櫻井まみ"
+          data-tags="4時間以上作品 ハイクオリティvr vr専用 独占配信 ベスト・総集編 中出し 痴女 不倫"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">4時間以上作品</span>
-            
-              <span class="tag">ハイクオリティVR</span>
-            
-              <span class="tag">VR専用</span>
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">ベスト・総集編</span>
-            
-              <span class="tag">中出し</span>
-            
-              <span class="tag">痴女</span>
-            
-              <span class="tag">不倫</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/vrkm01748/vrkm01748pl.jpg" alt="【VR】都合のいい愛人たちと本能の剥き出し中出しSEX BEST300分" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/vrkm01748/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              【VR】都合のいい愛人たちと本能の剥き出し中出しSEX BEST300分
+            </h2>
+
             
+              <div class="meta">公開日：2026-03-01 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dvrkm01748&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">稲森美優</span>
+                
+                  <span class="tag">永野つかさ</span>
+                
+                  <span class="tag">結城りの</span>
+                
+                  <span class="tag">戸川なみ</span>
+                
+                  <span class="tag">心菜りお</span>
+                
+                  <span class="tag">小松杏</span>
+                
+                  <span class="tag">小花のん</span>
+                
+                  <span class="tag">詩月まどか</span>
+                
+                  <span class="tag">斎藤あみり</span>
+                
+                  <span class="tag">佐藤しお</span>
+                
+                  <span class="tag">紺野ひかる</span>
+                
+                  <span class="tag">深月めい</span>
+                
+                  <span class="tag">倉多まお</span>
+                
+                  <span class="tag">中野真子</span>
+                
+                  <span class="tag">夕季ちとせ</span>
+                
+                  <span class="tag">優梨まいな</span>
+                
+                  <span class="tag">木下ひまり（花沢ひまり）</span>
+                
+                  <span class="tag">望月あやか</span>
+                
+                  <span class="tag">浜崎真緒</span>
+                
+                  <span class="tag">姫咲はな</span>
+                
+                  <span class="tag">八乃つばさ</span>
+                
+                  <span class="tag">波多野結衣</span>
+                
+                  <span class="tag">藤森里穂</span>
+                
+                  <span class="tag">辻井ほのか</span>
+                
+                  <span class="tag">櫻井まみ</span>
+                
+              </div>
+            
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">4時間以上作品</span>
+                
+                  <span class="tag">ハイクオリティVR</span>
+                
+                  <span class="tag">VR専用</span>
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">ベスト・総集編</span>
+                
+                  <span class="tag">中出し</span>
+                
+                  <span class="tag">痴女</span>
+                
+                  <span class="tag">不倫</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/vrkm01748/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dvrkm01748&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/ymsr00096/ymsr00096pl.jpg" alt="メロディー・雛・マークス12時間BEST" loading="lazy">
-        <div class="pad">
-          <h2 class="title">メロディー・雛・マークス12時間BEST</h2>
-          <div class="meta">公開日：2026-02-28 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="メロディー・雛・マークス12時間best"
+          data-actresses="メロディー・雛・マークス"
+          data-tags="ハイビジョン 4時間以上作品 独占配信 妄想族 単体作品 白人女優 野外・露出 ベスト・総集編"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">ハイビジョン</span>
-            
-              <span class="tag">4時間以上作品</span>
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">妄想族</span>
-            
-              <span class="tag">単体作品</span>
-            
-              <span class="tag">白人女優</span>
-            
-              <span class="tag">野外・露出</span>
-            
-              <span class="tag">ベスト・総集編</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/ymsr00096/ymsr00096pl.jpg" alt="メロディー・雛・マークス12時間BEST" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/ymsr00096/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              メロディー・雛・マークス12時間BEST
+            </h2>
+
             
+              <div class="meta">公開日：2026-02-28 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dymsr00096&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">メロディー・雛・マークス</span>
+                
+              </div>
+            
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">ハイビジョン</span>
+                
+                  <span class="tag">4時間以上作品</span>
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">妄想族</span>
+                
+                  <span class="tag">単体作品</span>
+                
+                  <span class="tag">白人女優</span>
+                
+                  <span class="tag">野外・露出</span>
+                
+                  <span class="tag">ベスト・総集編</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/ymsr00096/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dymsr00096&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/xvsr00867/xvsr00867pl.jpg" alt="BEST OF 木下ひまり 12本番×4時間" loading="lazy">
-        <div class="pad">
-          <h2 class="title">BEST OF 木下ひまり 12本番×4時間</h2>
-          <div class="meta">公開日：2026-02-28 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="best of 木下ひまり 12本番×4時間"
+          data-actresses="木下ひまり（花沢ひまり）"
+          data-tags="ハイビジョン 4時間以上作品 独占配信 美少女 中出し 騎乗位 単体作品 スレンダー 美乳"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">ハイビジョン</span>
-            
-              <span class="tag">4時間以上作品</span>
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">美少女</span>
-            
-              <span class="tag">中出し</span>
-            
-              <span class="tag">騎乗位</span>
-            
-              <span class="tag">単体作品</span>
-            
-              <span class="tag">スレンダー</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/xvsr00867/xvsr00867pl.jpg" alt="BEST OF 木下ひまり 12本番×4時間" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/xvsr00867/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              BEST OF 木下ひまり 12本番×4時間
+            </h2>
+
             
+              <div class="meta">公開日：2026-02-28 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dxvsr00867&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">木下ひまり（花沢ひまり）</span>
+                
+              </div>
+            
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">ハイビジョン</span>
+                
+                  <span class="tag">4時間以上作品</span>
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">美少女</span>
+                
+                  <span class="tag">中出し</span>
+                
+                  <span class="tag">騎乗位</span>
+                
+                  <span class="tag">単体作品</span>
+                
+                  <span class="tag">スレンダー</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/xvsr00867/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dxvsr00867&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/mmpb00116/mmpb00116pl.jpg" alt="綺麗なワレメをひたすら舐めたい！マン汁まみれの超絶クンニ100連発！" loading="lazy">
-        <div class="pad">
-          <h2 class="title">綺麗なワレメをひたすら舐めたい！マン汁まみれの超絶クンニ100連発！</h2>
-          <div class="meta">公開日：2026-02-28 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="綺麗なワレメをひたすら舐めたい！マン汁まみれの超絶クンニ100連発！"
+          data-actresses=""
+          data-tags="4時間以上作品 独占配信 その他フェチ 美少女 クンニ パイパン ハイビジョン"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">4時間以上作品</span>
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">その他フェチ</span>
-            
-              <span class="tag">美少女</span>
-            
-              <span class="tag">クンニ</span>
-            
-              <span class="tag">パイパン</span>
-            
-              <span class="tag">ハイビジョン</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/mmpb00116/mmpb00116pl.jpg" alt="綺麗なワレメをひたすら舐めたい！マン汁まみれの超絶クンニ100連発！" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/mmpb00116/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              綺麗なワレメをひたすら舐めたい！マン汁まみれの超絶クンニ100連発！
+            </h2>
+
             
+              <div class="meta">公開日：2026-02-28 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dmmpb00116&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">4時間以上作品</span>
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">その他フェチ</span>
+                
+                  <span class="tag">美少女</span>
+                
+                  <span class="tag">クンニ</span>
+                
+                  <span class="tag">パイパン</span>
+                
+                  <span class="tag">ハイビジョン</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/mmpb00116/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dmmpb00116&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/mmpb00115/mmpb00115pl.jpg" alt="これが究極の3穴生中出しだ！！マ○コにアナルに喉奥にたっぷりザーメン流し込み！" loading="lazy">
-        <div class="pad">
-          <h2 class="title">これが究極の3穴生中出しだ！！マ○コにアナルに喉奥にたっぷりザーメン流し込み！</h2>
-          <div class="meta">公開日：2026-02-28 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="これが究極の3穴生中出しだ！！マ○コにアナルに喉奥にたっぷりザーメン流し込み！"
+          data-actresses=""
+          data-tags="独占配信 アナルセックス 中出し 3p・4p 尻フェチ アナル 4時間以上作品"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">アナルセックス</span>
-            
-              <span class="tag">中出し</span>
-            
-              <span class="tag">3P・4P</span>
-            
-              <span class="tag">尻フェチ</span>
-            
-              <span class="tag">アナル</span>
-            
-              <span class="tag">4時間以上作品</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/mmpb00115/mmpb00115pl.jpg" alt="これが究極の3穴生中出しだ！！マ○コにアナルに喉奥にたっぷりザーメン流し込み！" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/mmpb00115/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              これが究極の3穴生中出しだ！！マ○コにアナルに喉奥にたっぷりザーメン流し込み！
+            </h2>
+
             
+              <div class="meta">公開日：2026-02-28 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dmmpb00115&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">アナルセックス</span>
+                
+                  <span class="tag">中出し</span>
+                
+                  <span class="tag">3P・4P</span>
+                
+                  <span class="tag">尻フェチ</span>
+                
+                  <span class="tag">アナル</span>
+                
+                  <span class="tag">4時間以上作品</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/mmpb00115/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dmmpb00115&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/mmpb00114/mmpb00114pl.jpg" alt="金でチ○ポを買う強欲セレブ妻のエグすぎるママ活記録" loading="lazy">
-        <div class="pad">
-          <h2 class="title">金でチ○ポを買う強欲セレブ妻のエグすぎるママ活記録</h2>
-          <div class="meta">公開日：2026-02-28 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="金でチ○ポを買う強欲セレブ妻のエグすぎるママ活記録"
+          data-actresses="水端あさみ 春原未来 片瀬みさ 三岳ゆうな 聖璃とあ 堀北実来（櫻茉日） 佐伯由美香 辻井ほのか 流川千穂 八乃つばさ 森沢かな（飯岡かなこ）"
+          data-tags="4時間以上作品 独占配信 ぽっちゃり 痴女 人妻・主婦 淫乱・ハード系 ハイビジョン"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">4時間以上作品</span>
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">ぽっちゃり</span>
-            
-              <span class="tag">痴女</span>
-            
-              <span class="tag">人妻・主婦</span>
-            
-              <span class="tag">淫乱・ハード系</span>
-            
-              <span class="tag">ハイビジョン</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/mmpb00114/mmpb00114pl.jpg" alt="金でチ○ポを買う強欲セレブ妻のエグすぎるママ活記録" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/mmpb00114/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              金でチ○ポを買う強欲セレブ妻のエグすぎるママ活記録
+            </h2>
+
             
+              <div class="meta">公開日：2026-02-28 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dmmpb00114&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">水端あさみ</span>
+                
+                  <span class="tag">春原未来</span>
+                
+                  <span class="tag">片瀬みさ</span>
+                
+                  <span class="tag">三岳ゆうな</span>
+                
+                  <span class="tag">聖璃とあ</span>
+                
+                  <span class="tag">堀北実来（櫻茉日）</span>
+                
+                  <span class="tag">佐伯由美香</span>
+                
+                  <span class="tag">辻井ほのか</span>
+                
+                  <span class="tag">流川千穂</span>
+                
+                  <span class="tag">八乃つばさ</span>
+                
+                  <span class="tag">森沢かな（飯岡かなこ）</span>
+                
+              </div>
+            
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">4時間以上作品</span>
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">ぽっちゃり</span>
+                
+                  <span class="tag">痴女</span>
+                
+                  <span class="tag">人妻・主婦</span>
+                
+                  <span class="tag">淫乱・ハード系</span>
+                
+                  <span class="tag">ハイビジョン</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/mmpb00114/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dmmpb00114&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/mmpb00113/mmpb00113pl.jpg" alt="素人ナンパ！このカラダ…う～ん、たまんね～ぞ！！Gカップ以上！はち切れんばかりの爆乳美女揃い！" loading="lazy">
-        <div class="pad">
-          <h2 class="title">素人ナンパ！このカラダ…う～ん、たまんね～ぞ！！Gカップ以上！はち切れんばかりの爆乳美女揃い！</h2>
-          <div class="meta">公開日：2026-02-28 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="素人ナンパ！このカラダ…う～ん、たまんね～ぞ！！gカップ以上！はち切れんばかりの爆乳美女揃い！"
+          data-actresses=""
+          data-tags="4時間以上作品 独占配信 ナンパ 巨乳 パイズリ お姉さん 素人 ハイビジョン"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">4時間以上作品</span>
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">ナンパ</span>
-            
-              <span class="tag">巨乳</span>
-            
-              <span class="tag">パイズリ</span>
-            
-              <span class="tag">お姉さん</span>
-            
-              <span class="tag">素人</span>
-            
-              <span class="tag">ハイビジョン</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/mmpb00113/mmpb00113pl.jpg" alt="素人ナンパ！このカラダ…う～ん、たまんね～ぞ！！Gカップ以上！はち切れんばかりの爆乳美女揃い！" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/mmpb00113/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              素人ナンパ！このカラダ…う～ん、たまんね～ぞ！！Gカップ以上！はち切れんばかりの爆乳美女揃い！
+            </h2>
+
             
+              <div class="meta">公開日：2026-02-28 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dmmpb00113&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">4時間以上作品</span>
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">ナンパ</span>
+                
+                  <span class="tag">巨乳</span>
+                
+                  <span class="tag">パイズリ</span>
+                
+                  <span class="tag">お姉さん</span>
+                
+                  <span class="tag">素人</span>
+                
+                  <span class="tag">ハイビジョン</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/mmpb00113/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dmmpb00113&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/ksbj00418/ksbj00418pl.jpg" alt="ギュっと！大槻ひびき" loading="lazy">
-        <div class="pad">
-          <h2 class="title">ギュっと！大槻ひびき</h2>
-          <div class="meta">公開日：2026-02-28 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="ギュっと！大槻ひびき"
+          data-actresses="大槻ひびき"
+          data-tags="ハイビジョン 4時間以上作品 独占配信 熟女 人妻・主婦 美乳 女優ベスト・総集編 単体作品 エマニエル"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">ハイビジョン</span>
-            
-              <span class="tag">4時間以上作品</span>
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">熟女</span>
-            
-              <span class="tag">人妻・主婦</span>
-            
-              <span class="tag">美乳</span>
-            
-              <span class="tag">女優ベスト・総集編</span>
-            
-              <span class="tag">単体作品</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/ksbj00418/ksbj00418pl.jpg" alt="ギュっと！大槻ひびき" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/ksbj00418/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              ギュっと！大槻ひびき
+            </h2>
+
             
+              <div class="meta">公開日：2026-02-28 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dksbj00418&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">大槻ひびき</span>
+                
+              </div>
+            
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">ハイビジョン</span>
+                
+                  <span class="tag">4時間以上作品</span>
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">熟女</span>
+                
+                  <span class="tag">人妻・主婦</span>
+                
+                  <span class="tag">美乳</span>
+                
+                  <span class="tag">女優ベスト・総集編</span>
+                
+                  <span class="tag">単体作品</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/ksbj00418/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dksbj00418&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/hpet00016/hpet00016pl.jpg" alt="ホイホイペット 16 素人ホイホイ・ホイホイペット・個人撮影・素人・美少女・清楚・ドM・変態・くびれ・スレンダー・美乳・巨乳・恥じらい・チ○コ狂い・セフレ・野外・とびっこ・おもちゃ・ハメ撮り・中出し・ドキュメンタリー" loading="lazy">
-        <div class="pad">
-          <h2 class="title">ホイホイペット 16 素人ホイホイ・ホイホイペット・個人撮影・素人・美少女・清楚・ドM・変態・くびれ・スレンダー・美乳・巨乳・恥じらい・チ○コ狂い・セフレ・野外・とびっこ・おもちゃ・ハメ撮り・中出し・ドキュメンタリー</h2>
-          <div class="meta">公開日：2026-02-28 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="ホイホイペット 16 素人ホイホイ・ホイホイペット・個人撮影・素人・美少女・清楚・ドm・変態・くびれ・スレンダー・美乳・巨乳・恥じらい・チ○コ狂い・セフレ・野外・とびっこ・おもちゃ・ハメ撮り・中出し・ドキュメンタリー"
+          data-actresses=""
+          data-tags="4時間以上作品 独占配信 m女 ハメ撮り 巨乳 妄想族 ハイビジョン 素人"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">4時間以上作品</span>
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">M女</span>
-            
-              <span class="tag">ハメ撮り</span>
-            
-              <span class="tag">巨乳</span>
-            
-              <span class="tag">妄想族</span>
-            
-              <span class="tag">ハイビジョン</span>
-            
-              <span class="tag">素人</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/hpet00016/hpet00016pl.jpg" alt="ホイホイペット 16 素人ホイホイ・ホイホイペット・個人撮影・素人・美少女・清楚・ドM・変態・くびれ・スレンダー・美乳・巨乳・恥じらい・チ○コ狂い・セフレ・野外・とびっこ・おもちゃ・ハメ撮り・中出し・ドキュメンタリー" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/hpet00016/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              ホイホイペット 16 素人ホイホイ・ホイホイペット・個人撮影・素人・美少女・清楚・ドM・変態・くびれ・スレンダー・美乳・巨乳・恥じらい・チ○コ狂い・セフレ・野外・とびっこ・おもちゃ・ハメ撮り・中出し・ドキュメンタリー
+            </h2>
+
             
+              <div class="meta">公開日：2026-02-28 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dhpet00016&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">4時間以上作品</span>
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">M女</span>
+                
+                  <span class="tag">ハメ撮り</span>
+                
+                  <span class="tag">巨乳</span>
+                
+                  <span class="tag">妄想族</span>
+                
+                  <span class="tag">ハイビジョン</span>
+                
+                  <span class="tag">素人</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/hpet00016/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dhpet00016&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/h_1829dcgd00001/h_1829dcgd00001pl.jpg" alt="アイドルにおいて性は武器だ！【推しの女娘】たっぷり10人11時間！個人撮影・巨乳・スレンダー・マチアプ・顔射・中出し・裏アカ・地下アイドル・コスプレイヤー・配信者・コンカフェ" loading="lazy">
-        <div class="pad">
-          <h2 class="title">アイドルにおいて性は武器だ！【推しの女娘】たっぷり10人11時間！個人撮影・巨乳・スレンダー・マチアプ・顔射・中出し・裏アカ・地下アイドル・コスプレイヤー・配信者・コンカフェ</h2>
-          <div class="meta">公開日：2026-02-28 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="アイドルにおいて性は武器だ！【推しの女娘】たっぷり10人11時間！個人撮影・巨乳・スレンダー・マチアプ・顔射・中出し・裏アカ・地下アイドル・コスプレイヤー・配信者・コンカフェ"
+          data-actresses="月形はるひ 桐嶋あみな 月野はなび 冬愛ことね 白浜美羽 奈築りお 一条みお 坂本りお 白百合みなみ 音琴るい"
+          data-tags="中出し 潮吹き コスプレ アイドル・芸能人 騎乗位 おもちゃ ナンパ m女 美乳 ボンテージ 4時間以上作品 4k ハイビジョン"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">中出し</span>
-            
-              <span class="tag">潮吹き</span>
-            
-              <span class="tag">コスプレ</span>
-            
-              <span class="tag">アイドル・芸能人</span>
-            
-              <span class="tag">騎乗位</span>
-            
-              <span class="tag">おもちゃ</span>
-            
-              <span class="tag">ナンパ</span>
-            
-              <span class="tag">M女</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/h_1829dcgd00001/h_1829dcgd00001pl.jpg" alt="アイドルにおいて性は武器だ！【推しの女娘】たっぷり10人11時間！個人撮影・巨乳・スレンダー・マチアプ・顔射・中出し・裏アカ・地下アイドル・コスプレイヤー・配信者・コンカフェ" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/h_1829dcgd00001/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              アイドルにおいて性は武器だ！【推しの女娘】たっぷり10人11時間！個人撮影・巨乳・スレンダー・マチアプ・顔射・中出し・裏アカ・地下アイドル・コスプレイヤー・配信者・コンカフェ
+            </h2>
+
             
+              <div class="meta">公開日：2026-02-28 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dh_1829dcgd00001&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">月形はるひ</span>
+                
+                  <span class="tag">桐嶋あみな</span>
+                
+                  <span class="tag">月野はなび</span>
+                
+                  <span class="tag">冬愛ことね</span>
+                
+                  <span class="tag">白浜美羽</span>
+                
+                  <span class="tag">奈築りお</span>
+                
+                  <span class="tag">一条みお</span>
+                
+                  <span class="tag">坂本りお</span>
+                
+                  <span class="tag">白百合みなみ</span>
+                
+                  <span class="tag">音琴るい</span>
+                
+              </div>
+            
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">中出し</span>
+                
+                  <span class="tag">潮吹き</span>
+                
+                  <span class="tag">コスプレ</span>
+                
+                  <span class="tag">アイドル・芸能人</span>
+                
+                  <span class="tag">騎乗位</span>
+                
+                  <span class="tag">おもちゃ</span>
+                
+                  <span class="tag">ナンパ</span>
+                
+                  <span class="tag">M女</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/h_1829dcgd00001/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dh_1829dcgd00001&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/h_1729goji00087/h_1729goji00087pl.jpg" alt="寝取られ泥●妻" loading="lazy">
-        <div class="pad">
-          <h2 class="title">寝取られ泥●妻</h2>
-          <div class="meta">公開日：2026-02-28 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="寝取られ泥●妻"
+          data-actresses=""
+          data-tags="ハイビジョン 4時間以上作品 ベスト・総集編 中出し 人妻・主婦 寝取り・寝取られ・ntr 熟女"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">ハイビジョン</span>
-            
-              <span class="tag">4時間以上作品</span>
-            
-              <span class="tag">ベスト・総集編</span>
-            
-              <span class="tag">中出し</span>
-            
-              <span class="tag">人妻・主婦</span>
-            
-              <span class="tag">寝取り・寝取られ・NTR</span>
-            
-              <span class="tag">熟女</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/h_1729goji00087/h_1729goji00087pl.jpg" alt="寝取られ泥●妻" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/h_1729goji00087/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              寝取られ泥●妻
+            </h2>
+
             
+              <div class="meta">公開日：2026-02-28 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dh_1729goji00087&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">ハイビジョン</span>
+                
+                  <span class="tag">4時間以上作品</span>
+                
+                  <span class="tag">ベスト・総集編</span>
+                
+                  <span class="tag">中出し</span>
+                
+                  <span class="tag">人妻・主婦</span>
+                
+                  <span class="tag">寝取り・寝取られ・NTR</span>
+                
+                  <span class="tag">熟女</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/h_1729goji00087/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dh_1729goji00087&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-    </div>
+    </section>
 
-    <div class="footer">© 2026 Review Catalog</div>
+    <footer class="footer" style="margin:22px 0 30px; color:rgba(0,0,0,.5); text-align:center;">
+      © 2026 Review Catalog
+    </footer>
   </main>
+
+  <script>
+    (function(){
+      const q = document.getElementById("q");
+      const actress = document.getElementById("actress");
+      const tag = document.getElementById("tag");
+      const reset = document.getElementById("reset");
+
+      const items = Array.from(document.querySelectorAll(".work-item"));
+      const shownEl = document.getElementById("shown");
+      const totalEl = document.getElementById("total");
+
+      totalEl.textContent = String(items.length);
+
+      function norm(s){ return (s || "").toString().trim().toLowerCase(); }
+
+      function apply(){
+        const kw = norm(q.value);
+        const a = norm(actress.value);
+        const t = norm(tag.value);
+
+        let shown = 0;
+
+        for (const el of items){
+          const title = el.dataset.title || "";
+          const as = el.dataset.actresses || "";
+          const tags = el.dataset.tags || "";
+
+          const okKw = !kw || (title.includes(kw) || as.includes(kw) || tags.includes(kw));
+          const okA  = !a  || as.includes(a);
+          const okT  = !t  || tags.includes(t);
+
+          const ok = okKw && okA && okT;
+
+          el.classList.toggle("is-hidden", !ok);
+          if (ok) shown++;
+        }
+
+        shownEl.textContent = String(shown);
+      }
+
+      q.addEventListener("input", apply);
+      actress.addEventListener("change", apply);
+      tag.addEventListener("change", apply);
+      reset.addEventListener("click", function(){
+        q.value = "";
+        actress.value = "";
+        tag.value = "";
+        apply();
+        q.focus();
+      });
+
+      apply();
+    })();
+  </script>
 </body>
 </html>

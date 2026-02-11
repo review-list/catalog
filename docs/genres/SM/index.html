@@ -4,15 +4,62 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Review Catalog</title>
-  <meta name="description" content="作品一覧ページです。" />
-  <link rel="stylesheet" href="../../assets/style.css">
+  <meta name="description" content="Review Catalog の作品一覧です。" />
+
+  
+    <link rel="stylesheet" href="../../assets/style.css">
+  
+
+  <style>
+    /* 最低限の検索UI（既存CSSを壊さないため控えめ） */
+    .controls{
+      margin: 14px 0 18px;
+      display: grid;
+      gap: 10px;
+    }
+    .controls .row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .controls input[type="search"], .controls select{
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(0,0,0,.12);
+      background: #fff;
+      min-width: 220px;
+    }
+    .controls button{
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(0,0,0,.12);
+      background: #fff;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .count{
+      color: rgba(0,0,0,.55);
+      font-size: 14px;
+      margin-left: auto;
+    }
+
+    /* 作品カードの“フィルタ用”に非表示制御 */
+    .is-hidden{ display:none !important; }
+  </style>
 </head>
+
 <body>
-  <header class="header">
-    <div class="container header-inner">
-      <div class="brand">Review Catalog</div>
-      <nav class="nav">
-        <a href="../../">作品</a>
+  <header class="site-header">
+    <div class="container">
+      <div class="brand">
+        <a href="../../" style="text-decoration:none; color:inherit;">
+          <strong>Review Catalog</strong>
+        </a>
+      </div>
+
+      <nav class="nav" style="margin-top:10px; display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="../../">ホーム</a>
         <a href="../../actresses/">女優</a>
         <a href="../">ジャンル</a>
       </nav>
@@ -20,465 +67,892 @@
   </header>
 
   <main class="container">
-    <section class="hero">
-      <h1>作品一覧</h1>
+    <h1 style="margin:16px 0 8px;">作品一覧</h1>
+
+    <!-- ✅ 検索＆絞り込み -->
+    <section class="controls" aria-label="検索と絞り込み">
+      <div class="row">
+        <input id="q" type="search" placeholder="タイトル / 女優 / タグで検索" autocomplete="off">
+        <select id="actress">
+          <option value="">女優（すべて）</option>
+          
+        </select>
+        <select id="tag">
+          <option value="">タグ（すべて）</option>
+          
+        </select>
+        <button id="reset" type="button">リセット</button>
+
+        <div class="count">
+          <span id="shown">0</span> / <span id="total">0</span> 件
+        </div>
+      </div>
     </section>
 
-    <div class="grid">
+    <!-- ✅ 一覧 -->
+    <section class="grid" id="works">
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/qrda00212/qrda00212pl.jpg" alt="ペニバン顔騎 洗脳改造男性の支配 水樹清華" loading="lazy">
-        <div class="pad">
-          <h2 class="title">ペニバン顔騎 洗脳改造男性の支配 水樹清華</h2>
-          <div class="meta">公開日：2026-03-07 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="ペニバン顔騎 洗脳改造男性の支配 水樹清華"
+          data-actresses="水樹清華"
+          data-tags="独占配信 その他フェチ m男 単体作品 アナル sm"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">その他フェチ</span>
-            
-              <span class="tag">M男</span>
-            
-              <span class="tag">単体作品</span>
-            
-              <span class="tag">アナル</span>
-            
-              <span class="tag">SM</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/qrda00212/qrda00212pl.jpg" alt="ペニバン顔騎 洗脳改造男性の支配 水樹清華" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/qrda00212/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              ペニバン顔騎 洗脳改造男性の支配 水樹清華
+            </h2>
+
             
+              <div class="meta">公開日：2026-03-07 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dqrda00212&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">水樹清華</span>
+                
+              </div>
+            
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">その他フェチ</span>
+                
+                  <span class="tag">M男</span>
+                
+                  <span class="tag">単体作品</span>
+                
+                  <span class="tag">アナル</span>
+                
+                  <span class="tag">SM</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/qrda00212/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dqrda00212&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/nkd00338/nkd00338pl.jpg" alt="性玩女優 廃人マゾ犬 ゆうきすず" loading="lazy">
-        <div class="pad">
-          <h2 class="title">性玩女優 廃人マゾ犬 ゆうきすず</h2>
-          <div class="meta">公開日：2026-03-07 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="性玩女優 廃人マゾ犬 ゆうきすず"
+          data-actresses="ゆうきすず"
+          data-tags="独占配信 ハメ撮り 単体作品 淫乱・ハード系 sm m女"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">ハメ撮り</span>
-            
-              <span class="tag">単体作品</span>
-            
-              <span class="tag">淫乱・ハード系</span>
-            
-              <span class="tag">SM</span>
-            
-              <span class="tag">M女</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/nkd00338/nkd00338pl.jpg" alt="性玩女優 廃人マゾ犬 ゆうきすず" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/nkd00338/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              性玩女優 廃人マゾ犬 ゆうきすず
+            </h2>
+
             
+              <div class="meta">公開日：2026-03-07 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dnkd00338&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">ゆうきすず</span>
+                
+              </div>
+            
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">ハメ撮り</span>
+                
+                  <span class="tag">単体作品</span>
+                
+                  <span class="tag">淫乱・ハード系</span>
+                
+                  <span class="tag">SM</span>
+                
+                  <span class="tag">M女</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/nkd00338/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dnkd00338&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/nask00370/nask00370pl.jpg" alt="牝捕虜拘束痴獄と強引イラマチオの躾け2" loading="lazy">
-        <div class="pad">
-          <h2 class="title">牝捕虜拘束痴獄と強引イラマチオの躾け2</h2>
-          <div class="meta">公開日：2026-03-07 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="牝捕虜拘束痴獄と強引イラマチオの躾け2"
+          data-actresses=""
+          data-tags="独占配信 sm 監禁 スパンキング イラマチオ"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">SM</span>
-            
-              <span class="tag">監禁</span>
-            
-              <span class="tag">スパンキング</span>
-            
-              <span class="tag">イラマチオ</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/nask00370/nask00370pl.jpg" alt="牝捕虜拘束痴獄と強引イラマチオの躾け2" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/nask00370/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              牝捕虜拘束痴獄と強引イラマチオの躾け2
+            </h2>
+
             
+              <div class="meta">公開日：2026-03-07 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dnask00370&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">SM</span>
+                
+                  <span class="tag">監禁</span>
+                
+                  <span class="tag">スパンキング</span>
+                
+                  <span class="tag">イラマチオ</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/nask00370/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dnask00370&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/gma00092/gma00092pl.jpg" alt="緊縛調教妻 忙しい夫に寂しさを感じていた人妻が堕ちた金融詐欺。返済できない借金の代わりに縛られ犯●れた身体 浜辺栞帆" loading="lazy">
-        <div class="pad">
-          <h2 class="title">緊縛調教妻 忙しい夫に寂しさを感じていた人妻が堕ちた金融詐欺。返済できない借金の代わりに縛られ犯●れた身体 浜辺栞帆</h2>
-          <div class="meta">公開日：2026-03-07 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="緊縛調教妻 忙しい夫に寂しさを感じていた人妻が堕ちた金融詐欺。返済できない借金の代わりに縛られ犯●れた身体 浜辺栞帆"
+          data-actresses="浜辺栞帆"
+          data-tags="独占配信 単体作品 辱め 縛り・緊縛 熟女 sm"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">単体作品</span>
-            
-              <span class="tag">辱め</span>
-            
-              <span class="tag">縛り・緊縛</span>
-            
-              <span class="tag">熟女</span>
-            
-              <span class="tag">SM</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/gma00092/gma00092pl.jpg" alt="緊縛調教妻 忙しい夫に寂しさを感じていた人妻が堕ちた金融詐欺。返済できない借金の代わりに縛られ犯●れた身体 浜辺栞帆" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/gma00092/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              緊縛調教妻 忙しい夫に寂しさを感じていた人妻が堕ちた金融詐欺。返済できない借金の代わりに縛られ犯●れた身体 浜辺栞帆
+            </h2>
+
             
+              <div class="meta">公開日：2026-03-07 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dgma00092&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">浜辺栞帆</span>
+                
+              </div>
+            
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">単体作品</span>
+                
+                  <span class="tag">辱め</span>
+                
+                  <span class="tag">縛り・緊縛</span>
+                
+                  <span class="tag">熟女</span>
+                
+                  <span class="tag">SM</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/gma00092/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dgma00092&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/gma00091/gma00091pl.jpg" alt="緊縛調教妻 崖崩れで帰宅困難になった山奥で見つけた旅館で縄調教と尻穴開発の餌食となった悲哀の若妻 美波こづえ" loading="lazy">
-        <div class="pad">
-          <h2 class="title">緊縛調教妻 崖崩れで帰宅困難になった山奥で見つけた旅館で縄調教と尻穴開発の餌食となった悲哀の若妻 美波こづえ</h2>
-          <div class="meta">公開日：2026-03-07 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="緊縛調教妻 崖崩れで帰宅困難になった山奥で見つけた旅館で縄調教と尻穴開発の餌食となった悲哀の若妻 美波こづえ"
+          data-actresses="美波こづえ"
+          data-tags="独占配信 辱め sm 単体作品 熟女 縛り・緊縛"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">辱め</span>
-            
-              <span class="tag">SM</span>
-            
-              <span class="tag">単体作品</span>
-            
-              <span class="tag">熟女</span>
-            
-              <span class="tag">縛り・緊縛</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/gma00091/gma00091pl.jpg" alt="緊縛調教妻 崖崩れで帰宅困難になった山奥で見つけた旅館で縄調教と尻穴開発の餌食となった悲哀の若妻 美波こづえ" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/gma00091/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              緊縛調教妻 崖崩れで帰宅困難になった山奥で見つけた旅館で縄調教と尻穴開発の餌食となった悲哀の若妻 美波こづえ
+            </h2>
+
             
+              <div class="meta">公開日：2026-03-07 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dgma00091&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">美波こづえ</span>
+                
+              </div>
+            
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">辱め</span>
+                
+                  <span class="tag">SM</span>
+                
+                  <span class="tag">単体作品</span>
+                
+                  <span class="tag">熟女</span>
+                
+                  <span class="tag">縛り・緊縛</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/gma00091/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dgma00091&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/cmv00204/cmv00204pl.jpg" alt="ビクセン浣腸スペシャル 肛悦にすすり泣くアヌス3" loading="lazy">
-        <div class="pad">
-          <h2 class="title">ビクセン浣腸スペシャル 肛悦にすすり泣くアヌス3</h2>
-          <div class="meta">公開日：2026-03-07 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="ビクセン浣腸スペシャル 肛悦にすすり泣くアヌス3"
+          data-actresses="西田カリナ 大谷しおり 辻本りょう 桜咲姫莉 菅井はづき 三浦春佳 中里美穂 藤野真理 佐川はるみ"
+          data-tags="独占配信 尻フェチ sm 縛り・緊縛 浣腸"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">尻フェチ</span>
-            
-              <span class="tag">SM</span>
-            
-              <span class="tag">縛り・緊縛</span>
-            
-              <span class="tag">浣腸</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/cmv00204/cmv00204pl.jpg" alt="ビクセン浣腸スペシャル 肛悦にすすり泣くアヌス3" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/cmv00204/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              ビクセン浣腸スペシャル 肛悦にすすり泣くアヌス3
+            </h2>
+
             
+              <div class="meta">公開日：2026-03-07 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dcmv00204&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">西田カリナ</span>
+                
+                  <span class="tag">大谷しおり</span>
+                
+                  <span class="tag">辻本りょう</span>
+                
+                  <span class="tag">桜咲姫莉</span>
+                
+                  <span class="tag">菅井はづき</span>
+                
+                  <span class="tag">三浦春佳</span>
+                
+                  <span class="tag">中里美穂</span>
+                
+                  <span class="tag">藤野真理</span>
+                
+                  <span class="tag">佐川はるみ</span>
+                
+              </div>
+            
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">尻フェチ</span>
+                
+                  <span class="tag">SM</span>
+                
+                  <span class="tag">縛り・緊縛</span>
+                
+                  <span class="tag">浣腸</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/cmv00204/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dcmv00204&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/cmv00203/cmv00203pl.jpg" alt="牝檻収監 飼い慣らされたマゾ堕ちペット 美木ひなの" loading="lazy">
-        <div class="pad">
-          <h2 class="title">牝檻収監 飼い慣らされたマゾ堕ちペット 美木ひなの</h2>
-          <div class="meta">公開日：2026-03-07 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="牝檻収監 飼い慣らされたマゾ堕ちペット 美木ひなの"
+          data-actresses="美木ひなの"
+          data-tags="独占配信 巨乳 sm 単体作品 縛り・緊縛 ボンテージ"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">巨乳</span>
-            
-              <span class="tag">SM</span>
-            
-              <span class="tag">単体作品</span>
-            
-              <span class="tag">縛り・緊縛</span>
-            
-              <span class="tag">ボンテージ</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/cmv00203/cmv00203pl.jpg" alt="牝檻収監 飼い慣らされたマゾ堕ちペット 美木ひなの" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/cmv00203/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              牝檻収監 飼い慣らされたマゾ堕ちペット 美木ひなの
+            </h2>
+
             
+              <div class="meta">公開日：2026-03-07 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dcmv00203&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">美木ひなの</span>
+                
+              </div>
+            
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">巨乳</span>
+                
+                  <span class="tag">SM</span>
+                
+                  <span class="tag">単体作品</span>
+                
+                  <span class="tag">縛り・緊縛</span>
+                
+                  <span class="tag">ボンテージ</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/cmv00203/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dcmv00203&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/cmk00044/cmk00044pl.jpg" alt="汚辱まみれの特盛り母娘丼2" loading="lazy">
-        <div class="pad">
-          <h2 class="title">汚辱まみれの特盛り母娘丼2</h2>
-          <div class="meta">公開日：2026-03-07 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="汚辱まみれの特盛り母娘丼2"
+          data-actresses="神坂ひなの 乃南ゆい 君嶋かほる 上島美都子 愛星えこ 蓬莱かすみ 本宮杏珠 吉田彩 望月あやか"
+          data-tags="独占配信 sm 娘・養女 ベスト・総集編 お母さん"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">SM</span>
-            
-              <span class="tag">娘・養女</span>
-            
-              <span class="tag">ベスト・総集編</span>
-            
-              <span class="tag">お母さん</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/cmk00044/cmk00044pl.jpg" alt="汚辱まみれの特盛り母娘丼2" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/cmk00044/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              汚辱まみれの特盛り母娘丼2
+            </h2>
+
             
+              <div class="meta">公開日：2026-03-07 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dcmk00044&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">神坂ひなの</span>
+                
+                  <span class="tag">乃南ゆい</span>
+                
+                  <span class="tag">君嶋かほる</span>
+                
+                  <span class="tag">上島美都子</span>
+                
+                  <span class="tag">愛星えこ</span>
+                
+                  <span class="tag">蓬莱かすみ</span>
+                
+                  <span class="tag">本宮杏珠</span>
+                
+                  <span class="tag">吉田彩</span>
+                
+                  <span class="tag">望月あやか</span>
+                
+              </div>
+            
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">SM</span>
+                
+                  <span class="tag">娘・養女</span>
+                
+                  <span class="tag">ベスト・総集編</span>
+                
+                  <span class="tag">お母さん</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/cmk00044/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dcmk00044&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/cemd00817/cemd00817pl.jpg" alt="緊縛におぼれた‘メス犬調教’OL 波多野結衣" loading="lazy">
-        <div class="pad">
-          <h2 class="title">緊縛におぼれた‘メス犬調教’OL 波多野結衣</h2>
-          <div class="meta">公開日：2026-03-07 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="緊縛におぼれた‘メス犬調教’ol 波多野結衣"
+          data-actresses="波多野結衣"
+          data-tags="独占配信 sm 巨乳 単体作品 熟女 m女 巨尻"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">SM</span>
-            
-              <span class="tag">巨乳</span>
-            
-              <span class="tag">単体作品</span>
-            
-              <span class="tag">熟女</span>
-            
-              <span class="tag">M女</span>
-            
-              <span class="tag">巨尻</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/cemd00817/cemd00817pl.jpg" alt="緊縛におぼれた‘メス犬調教’OL 波多野結衣" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/cemd00817/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              緊縛におぼれた‘メス犬調教’OL 波多野結衣
+            </h2>
+
             
+              <div class="meta">公開日：2026-03-07 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dcemd00817&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">波多野結衣</span>
+                
+              </div>
+            
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">SM</span>
+                
+                  <span class="tag">巨乳</span>
+                
+                  <span class="tag">単体作品</span>
+                
+                  <span class="tag">熟女</span>
+                
+                  <span class="tag">M女</span>
+                
+                  <span class="tag">巨尻</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/cemd00817/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dcemd00817&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/advo00231/advo00231pl.jpg" alt="アルゴラグニア官能IX" loading="lazy">
-        <div class="pad">
-          <h2 class="title">アルゴラグニア官能IX</h2>
-          <div class="meta">公開日：2026-03-07 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="アルゴラグニア官能ix"
+          data-actresses="杉浦みき 桐島まどか 糸井直美 尾崎麻衣 高瀬陽子 咲山理沙 桜沢夕子 麻生みく"
+          data-tags="独占配信 スパンキング 縛り・緊縛 妄想族 蝋燭 バイブ sm"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">スパンキング</span>
-            
-              <span class="tag">縛り・緊縛</span>
-            
-              <span class="tag">妄想族</span>
-            
-              <span class="tag">蝋燭</span>
-            
-              <span class="tag">バイブ</span>
-            
-              <span class="tag">SM</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/advo00231/advo00231pl.jpg" alt="アルゴラグニア官能IX" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/advo00231/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              アルゴラグニア官能IX
+            </h2>
+
             
+              <div class="meta">公開日：2026-03-07 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dadvo00231&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">杉浦みき</span>
+                
+                  <span class="tag">桐島まどか</span>
+                
+                  <span class="tag">糸井直美</span>
+                
+                  <span class="tag">尾崎麻衣</span>
+                
+                  <span class="tag">高瀬陽子</span>
+                
+                  <span class="tag">咲山理沙</span>
+                
+                  <span class="tag">桜沢夕子</span>
+                
+                  <span class="tag">麻生みく</span>
+                
+              </div>
+            
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">スパンキング</span>
+                
+                  <span class="tag">縛り・緊縛</span>
+                
+                  <span class="tag">妄想族</span>
+                
+                  <span class="tag">蝋燭</span>
+                
+                  <span class="tag">バイブ</span>
+                
+                  <span class="tag">SM</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/advo00231/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dadvo00231&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/rki00744/rki00744pl.jpg" alt="縛られたり、首を絞められたりすることで絶頂する変態女子大生のドMアルバイト。 私、痛いことをされたくって派遣SM倶楽部のM嬢として働いてるんです！ 西尾まりな" loading="lazy">
-        <div class="pad">
-          <h2 class="title">縛られたり、首を絞められたりすることで絶頂する変態女子大生のドMアルバイト。 私、痛いことをされたくって派遣SM倶楽部のM嬢として働いてるんです！ 西尾まりな</h2>
-          <div class="meta">公開日：2026-03-06 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="縛られたり、首を絞められたりすることで絶頂する変態女子大生のドmアルバイト。 私、痛いことをされたくって派遣sm倶楽部のm嬢として働いてるんです！ 西尾まりな"
+          data-actresses="西尾まりな"
+          data-tags="ハイビジョン 独占配信 単体作品 女子大生 縛り・緊縛 sm アクメ・オーガズム 中出し"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">ハイビジョン</span>
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">単体作品</span>
-            
-              <span class="tag">女子大生</span>
-            
-              <span class="tag">縛り・緊縛</span>
-            
-              <span class="tag">SM</span>
-            
-              <span class="tag">アクメ・オーガズム</span>
-            
-              <span class="tag">中出し</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/rki00744/rki00744pl.jpg" alt="縛られたり、首を絞められたりすることで絶頂する変態女子大生のドMアルバイト。 私、痛いことをされたくって派遣SM倶楽部のM嬢として働いてるんです！ 西尾まりな" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/rki00744/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              縛られたり、首を絞められたりすることで絶頂する変態女子大生のドMアルバイト。 私、痛いことをされたくって派遣SM倶楽部のM嬢として働いてるんです！ 西尾まりな
+            </h2>
+
             
+              <div class="meta">公開日：2026-03-06 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Drki00744&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">西尾まりな</span>
+                
+              </div>
+            
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">ハイビジョン</span>
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">単体作品</span>
+                
+                  <span class="tag">女子大生</span>
+                
+                  <span class="tag">縛り・緊縛</span>
+                
+                  <span class="tag">SM</span>
+                
+                  <span class="tag">アクメ・オーガズム</span>
+                
+                  <span class="tag">中出し</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/rki00744/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Drki00744&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/jur00690/jur00690pl.jpg" alt="絶対にバレてはいけない関係性―。 彼女の母は憂さ晴らし専用マゾ乳ペット 森かおり" loading="lazy">
-        <div class="pad">
-          <h2 class="title">絶対にバレてはいけない関係性―。 彼女の母は憂さ晴らし専用マゾ乳ペット 森かおり</h2>
-          <div class="meta">公開日：2026-03-06 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="絶対にバレてはいけない関係性―。 彼女の母は憂さ晴らし専用マゾ乳ペット 森かおり"
+          data-actresses="森かおり"
+          data-tags="ハイビジョン 独占配信 中出し 単体作品 人妻・主婦 ドラマ 熟女 sm"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">ハイビジョン</span>
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">中出し</span>
-            
-              <span class="tag">単体作品</span>
-            
-              <span class="tag">人妻・主婦</span>
-            
-              <span class="tag">ドラマ</span>
-            
-              <span class="tag">熟女</span>
-            
-              <span class="tag">SM</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/jur00690/jur00690pl.jpg" alt="絶対にバレてはいけない関係性―。 彼女の母は憂さ晴らし専用マゾ乳ペット 森かおり" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/jur00690/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              絶対にバレてはいけない関係性―。 彼女の母は憂さ晴らし専用マゾ乳ペット 森かおり
+            </h2>
+
             
+              <div class="meta">公開日：2026-03-06 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Djur00690&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">森かおり</span>
+                
+              </div>
+            
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">ハイビジョン</span>
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">中出し</span>
+                
+                  <span class="tag">単体作品</span>
+                
+                  <span class="tag">人妻・主婦</span>
+                
+                  <span class="tag">ドラマ</span>
+                
+                  <span class="tag">熟女</span>
+                
+                  <span class="tag">SM</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/jur00690/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Djur00690&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-      <article class="card">
-        <img class="thumb" src="https://pics.dmm.co.jp/digital/video/jums00164/jums00164pl.jpg" alt="女上司、歪んだ刺激と躾に溺れる、SM不倫性交。 昼休みはダメな部下に躾けられて…。8時間BEST 専属美女7名の『苦しみ』という快楽を解放―" loading="lazy">
-        <div class="pad">
-          <h2 class="title">女上司、歪んだ刺激と躾に溺れる、SM不倫性交。 昼休みはダメな部下に躾けられて…。8時間BEST 専属美女7名の『苦しみ』という快楽を解放―</h2>
-          <div class="meta">公開日：2026-03-06 00:00:00</div>
+        
+        
+        
 
+        <article class="card work-item"
+          data-title="女上司、歪んだ刺激と躾に溺れる、sm不倫性交。 昼休みはダメな部下に躾けられて…。8時間best 専属美女7名の『苦しみ』という快楽を解放―"
+          data-actresses="水戸かな 木下凛々子 上羽絢 白石茉莉奈 愛弓りょう 竹内有紀 加藤あやの"
+          data-tags="ハイビジョン 独占配信 中出し 人妻・主婦 女上司 sm 熟女"
+        >
           
-          <div class="tags">
-            
-              <span class="tag">ハイビジョン</span>
-            
-              <span class="tag">独占配信</span>
-            
-              <span class="tag">中出し</span>
-            
-              <span class="tag">人妻・主婦</span>
-            
-              <span class="tag">女上司</span>
-            
-              <span class="tag">SM</span>
-            
-              <span class="tag">熟女</span>
-            
-          </div>
+            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/jums00164/jums00164pl.jpg" alt="女上司、歪んだ刺激と躾に溺れる、SM不倫性交。 昼休みはダメな部下に躾けられて…。8時間BEST 専属美女7名の『苦しみ』という快楽を解放―" loading="lazy">
           
 
-          <div class="actions">
-            <a class="btn secondary" href="../../works/jums00164/">詳細を見る</a>
+          <div class="pad">
+            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
+              女上司、歪んだ刺激と躾に溺れる、SM不倫性交。 昼休みはダメな部下に躾けられて…。8時間BEST 専属美女7名の『苦しみ』という快楽を解放―
+            </h2>
+
             
+              <div class="meta">公開日：2026-03-06 00:00:00</div>
             
-              <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Djums00164&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+
             
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">水戸かな</span>
+                
+                  <span class="tag">木下凛々子</span>
+                
+                  <span class="tag">上羽絢</span>
+                
+                  <span class="tag">白石茉莉奈</span>
+                
+                  <span class="tag">愛弓りょう</span>
+                
+                  <span class="tag">竹内有紀</span>
+                
+                  <span class="tag">加藤あやの</span>
+                
+              </div>
+            
+
+            
+              <div class="tags" style="margin-top:10px;">
+                
+                  <span class="tag">ハイビジョン</span>
+                
+                  <span class="tag">独占配信</span>
+                
+                  <span class="tag">中出し</span>
+                
+                  <span class="tag">人妻・主婦</span>
+                
+                  <span class="tag">女上司</span>
+                
+                  <span class="tag">SM</span>
+                
+                  <span class="tag">熟女</span>
+                
+              </div>
+            
+
+            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+              <a class="btn secondary" href="../../works/jums00164/">詳細を見る</a>
+              
+                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Djums00164&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
+              
+            </div>
           </div>
-        </div>
-      </article>
+        </article>
       
-    </div>
+    </section>
 
-    <div class="footer">© 2026 Review Catalog</div>
+    <footer class="footer" style="margin:22px 0 30px; color:rgba(0,0,0,.5); text-align:center;">
+      © 2026 Review Catalog
+    </footer>
   </main>
+
+  <script>
+    (function(){
+      const q = document.getElementById("q");
+      const actress = document.getElementById("actress");
+      const tag = document.getElementById("tag");
+      const reset = document.getElementById("reset");
+
+      const items = Array.from(document.querySelectorAll(".work-item"));
+      const shownEl = document.getElementById("shown");
+      const totalEl = document.getElementById("total");
+
+      totalEl.textContent = String(items.length);
+
+      function norm(s){ return (s || "").toString().trim().toLowerCase(); }
+
+      function apply(){
+        const kw = norm(q.value);
+        const a = norm(actress.value);
+        const t = norm(tag.value);
+
+        let shown = 0;
+
+        for (const el of items){
+          const title = el.dataset.title || "";
+          const as = el.dataset.actresses || "";
+          const tags = el.dataset.tags || "";
+
+          const okKw = !kw || (title.includes(kw) || as.includes(kw) || tags.includes(kw));
+          const okA  = !a  || as.includes(a);
+          const okT  = !t  || tags.includes(t);
+
+          const ok = okKw && okA && okT;
+
+          el.classList.toggle("is-hidden", !ok);
+          if (ok) shown++;
+        }
+
+        shownEl.textContent = String(shown);
+      }
+
+      q.addEventListener("input", apply);
+      actress.addEventListener("change", apply);
+      tag.addEventListener("change", apply);
+      reset.addEventListener("click", function(){
+        q.value = "";
+        actress.value = "";
+        tag.value = "";
+        apply();
+        q.focus();
+      });
+
+      apply();
+    })();
+  </script>
 </body>
 </html>
