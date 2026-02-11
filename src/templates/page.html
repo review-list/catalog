@@ -50,6 +50,36 @@
       </div>
     </article>
 
+{% if related_works and related_works|length > 0 %}
+  <hr style="margin:18px 0; border:0; border-top:1px solid rgba(255,255,255,.08);">
+
+  <h2 style="margin:0 0 10px;">関連作品（同じ女優）</h2>
+
+  <div class="grid">
+    {% for rw in related_works %}
+      <div class="card">
+        {% if rw.hero_image %}
+          <img class="thumb" src="{{ rw.hero_image }}" alt="{{ rw.title }}" loading="lazy">
+        {% endif %}
+        <div class="pad">
+          <p class="title" style="margin:0 0 6px;">
+            {{ rw.title }}
+          </p>
+          <div class="meta">公開日：{{ rw.release_date }}</div>
+
+          <div class="actions">
+            <a class="btn secondary" href="{{ works_prefix }}{{ rw.id }}/">詳細を見る</a>
+            {% if rw.official_url %}
+              <a class="btn" href="{{ rw.official_url }}" target="_blank" rel="noopener">公式ページを見る</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+
     <div class="footer">© 2026 {{ site_name }}</div>
   </main>
 </body>
