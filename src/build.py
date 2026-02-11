@@ -106,18 +106,65 @@ def main():
     )
 
     # =============================
-    # 2) 作品個別ページ
+    # 2) 作品個別ページ（関連作品つき）
     # =============================
+
+    # 作品ID→作品 dict の辞書（参照用）
+    works_by_id = {}
+    for ww in works:
+        if isinstance(ww, dict) and ww.get("id"):
+            works_by_id[ww["id"]] = ww
+
+    # 女優名→作品IDのリスト（関連作品用）
+    actress_to_ids: dict[str, list[str]] = {}
+    for ww in works:
+        if not isinstance(ww, dict):
+            continue
+        wid = ww.get("id")
+        if not wid:
+            continue
+        for a in (ww.get("actresses") or []):
+            if not a:
+                continue
+            actress_to_ids.setdefault(a, []).append(wid)
+
+    def get_related_works(current_work: dict, limit: int = 12) -> list[dict]:
+        """同じ女優の作品を集めて返す（自分自身は除外）"""
+        cur_id = current_work.get("id")
+        cur_actresses = current_work.get("actresses") or []
+
+        # 女優が取れてない場合は関連なし
+        if not cur_actresses:
+            return []
+
+        related_ids: list[str] = []
+        for a in cur_actresses:
+            for wid in actress_to_ids.get(a, []):
+                if wid == cur_id:
+                    continue
+                if wid not in related_ids:
+                    related_ids.append(wid)
+
+        # 作品dictに変換
+        related = [works_by_id[wid] for wid in related_ids if wid in works_by_id]
+
+        # 新しい順（release_date降順）にして上位limit件
+        related.sort(key=lambda x: (x.get("release_date") or ""), reverse=True)
+        return related[:limit]
+
     for w in works:
         wid = w.get("id")
         if not wid:
             continue
+
+        related_works = get_related_works(w, limit=12)
 
         write_text(
             OUT / "works" / str(wid) / "index.html",
             tpl_page.render(
                 site_name=site_name,
                 w=w,
+                related_works=related_works,  # ← 追加
                 css_path=CSS_2DOWN,
                 home_href="../../",
                 actresses_href="../../actresses/",
@@ -125,8 +172,6 @@ def main():
                 works_prefix="../../works/",
             ),
         )
-
-    actresses, actresses_keys, genres, genres_keys = build_indexes_from_works(works)
 
     # =============================
     # 3) 女優一覧ページ
