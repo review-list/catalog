@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Review Catalog - 検索</title>
+  <meta name="description" content="作品検索ページです。" />
+
+  
+    <link rel="stylesheet" href="../assets/style.css">
+  
+
+  <style>
+    .controls{margin:14px 0 16px; display:grid; gap:10px;}
+    .controls .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
+    .controls input[type="search"], .controls select{
+      padding:10px 12px; border-radius:12px; border:1px solid rgba(0,0,0,.12); background:#fff; min-width:220px;
+    }
+    .controls button{
+      padding:10px 12px; border-radius:12px; border:1px solid rgba(0,0,0,.12); background:#fff; cursor:pointer; font-weight:700;
+    }
+    .count{color: rgba(0,0,0,.55); font-size:14px; margin-left:auto;}
+    .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px;}
+    .card{background:#fff; border-radius:14px; overflow:hidden; box-shadow:0 6px 20px rgba(0,0,0,.06);}
+    .thumb{width:100%; height:180px; object-fit:cover; display:block;}
+    .pad{padding:14px;}
+    .title{font-size:16px; margin:0 0 6px; font-weight:800; line-height:1.35;}
+    .meta{color:#6b7280; font-size:13px;}
+    .tags{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;}
+    .tag{background:#eef2ff; color:#3730a3; padding:6px 10px; border-radius:999px; font-size:12px;}
+    .actions{margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;}
+    a.btn{display:inline-block; background:#2563eb; color:#fff; text-decoration:none; padding:10px 12px; border-radius:12px; font-weight:800;}
+    a.btn.secondary{background:#e5e7eb; color:#111827;}
+    .pager{display:flex; gap:8px; align-items:center; justify-content:center; margin:16px 0 24px; flex-wrap:wrap;}
+    .pager button{padding:8px 10px; border-radius:10px; border:1px solid rgba(0,0,0,.12); background:#fff; cursor:pointer;}
+    .pager .info{color:rgba(0,0,0,.6); font-size:13px;}
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container">
+      <div class="brand">
+        <a href="../" style="text-decoration:none;color:inherit;">
+          <strong>Review Catalog</strong>
+        </a>
+      </div>
+      <nav class="nav" style="margin-top:10px; display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="../">ホーム</a>
+        <a href="../pages/1/">全作品（ページ）</a>
+        <a href="../actresses/">女優</a>
+        <a href="../genres/">ジャンル</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1 style="margin:16px 0 8px;">検索</h1>
+
+    <section class="controls" aria-label="検索と絞り込み">
+      <div class="row">
+        <input id="q" type="search" placeholder="タイトル / 女優 / タグで検索" autocomplete="off">
+
+        <select id="actress">
+          <option value="">女優（すべて）</option>
+        </select>
+
+        <select id="tag">
+          <option value="">タグ（すべて）</option>
+        </select>
+
+        <button id="reset" type="button">リセット</button>
+
+        <div class="count">
+          <span id="shown">0</span> / <span id="total">0</span> 件
+        </div>
+      </div>
+      <div class="row">
+        <div class="meta">※作品数が何万件でも動くように、JSONから検索して必要な分だけ表示します。</div>
+      </div>
+    </section>
+
+    <section class="grid" id="results"></section>
+
+    <div class="pager" id="pager" hidden>
+      <button id="prev">前へ</button>
+      <span class="info" id="pageinfo"></span>
+      <button id="next">次へ</button>
+    </div>
+
+    <footer class="footer" style="margin:22px 0 30px; color:rgba(0,0,0,.5); text-align:center;">
+      © 2026 Review Catalog
+    </footer>
+  </main>
+
+  <script>
+    (function(){
+      const DATA_URL = "../assets/works_index.json"; // 例: ../assets/works_index.json
+
+      const q = document.getElementById("q");
+      const actress = document.getElementById("actress");
+      const tag = document.getElementById("tag");
+      const reset = document.getElementById("reset");
+      const results = document.getElementById("results");
+      const shownEl = document.getElementById("shown");
+      const totalEl = document.getElementById("total");
+
+      const pager = document.getElementById("pager");
+      const prevBtn = document.getElementById("prev");
+      const nextBtn = document.getElementById("next");
+      const pageInfo = document.getElementById("pageinfo");
+
+      const PER_PAGE = 24;
+
+      let all = [];          // 全件（軽量）
+      let filtered = [];     // 絞り込み結果
+      let page = 1;
+
+      function norm(s){ return (s||"").toString().trim().toLowerCase(); }
+
+      function uniqSorted(arr){
+        return Array.from(new Set(arr.filter(Boolean))).sort((a,b)=> a.localeCompare(b, "ja"));
+      }
+
+      function fillSelect(selectEl, values){
+        selectEl.innerHTML = selectEl.id === "actress"
+          ? '<option value="">女優（すべて）</option>'
+          : '<option value="">タグ（すべて）</option>';
+        for (const v of values){
+          const opt = document.createElement("option");
+          opt.value = v;
+          opt.textContent = v;
+          selectEl.appendChild(opt);
+        }
+      }
+
+      function applyFilters(){
+        const kw = norm(q.value);
+        const a = norm(actress.value);
+        const t = norm(tag.value);
+
+        filtered = all.filter(x => {
+          const title = norm(x.title);
+          const as = norm((x.actresses||[]).join(" "));
+          const tags = norm((x.tags||[]).join(" "));
+          const okKw = !kw || title.includes(kw) || as.includes(kw) || tags.includes(kw);
+          const okA  = !a  || as.includes(a);
+          const okT  = !t  || tags.includes(t);
+          return okKw && okA && okT;
+        });
+
+        page = 1;
+        render();
+      }
+
+      function render(){
+        totalEl.textContent = String(all.length);
+        shownEl.textContent = String(filtered.length);
+
+        // ページング
+        const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
+        if (page > totalPages) page = totalPages;
+
+        const start = (page - 1) * PER_PAGE;
+        const view = filtered.slice(start, start + PER_PAGE);
+
+        results.innerHTML = "";
+        for (const w of view){
+          const card = document.createElement("article");
+          card.className = "card";
+
+          const img = w.hero_image ? `<img class="thumb" src="${w.hero_image}" alt="${escapeHtml(w.title)}" loading="lazy">` : "";
+          const date = w.release_date ? `<div class="meta">公開日：${escapeHtml(w.release_date)}</div>` : "";
+
+          const actressesHtml = (w.actresses && w.actresses.length)
+            ? `<div class="tags">${w.actresses.slice(0,6).map(a=>`<span class="tag">${escapeHtml(a)}</span>`).join("")}</div>`
+            : "";
+
+          const tagsHtml = (w.tags && w.tags.length)
+            ? `<div class="tags">${w.tags.slice(0,8).map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join("")}</div>`
+            : "";
+
+          const detailHref = `../works/${w.id}/`;
+
+          const actions = `
+            <div class="actions">
+              <a class="btn secondary" href="${detailHref}">詳細を見る</a>
+              ${w.official_url ? `<a class="btn" href="${w.official_url}" target="_blank" rel="noopener">公式ページを見る</a>` : ""}
+            </div>
+          `;
+
+          card.innerHTML = `
+            ${img}
+            <div class="pad">
+              <div class="title">${escapeHtml(w.title)}</div>
+              ${date}
+              ${actressesHtml}
+              ${tagsHtml}
+              ${actions}
+            </div>
+          `;
+          results.appendChild(card);
+        }
+
+        // ページャー表示
+        const needPager = filtered.length > PER_PAGE;
+        pager.hidden = !needPager;
+        if (needPager){
+          pageInfo.textContent = `${page} / ${totalPages}`;
+          prevBtn.disabled = (page <= 1);
+          nextBtn.disabled = (page >= totalPages);
+        }
+      }
+
+      function escapeHtml(s){
+        return (s||"").toString()
+          .replaceAll("&","&amp;")
+          .replaceAll("<","&lt;")
+          .replaceAll(">","&gt;")
+          .replaceAll('"',"&quot;")
+          .replaceAll("'","&#039;");
+      }
+
+      async function init(){
+        const res = await fetch(DATA_URL, {cache:"no-store"});
+        if (!res.ok) throw new Error("JSON取得に失敗: " + res.status);
+        all = await res.json();
+
+        // セレクト作成
+        const allActresses = uniqSorted(all.flatMap(x => x.actresses || []));
+        const allTags = uniqSorted(all.flatMap(x => x.tags || []));
+
+        fillSelect(actress, allActresses);
+        fillSelect(tag, allTags);
+
+        filtered = all.slice();
+        render();
+      }
+
+      q.addEventListener("input", applyFilters);
+      actress.addEventListener("change", applyFilters);
+      tag.addEventListener("change", applyFilters);
+      reset.addEventListener("click", () => {
+        q.value = ""; actress.value = ""; tag.value = "";
+        applyFilters();
+        q.focus();
+      });
+
+      prevBtn.addEventListener("click", () => { page = Math.max(1, page-1); render(); });
+      nextBtn.addEventListener("click", () => { page = page+1; render(); });
+
+      init().catch(err => {
+        results.innerHTML = `<div class="meta">読み込みエラー：${escapeHtml(err.message)}</div>`;
+      });
+    })();
+  </script>
+</body>
+</html>
