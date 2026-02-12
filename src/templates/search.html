@@ -16,6 +16,7 @@
     .controls input[type="search"], .controls select{
       padding:10px 12px; border-radius:12px; border:1px solid rgba(0,0,0,.12); background:#fff; min-width:220px;
     }
+    .controls select[multiple]{min-width:320px; height:140px; padding:10px;}
     .controls button{
       padding:10px 12px; border-radius:12px; border:1px solid rgba(0,0,0,.12); background:#fff; cursor:pointer; font-weight:700;
     }
@@ -34,6 +35,8 @@
     .pager{display:flex; gap:8px; align-items:center; justify-content:center; margin:16px 0 24px; flex-wrap:wrap;}
     .pager button{padding:8px 10px; border-radius:10px; border:1px solid rgba(0,0,0,.12); background:#fff; cursor:pointer;}
     .pager .info{color:rgba(0,0,0,.6); font-size:13px;}
+    .hint{color:rgba(0,0,0,.6); font-size:13px;}
+    .pill{display:inline-block; padding:6px 10px; border-radius:999px; border:1px solid rgba(0,0,0,.12); background:#fff;}
   </style>
 </head>
 
@@ -65,8 +68,15 @@
           <option value="">女優（すべて）</option>
         </select>
 
-        <select id="tag">
-          <option value="">タグ（すべて）</option>
+        <select id="sort">
+          <option value="new">新着順</option>
+          <option value="old">古い順</option>
+          <option value="title">タイトル順</option>
+        </select>
+
+        <select id="mode">
+          <option value="or">タグ OR（どれか含む）</option>
+          <option value="and">タグ AND（全部含む）</option>
         </select>
 
         <button id="reset" type="button">リセット</button>
@@ -75,8 +85,14 @@
           <span id="shown">0</span> / <span id="total">0</span> 件
         </div>
       </div>
+
       <div class="row">
-        <div class="meta">※作品数が何万件でも動くように、JSONから検索して必要な分だけ表示します。</div>
+        <div class="pill">タグ（複数選択OK）</div>
+        <select id="tags" multiple></select>
+        <div class="hint">
+          Ctrl（Macは⌘）で複数選択 / Shiftで範囲選択<br>
+          状態はURLに保存されます（共有できます）
+        </div>
       </div>
     </section>
 
@@ -99,8 +115,11 @@
 
       const q = document.getElementById("q");
       const actress = document.getElementById("actress");
-      const tag = document.getElementById("tag");
+      const tags = document.getElementById("tags");
+      const mode = document.getElementById("mode");
+      const sort = document.getElementById("sort");
       const reset = document.getElementById("reset");
+
       const results = document.getElementById("results");
       const shownEl = document.getElementById("shown");
       const totalEl = document.getElementById("total");
@@ -117,15 +136,30 @@
       let page = 1;
 
       function norm(s){ return (s||"").toString().trim().toLowerCase(); }
-
       function uniqSorted(arr){
         return Array.from(new Set(arr.filter(Boolean))).sort((a,b)=> a.localeCompare(b, "ja"));
       }
+      function escapeHtml(s){
+        return (s||"").toString()
+          .replaceAll("&","&amp;")
+          .replaceAll("<","&lt;")
+          .replaceAll(">","&gt;")
+          .replaceAll('"',"&quot;")
+          .replaceAll("'","&#039;");
+      }
 
-      function fillSelect(selectEl, values){
-        selectEl.innerHTML = selectEl.id === "actress"
-          ? '<option value="">女優（すべて）</option>'
-          : '<option value="">タグ（すべて）</option>';
+      function getSelectedValues(selectEl){
+        return Array.from(selectEl.selectedOptions).map(o => o.value).filter(Boolean);
+      }
+
+      function fillSelect(selectEl, values, firstLabel){
+        selectEl.innerHTML = "";
+        if (firstLabel !== null){
+          const opt = document.createElement("option");
+          opt.value = "";
+          opt.textContent = firstLabel;
+          selectEl.appendChild(opt);
+        }
         for (const v of values){
           const opt = document.createElement("option");
           opt.value = v;
@@ -134,30 +168,121 @@
         }
       }
 
-      function applyFilters(){
+      // -------------------------
+      // URL state
+      // -------------------------
+      function readStateFromUrl(){
+        const u = new URL(location.href);
+        return {
+          q: u.searchParams.get("q") || "",
+          a: u.searchParams.get("a") || "",
+          tags: (u.searchParams.get("tags") || "").split(",").filter(Boolean),
+          mode: u.searchParams.get("mode") || "or",
+          sort: u.searchParams.get("sort") || "new",
+          page: parseInt(u.searchParams.get("page") || "1", 10) || 1,
+        };
+      }
+
+      function writeStateToUrl({push=false} = {}){
+        const u = new URL(location.href);
+
+        const st = currentState();
+        if (st.q) u.searchParams.set("q", st.q); else u.searchParams.delete("q");
+        if (st.a) u.searchParams.set("a", st.a); else u.searchParams.delete("a");
+        if (st.tags.length) u.searchParams.set("tags", st.tags.join(",")); else u.searchParams.delete("tags");
+        if (st.mode && st.mode !== "or") u.searchParams.set("mode", st.mode); else u.searchParams.delete("mode");
+        if (st.sort && st.sort !== "new") u.searchParams.set("sort", st.sort); else u.searchParams.delete("sort");
+
+        // pageは共有用に残す（1なら消してスッキリでもOK）
+        if (page > 1) u.searchParams.set("page", String(page)); else u.searchParams.delete("page");
+
+        if (push) history.pushState({}, "", u.toString());
+        else history.replaceState({}, "", u.toString());
+      }
+
+      function applyStateToControls(st){
+        q.value = st.q || "";
+        actress.value = st.a || "";
+        mode.value = st.mode || "or";
+        sort.value = st.sort || "new";
+
+        // tagsは optionが入ってから選択する
+        const set = new Set(st.tags || []);
+        for (const opt of tags.options){
+          opt.selected = set.has(opt.value);
+        }
+
+        page = st.page || 1;
+      }
+
+      function currentState(){
+        return {
+          q: q.value.trim(),
+          a: actress.value,
+          tags: getSelectedValues(tags),
+          mode: mode.value,
+          sort: sort.value,
+        };
+      }
+
+      // -------------------------
+      // Filter & Sort
+      // -------------------------
+      function matchTags(itemTagsLower, selectedLower, modeVal){
+        if (!selectedLower.length) return true;
+        if (modeVal === "and"){
+          // 全部含む
+          return selectedLower.every(t => itemTagsLower.includes(t));
+        }
+        // OR：どれか含む
+        return selectedLower.some(t => itemTagsLower.includes(t));
+      }
+
+      function compareBySort(a, b, sortVal){
+        if (sortVal === "title"){
+          return (a.title||"").localeCompare((b.title||""), "ja");
+        }
+        if (sortVal === "old"){
+          return (a.release_date||"").localeCompare((b.release_date||""), "ja");
+        }
+        // new
+        return (b.release_date||"").localeCompare((a.release_date||""), "ja");
+      }
+
+      function applyFilters({resetPage=true} = {}){
         const kw = norm(q.value);
         const a = norm(actress.value);
-        const t = norm(tag.value);
+        const selectedTags = getSelectedValues(tags);
+        const selectedLower = selectedTags.map(norm);
+        const modeVal = mode.value;
+        const sortVal = sort.value;
 
         filtered = all.filter(x => {
           const title = norm(x.title);
           const as = norm((x.actresses||[]).join(" "));
-          const tags = norm((x.tags||[]).join(" "));
-          const okKw = !kw || title.includes(kw) || as.includes(kw) || tags.includes(kw);
+          const tg = norm((x.tags||[]).join(" "));
+
+          const okKw = !kw || title.includes(kw) || as.includes(kw) || tg.includes(kw);
           const okA  = !a  || as.includes(a);
-          const okT  = !t  || tags.includes(t);
+          const okT  = matchTags(tg, selectedLower, modeVal);
+
           return okKw && okA && okT;
         });
 
-        page = 1;
+        filtered.sort((x,y)=> compareBySort(x,y,sortVal));
+
+        if (resetPage) page = 1;
+        writeStateToUrl();
         render();
       }
 
+      // -------------------------
+      // Render
+      // -------------------------
       function render(){
         totalEl.textContent = String(all.length);
         shownEl.textContent = String(filtered.length);
 
-        // ページング
         const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
         if (page > totalPages) page = totalPages;
 
@@ -165,6 +290,7 @@
         const view = filtered.slice(start, start + PER_PAGE);
 
         results.innerHTML = "";
+
         for (const w of view){
           const card = document.createElement("article");
           card.className = "card";
@@ -202,7 +328,6 @@
           results.appendChild(card);
         }
 
-        // ページャー表示
         const needPager = filtered.length > PER_PAGE;
         pager.hidden = !needPager;
         if (needPager){
@@ -210,44 +335,71 @@
           prevBtn.disabled = (page <= 1);
           nextBtn.disabled = (page >= totalPages);
         }
+
+        // URLのpage反映
+        writeStateToUrl();
       }
 
-      function escapeHtml(s){
-        return (s||"").toString()
-          .replaceAll("&","&amp;")
-          .replaceAll("<","&lt;")
-          .replaceAll(">","&gt;")
-          .replaceAll('"',"&quot;")
-          .replaceAll("'","&#039;");
-      }
-
+      // -------------------------
+      // init
+      // -------------------------
       async function init(){
         const res = await fetch(DATA_URL, {cache:"no-store"});
         if (!res.ok) throw new Error("JSON取得に失敗: " + res.status);
+
         all = await res.json();
 
         // セレクト作成
         const allActresses = uniqSorted(all.flatMap(x => x.actresses || []));
         const allTags = uniqSorted(all.flatMap(x => x.tags || []));
 
-        fillSelect(actress, allActresses);
-        fillSelect(tag, allTags);
+        fillSelect(actress, allActresses, "女優（すべて）");
+        fillSelect(tags, allTags, null); // multipleなので先頭ラベル無し
 
-        filtered = all.slice();
+        // URL状態を適用
+        const st = readStateFromUrl();
+        applyStateToControls(st);
+
+        // 初回のフィルタ＆描画（pageはURLに合わせたいので resetPage=false）
+        applyFilters({resetPage:false});
+        // pageもURL通りにした後、renderでsliceされる
         render();
       }
 
-      q.addEventListener("input", applyFilters);
-      actress.addEventListener("change", applyFilters);
-      tag.addEventListener("change", applyFilters);
+      // events
+      q.addEventListener("input", () => applyFilters({resetPage:true}));
+      actress.addEventListener("change", () => applyFilters({resetPage:true}));
+      tags.addEventListener("change", () => applyFilters({resetPage:true}));
+      mode.addEventListener("change", () => applyFilters({resetPage:true}));
+      sort.addEventListener("change", () => applyFilters({resetPage:true}));
+
       reset.addEventListener("click", () => {
-        q.value = ""; actress.value = ""; tag.value = "";
-        applyFilters();
+        q.value = "";
+        actress.value = "";
+        for (const opt of tags.options) opt.selected = false;
+        mode.value = "or";
+        sort.value = "new";
+        page = 1;
+        applyFilters({resetPage:false});
         q.focus();
       });
 
-      prevBtn.addEventListener("click", () => { page = Math.max(1, page-1); render(); });
-      nextBtn.addEventListener("click", () => { page = page+1; render(); });
+      prevBtn.addEventListener("click", () => {
+        page = Math.max(1, page - 1);
+        render();
+      });
+      nextBtn.addEventListener("click", () => {
+        page = page + 1;
+        render();
+      });
+
+      window.addEventListener("popstate", () => {
+        // 戻る/進むでURL状態に追従
+        const st = readStateFromUrl();
+        applyStateToControls(st);
+        applyFilters({resetPage:false});
+        render();
+      });
 
       init().catch(err => {
         results.innerHTML = `<div class="meta">読み込みエラー：${escapeHtml(err.message)}</div>`;
