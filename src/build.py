@@ -96,6 +96,63 @@ def make_search_index(works: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
             "tags": w.get("tags") or [],
         })
     return out
+def count_top_tags_and_actresses(works: List[Dict[str, Any]], top_n: int = 30):
+    tag_count: Dict[str, int] = {}
+    actress_count: Dict[str, int] = {}
+
+    for w in works:
+        for t in (w.get("tags") or []):
+            if t:
+                tag_count[t] = tag_count.get(t, 0) + 1
+        for a in (w.get("actresses") or []):
+            if a:
+                actress_count[a] = actress_count.get(a, 0) + 1
+
+    # 件数が多い順 → 同数なら日本語順
+    top_tags = sorted(tag_count.items(), key=lambda x: (-x[1], x[0].lower()))[:top_n]
+    top_actresses = sorted(actress_count.items(), key=lambda x: (-x[1], x[0].lower()))[:top_n]
+
+    return tag_count, actress_count, top_tags, top_actresses
+
+
+def write_search_index_chunks(
+    works_sorted: List[Dict[str, Any]],
+    out_assets_dir: Path,
+    chunk_size: int = 2000,
+) -> None:
+    """
+    超大量対応：
+    - works_index_manifest.json … 目次（タグ/女優一覧・人気TOP・チャンク一覧）
+    - works_index_000.json, works_index_001.json ... … 分割データ
+    - works_index.json …（互換用）全件1ファイルも残す（任意）
+    """
+    search_index = make_search_index(works_sorted)
+
+    # 1) 互換用（小～中規模ならこれだけでもOK）
+    write_json(out_assets_dir / "works_index.json", search_index)
+
+    # 2) 分割
+    chunks = [search_index[i:i + chunk_size] for i in range(0, len(search_index), chunk_size)]
+    chunk_files = []
+    for i, ch in enumerate(chunks):
+        name = f"works_index_{i:03d}.json"
+        write_json(out_assets_dir / name, ch)
+        chunk_files.append(name)
+
+    # 3) manifest（検索ページが最初に読む）
+    tag_count, actress_count, top_tags, top_actresses = count_top_tags_and_actresses(works_sorted, top_n=40)
+
+    manifest = {
+        "version": 1,
+        "total_items": len(search_index),
+        "chunk_size": chunk_size,
+        "chunk_files": chunk_files,
+        "all_tags": sorted(tag_count.keys(), key=lambda s: s.lower()),
+        "all_actresses": sorted(actress_count.keys(), key=lambda s: s.lower()),
+        "top_tags": [{"name": k, "count": v} for k, v in top_tags],
+        "top_actresses": [{"name": k, "count": v} for k, v in top_actresses],
+    }
+    write_json(out_assets_dir / "works_index_manifest.json", manifest)
 
 
 def main():
@@ -360,3 +417,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
