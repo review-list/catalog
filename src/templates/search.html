@@ -32,11 +32,22 @@
     .actions{margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;}
     a.btn{display:inline-block; background:#2563eb; color:#fff; text-decoration:none; padding:10px 12px; border-radius:12px; font-weight:800;}
     a.btn.secondary{background:#e5e7eb; color:#111827;}
-    .pager{display:flex; gap:8px; align-items:center; justify-content:center; margin:16px 0 24px; flex-wrap:wrap;}
-    .pager button{padding:8px 10px; border-radius:10px; border:1px solid rgba(0,0,0,.12); background:#fff; cursor:pointer;}
-    .pager .info{color:rgba(0,0,0,.6); font-size:13px;}
+
     .hint{color:rgba(0,0,0,.6); font-size:13px;}
     .pill{display:inline-block; padding:6px 10px; border-radius:999px; border:1px solid rgba(0,0,0,.12); background:#fff;}
+
+    .top-tags{display:flex; gap:8px; flex-wrap:wrap; margin:4px 0 0;}
+    .top-tags button{
+      border:1px solid rgba(0,0,0,.12);
+      background:#fff;
+      border-radius:999px;
+      padding:6px 10px;
+      cursor:pointer;
+      font-size:12px;
+    }
+    .loadmore-wrap{display:flex; justify-content:center; margin:14px 0 24px;}
+    .status{color:rgba(0,0,0,.6); font-size:13px; margin-top:6px;}
+    .sentinel{height:1px;}
   </style>
 </head>
 
@@ -86,23 +97,31 @@
         </div>
       </div>
 
+      <div class="row" style="align-items:flex-start;">
+        <div>
+          <div class="pill">人気タグ（クリックで追加）</div>
+          <div class="top-tags" id="topTags"></div>
+          <div class="status" id="loadStatus"></div>
+        </div>
+      </div>
+
       <div class="row">
         <div class="pill">タグ（複数選択OK）</div>
         <select id="tags" multiple></select>
         <div class="hint">
           Ctrl（Macは⌘）で複数選択 / Shiftで範囲選択<br>
-          状態はURLに保存されます（共有できます）
+          状態はURLに保存されます（共有できます）<br>
+          ※大量時は分割JSONを順次読み込みながら検索します
         </div>
       </div>
     </section>
 
     <section class="grid" id="results"></section>
 
-    <div class="pager" id="pager" hidden>
-      <button id="prev">前へ</button>
-      <span class="info" id="pageinfo"></span>
-      <button id="next">次へ</button>
+    <div class="loadmore-wrap">
+      <button id="loadMore" type="button">さらに読み込む</button>
     </div>
+    <div class="sentinel" id="sentinel"></div>
 
     <footer class="footer" style="margin:22px 0 30px; color:rgba(0,0,0,.5); text-align:center;">
       © 2026 {{ site_name }}
@@ -111,7 +130,9 @@
 
   <script>
     (function(){
-      const DATA_URL = "{{ data_url }}"; // 例: ../assets/works_index.json
+      // 互換：manifestがなければ単一JSONにフォールバック
+      const MANIFEST_URL = "../assets/works_index_manifest.json";
+      const FALLBACK_DATA_URL = "{{ data_url }}"; // build.pyのrenderが渡してるURL（例: ../assets/works_index.json）
 
       const q = document.getElementById("q");
       const actress = document.getElementById("actress");
@@ -124,16 +145,19 @@
       const shownEl = document.getElementById("shown");
       const totalEl = document.getElementById("total");
 
-      const pager = document.getElementById("pager");
-      const prevBtn = document.getElementById("prev");
-      const nextBtn = document.getElementById("next");
-      const pageInfo = document.getElementById("pageinfo");
+      const topTagsEl = document.getElementById("topTags");
+      const loadStatusEl = document.getElementById("loadStatus");
 
-      const PER_PAGE = 24;
+      const loadMoreBtn = document.getElementById("loadMore");
+      const sentinel = document.getElementById("sentinel");
 
-      let all = [];          // 全件（軽量）
-      let filtered = [];     // 絞り込み結果
-      let page = 1;
+      const PER_BATCH = 24; // 1回に追加表示する件数（無限スクロールの単位）
+
+      let manifest = null;
+      let all = [];              // 読み込めた分だけ入る（分割なら段階的に増える）
+      let filtered = [];
+      let renderCount = 0;       // 今表示してる件数（filtered先頭から）
+      let loadingChunks = false;
 
       function norm(s){ return (s||"").toString().trim().toLowerCase(); }
       function uniqSorted(arr){
@@ -147,11 +171,9 @@
           .replaceAll('"',"&quot;")
           .replaceAll("'","&#039;");
       }
-
       function getSelectedValues(selectEl){
         return Array.from(selectEl.selectedOptions).map(o => o.value).filter(Boolean);
       }
-
       function fillSelect(selectEl, values, firstLabel){
         selectEl.innerHTML = "";
         if (firstLabel !== null){
@@ -179,25 +201,20 @@
           tags: (u.searchParams.get("tags") || "").split(",").filter(Boolean),
           mode: u.searchParams.get("mode") || "or",
           sort: u.searchParams.get("sort") || "new",
-          page: parseInt(u.searchParams.get("page") || "1", 10) || 1,
         };
       }
 
-      function writeStateToUrl({push=false} = {}){
+      function writeStateToUrl(){
         const u = new URL(location.href);
-
         const st = currentState();
+
         if (st.q) u.searchParams.set("q", st.q); else u.searchParams.delete("q");
         if (st.a) u.searchParams.set("a", st.a); else u.searchParams.delete("a");
         if (st.tags.length) u.searchParams.set("tags", st.tags.join(",")); else u.searchParams.delete("tags");
         if (st.mode && st.mode !== "or") u.searchParams.set("mode", st.mode); else u.searchParams.delete("mode");
         if (st.sort && st.sort !== "new") u.searchParams.set("sort", st.sort); else u.searchParams.delete("sort");
 
-        // pageは共有用に残す（1なら消してスッキリでもOK）
-        if (page > 1) u.searchParams.set("page", String(page)); else u.searchParams.delete("page");
-
-        if (push) history.pushState({}, "", u.toString());
-        else history.replaceState({}, "", u.toString());
+        history.replaceState({}, "", u.toString());
       }
 
       function applyStateToControls(st){
@@ -206,13 +223,10 @@
         mode.value = st.mode || "or";
         sort.value = st.sort || "new";
 
-        // tagsは optionが入ってから選択する
         const set = new Set(st.tags || []);
         for (const opt of tags.options){
           opt.selected = set.has(opt.value);
         }
-
-        page = st.page || 1;
       }
 
       function currentState(){
@@ -226,15 +240,33 @@
       }
 
       // -------------------------
+      // Popular tags
+      // -------------------------
+      function renderTopTags(topTags){
+        topTagsEl.innerHTML = "";
+        (topTags || []).slice(0, 30).forEach(x => {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.textContent = `${x.name} (${x.count})`;
+          b.addEventListener("click", () => {
+            // tags select に追加（選択）
+            for (const opt of tags.options){
+              if (opt.value === x.name) opt.selected = true;
+            }
+            applyFilters({resetRender:true});
+          });
+          topTagsEl.appendChild(b);
+        });
+      }
+
+      // -------------------------
       // Filter & Sort
       // -------------------------
       function matchTags(itemTagsLower, selectedLower, modeVal){
         if (!selectedLower.length) return true;
         if (modeVal === "and"){
-          // 全部含む
           return selectedLower.every(t => itemTagsLower.includes(t));
         }
-        // OR：どれか含む
         return selectedLower.some(t => itemTagsLower.includes(t));
       }
 
@@ -245,11 +277,10 @@
         if (sortVal === "old"){
           return (a.release_date||"").localeCompare((b.release_date||""), "ja");
         }
-        // new
         return (b.release_date||"").localeCompare((a.release_date||""), "ja");
       }
 
-      function applyFilters({resetPage=true} = {}){
+      function applyFilters({resetRender=true} = {}){
         const kw = norm(q.value);
         const a = norm(actress.value);
         const selectedTags = getSelectedValues(tags);
@@ -271,107 +302,189 @@
 
         filtered.sort((x,y)=> compareBySort(x,y,sortVal));
 
-        if (resetPage) page = 1;
+        if (resetRender){
+          renderCount = 0;
+          results.innerHTML = "";
+        }
+
         writeStateToUrl();
-        render();
+        updateCounters();
+        renderMore(); // まず1バッチ出す
       }
 
-      // -------------------------
-      // Render
-      // -------------------------
-      function render(){
-        totalEl.textContent = String(all.length);
+      function updateCounters(){
+        totalEl.textContent = manifest?.total_items ? String(manifest.total_items) : String(all.length);
         shownEl.textContent = String(filtered.length);
-
-        const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
-        if (page > totalPages) page = totalPages;
-
-        const start = (page - 1) * PER_PAGE;
-        const view = filtered.slice(start, start + PER_PAGE);
-
-        results.innerHTML = "";
-
-        for (const w of view){
-          const card = document.createElement("article");
-          card.className = "card";
-
-          const img = w.hero_image ? `<img class="thumb" src="${w.hero_image}" alt="${escapeHtml(w.title)}" loading="lazy">` : "";
-          const date = w.release_date ? `<div class="meta">公開日：${escapeHtml(w.release_date)}</div>` : "";
-
-          const actressesHtml = (w.actresses && w.actresses.length)
-            ? `<div class="tags">${w.actresses.slice(0,6).map(a=>`<span class="tag">${escapeHtml(a)}</span>`).join("")}</div>`
-            : "";
-
-          const tagsHtml = (w.tags && w.tags.length)
-            ? `<div class="tags">${w.tags.slice(0,8).map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join("")}</div>`
-            : "";
-
-          const detailHref = `../works/${w.id}/`;
-
-          const actions = `
-            <div class="actions">
-              <a class="btn secondary" href="${detailHref}">詳細を見る</a>
-              ${w.official_url ? `<a class="btn" href="${w.official_url}" target="_blank" rel="noopener">公式ページを見る</a>` : ""}
-            </div>
-          `;
-
-          card.innerHTML = `
-            ${img}
-            <div class="pad">
-              <div class="title">${escapeHtml(w.title)}</div>
-              ${date}
-              ${actressesHtml}
-              ${tagsHtml}
-              ${actions}
-            </div>
-          `;
-          results.appendChild(card);
-        }
-
-        const needPager = filtered.length > PER_PAGE;
-        pager.hidden = !needPager;
-        if (needPager){
-          pageInfo.textContent = `${page} / ${totalPages}`;
-          prevBtn.disabled = (page <= 1);
-          nextBtn.disabled = (page >= totalPages);
-        }
-
-        // URLのpage反映
-        writeStateToUrl();
       }
 
       // -------------------------
-      // init
+      // Render (infinite)
       // -------------------------
-      async function init(){
-        const res = await fetch(DATA_URL, {cache:"no-store"});
+      function renderCard(w){
+        const card = document.createElement("article");
+        card.className = "card";
+
+        const img = w.hero_image ? `<img class="thumb" src="${w.hero_image}" alt="${escapeHtml(w.title)}" loading="lazy">` : "";
+        const date = w.release_date ? `<div class="meta">公開日：${escapeHtml(w.release_date)}</div>` : "";
+        const actressesHtml = (w.actresses && w.actresses.length)
+          ? `<div class="tags">${w.actresses.slice(0,6).map(a=>`<span class="tag">${escapeHtml(a)}</span>`).join("")}</div>`
+          : "";
+        const tagsHtml = (w.tags && w.tags.length)
+          ? `<div class="tags">${w.tags.slice(0,8).map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join("")}</div>`
+          : "";
+
+        const detailHref = `../works/${w.id}/`;
+        const actions = `
+          <div class="actions">
+            <a class="btn secondary" href="${detailHref}">詳細を見る</a>
+            ${w.official_url ? `<a class="btn" href="${w.official_url}" target="_blank" rel="noopener">公式ページを見る</a>` : ""}
+          </div>
+        `;
+
+        card.innerHTML = `
+          ${img}
+          <div class="pad">
+            <div class="title">${escapeHtml(w.title)}</div>
+            ${date}
+            ${actressesHtml}
+            ${tagsHtml}
+            ${actions}
+          </div>
+        `;
+        return card;
+      }
+
+      function renderMore(){
+        const next = filtered.slice(renderCount, renderCount + PER_BATCH);
+        for (const w of next){
+          results.appendChild(renderCard(w));
+        }
+        renderCount += next.length;
+
+        // ボタン状態
+        const hasMore = renderCount < filtered.length;
+        loadMoreBtn.disabled = !hasMore;
+        loadMoreBtn.textContent = hasMore ? "さらに読み込む" : "これ以上ありません";
+      }
+
+      // IntersectionObserver で無限スクロール
+      function setupInfiniteScroll(){
+        if (!("IntersectionObserver" in window)) return;
+
+        const io = new IntersectionObserver(entries => {
+          const e = entries[0];
+          if (e.isIntersecting){
+            // まだ表示できるなら追加
+            if (renderCount < filtered.length){
+              renderMore();
+            }
+          }
+        }, {rootMargin: "800px 0px"});
+        io.observe(sentinel);
+      }
+
+      // -------------------------
+      // Load data
+      // -------------------------
+      async function tryLoadManifest(){
+        try{
+          const res = await fetch(MANIFEST_URL, {cache:"no-store"});
+          if (!res.ok) return null;
+          return await res.json();
+        }catch{
+          return null;
+        }
+      }
+
+      function setStatus(msg){
+        loadStatusEl.textContent = msg || "";
+      }
+
+      async function loadAllByManifest(m){
+        loadingChunks = true;
+        setStatus(`インデックス読込中… 0 / ${m.chunk_files.length}`);
+
+        // まずセレクトをmanifestから作れる（全件読まなくてもOK）
+        fillSelect(actress, m.all_actresses || [], "女優（すべて）");
+        fillSelect(tags, m.all_tags || [], null);
+
+        renderTopTags(m.top_tags || []);
+
+        // URL状態反映（optionsが入った後に）
+        const st = readStateFromUrl();
+        applyStateToControls(st);
+
+        // チャンクを順次読み込み。読み込むたびに検索結果も更新。
+        all = [];
+        for (let i=0; i<m.chunk_files.length; i++){
+          const file = m.chunk_files[i];
+          const res = await fetch(`../assets/${file}`, {cache:"no-store"});
+          if (!res.ok) throw new Error("チャンク取得失敗: " + file);
+
+          const chunk = await res.json();
+          all.push(...chunk);
+
+          setStatus(`インデックス読込中… ${i+1} / ${m.chunk_files.length}（${all.length}件読み込み済）`);
+
+          // 読み込み途中でも検索できるように更新（重くならないよう最初は控えめに）
+          applyFilters({resetRender:true});
+        }
+
+        setStatus(`読込完了：${all.length}件`);
+        loadingChunks = false;
+      }
+
+      async function loadFallbackSingle(){
+        setStatus("インデックス読込中…");
+        const res = await fetch(FALLBACK_DATA_URL, {cache:"no-store"});
         if (!res.ok) throw new Error("JSON取得に失敗: " + res.status);
 
         all = await res.json();
 
-        // セレクト作成
+        // セレクトは全件から作る（小規模用）
         const allActresses = uniqSorted(all.flatMap(x => x.actresses || []));
         const allTags = uniqSorted(all.flatMap(x => x.tags || []));
 
         fillSelect(actress, allActresses, "女優（すべて）");
-        fillSelect(tags, allTags, null); // multipleなので先頭ラベル無し
+        fillSelect(tags, allTags, null);
 
-        // URL状態を適用
+        // 人気タグは簡易集計
+        const counts = {};
+        for (const w of all){
+          for (const t of (w.tags||[])){
+            counts[t] = (counts[t]||0) + 1;
+          }
+        }
+        const top = Object.entries(counts).sort((a,b)=> b[1]-a[1]).slice(0,30).map(([name,count])=>({name,count}));
+        renderTopTags(top);
+
         const st = readStateFromUrl();
         applyStateToControls(st);
 
-        // 初回のフィルタ＆描画（pageはURLに合わせたいので resetPage=false）
-        applyFilters({resetPage:false});
-        // pageもURL通りにした後、renderでsliceされる
-        render();
+        setStatus(`読込完了：${all.length}件`);
+        applyFilters({resetRender:true});
+      }
+
+      async function init(){
+        manifest = await tryLoadManifest();
+
+        if (manifest){
+          updateCounters();
+          await loadAllByManifest(manifest);
+        }else{
+          await loadFallbackSingle();
+        }
+
+        updateCounters();
+        setupInfiniteScroll();
       }
 
       // events
-      q.addEventListener("input", () => applyFilters({resetPage:true}));
-      actress.addEventListener("change", () => applyFilters({resetPage:true}));
-      tags.addEventListener("change", () => applyFilters({resetPage:true}));
-      mode.addEventListener("change", () => applyFilters({resetPage:true}));
-      sort.addEventListener("change", () => applyFilters({resetPage:true}));
+      q.addEventListener("input", () => applyFilters({resetRender:true}));
+      actress.addEventListener("change", () => applyFilters({resetRender:true}));
+      tags.addEventListener("change", () => applyFilters({resetRender:true}));
+      mode.addEventListener("change", () => applyFilters({resetRender:true}));
+      sort.addEventListener("change", () => applyFilters({resetRender:true}));
 
       reset.addEventListener("click", () => {
         q.value = "";
@@ -379,30 +492,17 @@
         for (const opt of tags.options) opt.selected = false;
         mode.value = "or";
         sort.value = "new";
-        page = 1;
-        applyFilters({resetPage:false});
+        applyFilters({resetRender:true});
         q.focus();
       });
 
-      prevBtn.addEventListener("click", () => {
-        page = Math.max(1, page - 1);
-        render();
-      });
-      nextBtn.addEventListener("click", () => {
-        page = page + 1;
-        render();
-      });
-
-      window.addEventListener("popstate", () => {
-        // 戻る/進むでURL状態に追従
-        const st = readStateFromUrl();
-        applyStateToControls(st);
-        applyFilters({resetPage:false});
-        render();
+      loadMoreBtn.addEventListener("click", () => {
+        renderMore();
       });
 
       init().catch(err => {
         results.innerHTML = `<div class="meta">読み込みエラー：${escapeHtml(err.message)}</div>`;
+        setStatus("");
       });
     })();
   </script>
