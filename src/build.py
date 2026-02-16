@@ -1,24 +1,39 @@
 from __future__ import annotations
 
 import json
+import math
+import shutil
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Tuple
+
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
-ROOT = Path(__file__).resolve().parents[1]
+
+# =============================
+# Paths
+# =============================
+ROOT = Path(__file__).resolve().parents[1]      # repo root (catalog-main/)
 SRC = ROOT / "src"
 TEMPLATES = SRC / "templates"
 DATA_DIR = SRC / "data"
 OUT = ROOT / "docs"
+ASSETS_OUT = OUT / "assets"
 
 WORKS_JSON = DATA_DIR / "works.json"
 
-TPL_INDEX = "index.html"
-TPL_PAGE = "page.html"
-TPL_LIST = "list_works.html"
-TPL_SEARCH = "search.html"
+
+# =============================
+# Template names
+# =============================
+TPL_INDEX = "index.html"        # works grid page (home / pages / actress detail / genre detail)
+TPL_PAGE = "page.html"          # work detail page
+TPL_LIST = "list_works.html"    # simple list page (actresses index / genres index)
+TPL_SEARCH = "search.html"      # search page
 
 
+# =============================
+# Helpers
+# =============================
 def load_json(path: Path) -> Dict[str, Any]:
     if not path.exists():
         raise FileNotFoundError(f"JSONが見つかりません: {path}")
@@ -56,7 +71,33 @@ def slugify_simple(s: str) -> str:
     return s or "unknown"
 
 
-def build_indexes_from_works(works: List[Dict[str, Any]]):
+def parse_release_date_sort_key(s: str) -> str:
+    # 文字列のままでも ISO/同様形式ならソートできる
+    # "2026-03-05 00:00:00" / "2012/8/3 10:00" など混在しても、最低限の比較キーとして保持
+    return (s or "").replace("/", "-").replace("  ", " ").strip()
+
+
+def normalize_work(w: Dict[str, Any]) -> Dict[str, Any]:
+    # 欠けてても壊れないように最低限補正
+    ww = dict(w or {})
+    ww["id"] = str(ww.get("id") or "").strip()
+    ww["title"] = str(ww.get("title") or "").strip()
+    ww["description"] = str(ww.get("description") or ww["title"] or "").strip()
+    ww["release_date"] = str(ww.get("release_date") or "").strip()
+    ww["hero_image"] = ww.get("hero_image") or None
+
+    # URL系の揺れを吸収（テンプレ側が w.official_url を見てもOK）
+    ww["official_url"] = ww.get("official_url") or ww.get("affiliate_url") or ww.get("affiliateURL") or ww.get("URL") or None
+
+    # 配列系
+    ww["tags"] = [str(x).strip() for x in (ww.get("tags") or []) if str(x).strip()]
+    ww["actresses"] = [str(x).strip() for x in (ww.get("actresses") or []) if str(x).strip()]
+    return ww
+
+
+def build_indexes_from_works(
+    works: List[Dict[str, Any]]
+) -> Tuple[Dict[str, List[Dict[str, Any]]], List[str], Dict[str, List[Dict[str, Any]]], List[str]]:
     actresses: Dict[str, List[Dict[str, Any]]] = {}
     genres: Dict[str, List[Dict[str, Any]]] = {}
 
@@ -67,35 +108,37 @@ def build_indexes_from_works(works: List[Dict[str, Any]]):
         for g in (w.get("tags") or []):
             genres.setdefault(g, []).append(w)
 
-    return actresses, sorted(actresses.keys()), genres, sorted(genres.keys())
+    actresses_keys = sorted(actresses.keys(), key=lambda s: s.lower())
+    genres_keys = sorted(genres.keys(), key=lambda s: s.lower())
+    return actresses, actresses_keys, genres, genres_keys
 
 
-def chunk(items: List[Any], size: int) -> List[List[Any]]:
-    return [items[i:i + size] for i in range(0, len(items), size)]
-
-
-def sort_works_newest_first(works: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    # release_date は文字列でOK（YYYY-MM-DD HH:MM:SS想定）
-    return sorted(works, key=lambda x: (x.get("release_date") or ""), reverse=True)
-
-
-def make_search_index(works: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    # 検索に必要な最小限だけ（軽量）
+# =============================
+# Search index (lightweight)
+# =============================
+def make_search_index(works_sorted: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """
+    検索ページ用の軽量インデックス（大量でもDOMを増やさない）
+    """
     out: List[Dict[str, Any]] = []
-    for w in works:
+    for w in works_sorted:
         wid = w.get("id")
         if not wid:
             continue
-        out.append({
-            "id": str(wid),
-            "title": w.get("title") or "",
-            "release_date": w.get("release_date") or "",
-            "hero_image": w.get("hero_image") or "",
-            "official_url": w.get("official_url") or "",
-            "actresses": w.get("actresses") or [],
-            "tags": w.get("tags") or [],
-        })
+        out.append(
+            {
+                "id": wid,
+                "title": w.get("title") or "",
+                "release_date": w.get("release_date") or "",
+                "hero_image": w.get("hero_image") or None,
+                "official_url": w.get("official_url") or None,
+                "actresses": w.get("actresses") or [],
+                "tags": w.get("tags") or [],
+            }
+        )
     return out
+
+
 def count_top_tags_and_actresses(works: List[Dict[str, Any]], top_n: int = 30):
     tag_count: Dict[str, int] = {}
     actress_count: Dict[str, int] = {}
@@ -108,7 +151,6 @@ def count_top_tags_and_actresses(works: List[Dict[str, Any]], top_n: int = 30):
             if a:
                 actress_count[a] = actress_count.get(a, 0) + 1
 
-    # 件数が多い順 → 同数なら日本語順
     top_tags = sorted(tag_count.items(), key=lambda x: (-x[1], x[0].lower()))[:top_n]
     top_actresses = sorted(actress_count.items(), key=lambda x: (-x[1], x[0].lower()))[:top_n]
 
@@ -121,25 +163,23 @@ def write_search_index_chunks(
     chunk_size: int = 2000,
 ) -> None:
     """
-    超大量対応：
     - works_index_manifest.json … 目次（タグ/女優一覧・人気TOP・チャンク一覧）
     - works_index_000.json, works_index_001.json ... … 分割データ
-    - works_index.json …（互換用）全件1ファイルも残す（任意）
+    - works_index.json …（互換用）全件1ファイル
     """
     search_index = make_search_index(works_sorted)
 
-    # 1) 互換用（小～中規模ならこれだけでもOK）
+    # 互換用（小～中規模ならこれだけでもOK）
     write_json(out_assets_dir / "works_index.json", search_index)
 
-    # 2) 分割
-    chunks = [search_index[i:i + chunk_size] for i in range(0, len(search_index), chunk_size)]
-    chunk_files = []
+    # 分割
+    chunks = [search_index[i : i + chunk_size] for i in range(0, len(search_index), chunk_size)]
+    chunk_files: List[str] = []
     for i, ch in enumerate(chunks):
         name = f"works_index_{i:03d}.json"
         write_json(out_assets_dir / name, ch)
         chunk_files.append(name)
 
-    # 3) manifest（検索ページが最初に読む）
     tag_count, actress_count, top_tags, top_actresses = count_top_tags_and_actresses(works_sorted, top_n=40)
 
     manifest = {
@@ -155,34 +195,67 @@ def write_search_index_chunks(
     write_json(out_assets_dir / "works_index_manifest.json", manifest)
 
 
-def main():
+# =============================
+# Assets
+# =============================
+def copy_assets() -> None:
+    """
+    ある場合だけコピー：
+    - src/assets/style.css -> docs/assets/style.css
+    """
+    ensure_dir(ASSETS_OUT)
+    src_assets = SRC / "assets"
+    css_src = src_assets / "style.css"
+    if css_src.exists():
+        shutil.copyfile(css_src, ASSETS_OUT / "style.css")
+
+
+# =============================
+# Main build
+# =============================
+def main() -> None:
     data = load_json(WORKS_JSON)
     site_name = data.get("site_name", "Catalog")
-    works: List[Dict[str, Any]] = data.get("works", [])
+    works_raw: List[Dict[str, Any]] = data.get("works", []) or []
 
-    works_sorted = sort_works_newest_first(works)
+    works = [normalize_work(w) for w in works_raw if isinstance(w, dict)]
+    works = [w for w in works if w.get("id") and w.get("title")]
 
+    # 新しい順
+    works_sorted = sorted(works, key=lambda x: parse_release_date_sort_key(x.get("release_date", "")), reverse=True)
+
+    # 出力先を用意
+    ensure_dir(OUT)
     ensure_dir(OUT / "works")
     ensure_dir(OUT / "actresses")
     ensure_dir(OUT / "genres")
     ensure_dir(OUT / "pages")
     ensure_dir(OUT / "search")
-    ensure_dir(OUT / "assets")
+    ensure_dir(ASSETS_OUT)
 
+    # CSSなどコピー
+    copy_assets()
+
+    # テンプレ env
     env = Environment(
         loader=FileSystemLoader(str(TEMPLATES)),
         autoescape=select_autoescape(["html", "xml"]),
     )
-
     tpl_index = safe_template(env, TPL_INDEX)
     tpl_page = safe_template(env, TPL_PAGE)
     tpl_list = safe_template(env, TPL_LIST, fallback=TPL_INDEX)
-    tpl_search = safe_template(env, TPL_SEARCH)
 
-    actresses_map, actresses_keys, genres_map, genres_keys = build_indexes_from_works(works_sorted)
+    # search.html は無い場合もあるので、無ければ list/indexで代用しない（検索は必須にする）
+    try:
+        tpl_search = env.get_template(TPL_SEARCH)
+    except Exception:
+        tpl_search = None
+
+    # インデックス作成
+    actresses, actresses_keys, genres, genres_keys = build_indexes_from_works(works_sorted)
 
     # =============================
-    # CSS相対パス
+    # CSS relative paths
     # =============================
     CSS_ROOT = "assets/style.css"
     CSS_1DOWN = "../assets/style.css"
@@ -190,115 +263,86 @@ def main():
     CSS_3DOWN = "../../../assets/style.css"
 
     # =============================
-    # A) 検索用の軽量JSONを出力
+    # A) 検索用インデックス（分割 + manifest）
     # =============================
-    search_index = make_search_index(works_sorted)
-    write_json(OUT / "assets" / "works_index.json", search_index)
+    write_search_index_chunks(
+        works_sorted=works_sorted,
+        out_assets_dir=ASSETS_OUT,
+        chunk_size=2000,  # 重ければ 1000 に
+    )
 
     # =============================
-    # 1) トップページ：最新100件だけ（軽量）
+    # 1) トップページ（1ページ目を表示）
     # =============================
-    TOP_LIMIT = 100
-    top_works = works_sorted[:TOP_LIMIT]
+    PER_PAGE = 24
+    total_pages = max(1, math.ceil(len(works_sorted) / PER_PAGE))
+    page1 = works_sorted[:PER_PAGE]
 
     write_text(
         OUT / "index.html",
         tpl_index.render(
             site_name=site_name,
-            works=top_works,
-            actresses_keys=actresses_keys,   # 使うテンプレなら活用可（無くてもOK）
-            genres_keys=genres_keys,
+            works=page1,
             css_path=CSS_ROOT,
             home_href="./",
+            pages_href="pages/1/",
             actresses_href="actresses/",
             genres_href="genres/",
-            works_prefix="works/",
-            # 追加導線（テンプレ側で使いたければ）
-            pages_href="pages/1/",
             search_href="search/",
-            note=f"トップは最新{TOP_LIMIT}件のみ表示（重くならない設計）",
+            works_prefix="works/",
+            page_title=None,
+            page_description=None,
+            page=1,
+            total_pages=total_pages,
         ),
     )
 
     # =============================
-    # 1.5) 検索ページ（JSON検索）
+    # 2) ページング（/pages/<n>/）
     # =============================
-    write_text(
-        OUT / "search" / "index.html",
-        tpl_search.render(
-            site_name=site_name,
-            css_path=CSS_1DOWN,
-            home_href="../",
-            pages_href="../pages/1/",
-            actresses_href="../actresses/",
-            genres_href="../genres/",
-            data_url="../assets/works_index.json",
-        ),
-    )
+    for p in range(1, total_pages + 1):
+        start = (p - 1) * PER_PAGE
+        end = start + PER_PAGE
+        page_works = works_sorted[start:end]
 
-    # =============================
-    # 1.6) 全作品ページ（ページネーション 50件/ページ）
-    # =============================
-    PER_PAGE = 50
-    pages = chunk(works_sorted, PER_PAGE)
-    total_pages = max(1, len(pages))
-
-    for i, page_works in enumerate(pages, start=1):
-        # pages/<n>/index.html
-        prev_href = f"../{i-1}/" if i > 1 else None
-        next_href = f"../{i+1}/" if i < total_pages else None
-
-        # list_works.html がある前提（無ければ index.html にfallback）
         write_text(
-            OUT / "pages" / str(i) / "index.html",
-            tpl_list.render(
+            OUT / "pages" / str(p) / "index.html",
+            tpl_index.render(
                 site_name=site_name,
-                page_title=f"全作品（{i}/{total_pages}）",
-                page_description=f"全作品一覧です（{PER_PAGE}件/ページ）。",
-                # listテンプレは items を想定している場合があるので、
-                # ここでは index.html fallback を見越して works も渡す
                 works=page_works,
-                items=[],  # list_works.htmlがitemsベースでも壊れにくくする
                 css_path=CSS_2DOWN,
                 home_href="../../",
+                pages_href="../1/",
                 actresses_href="../../actresses/",
                 genres_href="../../genres/",
-                works_prefix="../../works/",
-                pages_href="../1/",
                 search_href="../../search/",
-                page=i,
+                works_prefix="../../works/",
+                page_title=f"全作品（{p}/{total_pages}）",
+                page_description="全作品のページ一覧です。",
+                page=p,
                 total_pages=total_pages,
-                prev_href=prev_href,
-                next_href=next_href,
             ),
         )
 
     # =============================
-    # 2) 作品個別ページ（関連作品）
+    # 3) 作品個別ページ（関連作品）
     # =============================
-    works_by_id: dict[str, dict] = {}
-    for ww in works_sorted:
-        if isinstance(ww, dict) and ww.get("id"):
-            works_by_id[str(ww["id"])] = ww
+    works_by_id: Dict[str, Dict[str, Any]] = {w["id"]: w for w in works_sorted if w.get("id")}
 
-    actress_to_ids: dict[str, list[str]] = {}
-    for ww in works_sorted:
-        wid = ww.get("id")
+    actress_to_ids: Dict[str, List[str]] = {}
+    for w in works_sorted:
+        wid = w.get("id")
         if not wid:
             continue
-        wid = str(wid)
-        for a in (ww.get("actresses") or []):
-            if not a:
-                continue
+        for a in (w.get("actresses") or []):
             actress_to_ids.setdefault(a, []).append(wid)
 
-    def get_related_works(current_work: dict, limit: int = 12) -> list[dict]:
-        cur_id = str(current_work.get("id") or "")
+    def get_related_works(current_work: Dict[str, Any], limit: int = 12) -> List[Dict[str, Any]]:
+        cur_id = current_work.get("id")
         cur_actresses = current_work.get("actresses") or []
         if not cur_actresses:
             return []
-
-        related_ids: list[str] = []
+        related_ids: List[str] = []
         for a in cur_actresses:
             for wid in actress_to_ids.get(a, []):
                 if wid == cur_id:
@@ -307,14 +351,13 @@ def main():
                     related_ids.append(wid)
 
         related = [works_by_id[wid] for wid in related_ids if wid in works_by_id]
-        related.sort(key=lambda x: (x.get("release_date") or ""), reverse=True)
+        related.sort(key=lambda x: parse_release_date_sort_key(x.get("release_date", "")), reverse=True)
         return related[:limit]
 
     for w in works_sorted:
         wid = w.get("id")
         if not wid:
             continue
-        wid = str(wid)
 
         related_works = get_related_works(w, limit=12)
 
@@ -326,16 +369,16 @@ def main():
                 related_works=related_works,
                 css_path=CSS_2DOWN,
                 home_href="../../",
+                pages_href="../../pages/1/",
                 actresses_href="../../actresses/",
                 genres_href="../../genres/",
-                works_prefix="../../works/",
-                pages_href="../../pages/1/",
                 search_href="../../search/",
+                works_prefix="../../works/",
             ),
         )
 
     # =============================
-    # 3) 女優一覧ページ（リンク一覧）
+    # 4) 女優一覧ページ（/actresses/）
     # =============================
     write_text(
         OUT / "actresses" / "index.html",
@@ -346,33 +389,43 @@ def main():
             items=[{"name": a, "href": f"./{slugify_simple(a)}/"} for a in actresses_keys],
             css_path=CSS_1DOWN,
             home_href="../",
+            pages_href="../pages/1/",
             actresses_href="./",
             genres_href="../genres/",
-            works_prefix="../works/",
-            pages_href="../pages/1/",
             search_href="../search/",
+            works_prefix="../works/",
         ),
     )
 
-    # 4) 女優個別ページ
+    # =============================
+    # 5) 女優個別ページ（/actresses/<name>/）
+    # =============================
     for a in actresses_keys:
+        ws = actresses.get(a, [])
+        # 女優ページは「最新順」に揃える
+        ws_sorted = sorted(ws, key=lambda x: parse_release_date_sort_key(x.get("release_date", "")), reverse=True)
+
         write_text(
             OUT / "actresses" / slugify_simple(a) / "index.html",
             tpl_index.render(
                 site_name=site_name,
-                works=actresses_map.get(a, []),
+                works=ws_sorted[:PER_PAGE],
                 css_path=CSS_2DOWN,
                 home_href="../../",
+                pages_href="../../pages/1/",
                 actresses_href="../",
                 genres_href="../../genres/",
-                works_prefix="../../works/",
-                pages_href="../../pages/1/",
                 search_href="../../search/",
+                works_prefix="../../works/",
+                page_title=f"女優：{a}",
+                page_description=f"{a} の作品一覧です。",
+                page=1,
+                total_pages=1,
             ),
         )
 
     # =============================
-    # 5) ジャンル一覧ページ（リンク一覧）
+    # 6) ジャンル一覧ページ（/genres/）
     # =============================
     write_text(
         OUT / "genres" / "index.html",
@@ -383,38 +436,76 @@ def main():
             items=[{"name": g, "href": f"./{slugify_simple(g)}/"} for g in genres_keys],
             css_path=CSS_1DOWN,
             home_href="../",
+            pages_href="../pages/1/",
             actresses_href="../actresses/",
             genres_href="./",
-            works_prefix="../works/",
-            pages_href="../pages/1/",
             search_href="../search/",
+            works_prefix="../works/",
         ),
     )
 
-    # 6) ジャンル個別ページ
+    # =============================
+    # 7) ジャンル個別ページ（/genres/<tag>/）
+    # =============================
     for g in genres_keys:
+        ws = genres.get(g, [])
+        ws_sorted = sorted(ws, key=lambda x: parse_release_date_sort_key(x.get("release_date", "")), reverse=True)
+
         write_text(
             OUT / "genres" / slugify_simple(g) / "index.html",
             tpl_index.render(
                 site_name=site_name,
-                works=genres_map.get(g, []),
+                works=ws_sorted[:PER_PAGE],
                 css_path=CSS_2DOWN,
                 home_href="../../",
+                pages_href="../../pages/1/",
                 actresses_href="../../actresses/",
                 genres_href="../",
-                works_prefix="../../works/",
-                pages_href="../../pages/1/",
                 search_href="../../search/",
+                works_prefix="../../works/",
+                page_title=f"ジャンル：{g}",
+                page_description=f"タグ「{g}」の作品一覧です。",
+                page=1,
+                total_pages=1,
             ),
         )
 
+    # =============================
+    # 8) 検索ページ（/search/）
+    # =============================
+    if tpl_search is not None:
+        write_text(
+            OUT / "search" / "index.html",
+            tpl_search.render(
+                site_name=site_name,
+                css_path=CSS_1DOWN,
+                home_href="../",
+                pages_href="../pages/1/",
+                actresses_href="../actresses/",
+                genres_href="../genres/",
+                search_href="./",
+                works_prefix="../works/",
+                # 互換用：旧式（単一JSON）でも動く
+                data_url="../assets/works_index.json",
+            ),
+        )
+    else:
+        # テンプレが無い場合の最低限
+        write_text(
+            OUT / "search" / "index.html",
+            f"""<!doctype html><html lang="ja"><meta charset="utf-8"><title>{site_name} - search</title>
+<body><p>src/templates/search.html が見つかりません。</p></body></html>""",
+        )
+
     print("生成完了：docs/ に出力しました")
-    print(" - docs/index.html (最新100件)")
-    print(" - docs/pages/<n>/index.html (50件/ページ)")
-    print(" - docs/search/index.html (JSON検索)")
-    print(" - docs/assets/works_index.json (検索用JSON)")
+    print(f" - docs/index.html")
+    print(f" - docs/pages/<n>/index.html")
+    print(f" - docs/works/<id>/index.html")
+    print(f" - docs/actresses/index.html / docs/actresses/<name>/index.html")
+    print(f" - docs/genres/index.html / docs/genres/<tag>/index.html")
+    print(f" - docs/search/index.html")
+    print(f" - docs/assets/works_index_manifest.json (+ chunks)")
 
 
 if __name__ == "__main__":
     main()
-
