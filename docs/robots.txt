@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://review-list.github.io/catalog/sitemap.xml

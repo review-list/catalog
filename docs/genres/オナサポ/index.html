@@ -1,464 +1,93 @@
 <!doctype html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Review Catalog</title>
-  <meta name="description" content="Review Catalog の作品一覧です。" />
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ジャンル: オナサポ | Review Catalog</title>
+  <meta name="description" content="ジャンル: オナサポ - Review Catalog">
   
-    <link rel="stylesheet" href="../../assets/style.css">
+  <link rel="canonical" href="https://review-list.github.io/catalog/genres/オナサポ/">
   
 
-  <style>
-    /* 最低限の検索UI（既存CSSを壊さないため控えめ） */
-    .controls{
-      margin: 14px 0 18px;
-      display: grid;
-      gap: 10px;
-    }
-    .controls .row{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
-    .controls input[type="search"], .controls select{
-      padding: 10px 12px;
-      border-radius: 12px;
-      border: 1px solid rgba(0,0,0,.12);
-      background: #fff;
-      min-width: 220px;
-    }
-    .controls button{
-      padding: 10px 12px;
-      border-radius: 12px;
-      border: 1px solid rgba(0,0,0,.12);
-      background: #fff;
-      cursor: pointer;
-      font-weight: 700;
-    }
-    .count{
-      color: rgba(0,0,0,.55);
-      font-size: 14px;
-      margin-left: auto;
-    }
+  <meta property="og:site_name" content="Review Catalog">
+  <meta property="og:title" content="ジャンル: オナサポ | Review Catalog">
+  <meta property="og:description" content="ジャンル: オナサポ - Review Catalog">
+  
+  <meta property="og:url" content="https://review-list.github.io/catalog/genres/オナサポ/">
+  
+  <meta property="og:type" content="website">
 
-    /* 作品カードの“フィルタ用”に非表示制御 */
-    .is-hidden{ display:none !important; }
-  </style>
+  <link rel="stylesheet" href="../../assets/style.css">
 </head>
-
 <body>
   <header class="site-header">
-    <div class="container">
-      <div class="brand">
-        <a href="../../" style="text-decoration:none; color:inherit;">
-          <strong>Review Catalog</strong>
-        </a>
+    <div class="site-header__inner">
+      <div class="site-brand">
+        <a class="site-title" href="../../"> Review Catalog </a>
       </div>
-
-      <nav class="nav" style="margin-top:10px; display:flex; gap:12px; flex-wrap:wrap;">
-        <a href="../../">ホーム</a>
-        <a href="../../actresses/">女優</a>
-        <a href="../">ジャンル</a>
-        <a href="../../pages/1/">全作品を見る（ページ）</a>
-        <a href="../../search/">検索</a>
+      <nav class="site-nav">
+        <a class="nav-link " href="../../">ホーム</a>
+        <a class="nav-link " href="../../search/">検索</a>
+        <a class="nav-link " href="../../actresses/">女優</a>
+        <a class="nav-link is-active" href="../../genres/">ジャンル</a>
+        <a class="nav-link " href="../../makers/">メーカー</a>
+        <a class="nav-link " href="../../series/">シリーズ</a>
+        <a class="nav-link " href="../../featured/">特集</a>
       </nav>
     </div>
   </header>
 
-  <main class="container">
-    <h1 style="margin:16px 0 8px;">作品一覧</h1>
+  <main class="site-main">
+    
+<section class="container">
+  <div class="page-head">
+    <h1 class="page-title">ジャンル: オナサポ</h1>
 
-    <!-- ✅ 検索＆絞り込み -->
-    <section class="controls" aria-label="検索と絞り込み">
-      <div class="row">
-        <input id="q" type="search" placeholder="タイトル / 女優 / タグで検索" autocomplete="off">
-        <select id="actress">
-          <option value="">女優（すべて）</option>
-          
-        </select>
-        <select id="tag">
-          <option value="">タグ（すべて）</option>
-          
-        </select>
-        <button id="reset" type="button">リセット</button>
+    
+  </div>
 
-        <div class="count">
-          <span id="shown">0</span> / <span id="total">0</span> 件
+  
+
+  <div class="works-grid">
+    
+      <a class="work-card" href="../../works/savr00987/" aria-label="【VR】早漏でモテない僕を上から目線で指導してくる毒舌巨乳メイドの見下し射精管理 月野かすみ">
+        <div class="work-thumb">
+          
+            <img loading="lazy" src="https://pics.dmm.co.jp/digital/video/savr00987/savr00987pl.jpg" alt="【VR】早漏でモテない僕を上から目線で指導してくる毒舌巨乳メイドの見下し射精管理 月野かすみ">
+          
+          <div class="work-badges">
+            
+            
+              <span class="badge badge-img">🖼️ サンプル画像あり</span>
+            
+            
+          </div>
         </div>
-      </div>
-    </section>
 
-    <!-- ✅ 一覧 -->
-    <section class="grid" id="works">
-      
-        
-        
-        
-
-        <article class="card work-item"
-          data-title="【vr】早漏でモテない僕を上から目線で指導してくる毒舌巨乳メイドの見下し射精管理 月野かすみ"
-          data-actresses="月野かすみ"
-          data-tags="ハイクオリティvr 8kvr 単体作品 vr専用 独占配信 痴女 中出し オナサポ メイド 巨乳"
-        >
-          
-            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/savr00987/savr00987pl.jpg" alt="【VR】早漏でモテない僕を上から目線で指導してくる毒舌巨乳メイドの見下し射精管理 月野かすみ" loading="lazy">
-          
-
-          <div class="pad">
-            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
-              【VR】早漏でモテない僕を上から目線で指導してくる毒舌巨乳メイドの見下し射精管理 月野かすみ
-            </h2>
-
+        <div class="work-meta">
+          <div class="work-title">【VR】早漏でモテない僕を上から目線で指導してくる毒舌巨乳メイドの見下し射精管理 月野かすみ</div>
+          <div class="work-sub">
+            <span class="muted">2026-03-21 00:00:00</span>
+            <span class="dot">•</span><span class="muted">KMPVR-彩-</span>
             
-              <div class="meta">公開日：2026-03-21 00:00:00</div>
-            
-
-            
-              <div class="tags" style="margin-top:10px;">
-                
-                  <span class="tag">月野かすみ</span>
-                
-              </div>
-            
-
-            
-              <div class="tags" style="margin-top:10px;">
-                
-                  <span class="tag">ハイクオリティVR</span>
-                
-                  <span class="tag">8KVR</span>
-                
-                  <span class="tag">単体作品</span>
-                
-                  <span class="tag">VR専用</span>
-                
-                  <span class="tag">独占配信</span>
-                
-                  <span class="tag">痴女</span>
-                
-                  <span class="tag">中出し</span>
-                
-                  <span class="tag">オナサポ</span>
-                
-              </div>
-            
-
-            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
-              <a class="btn secondary" href="../../works/savr00987/">詳細を見る</a>
-              
-                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dsavr00987&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
-              
-            </div>
           </div>
-        </article>
-      
-        
-        
-        
+        </div>
+      </a>
+    
+  </div>
 
-        <article class="card work-item"
-          data-title="「精子カラっぽになるまでイカせてあげる（ハート）」【甘とろ囁きで脳イキasmr主観】見つめて中出し！快感オナサポ 三好佑香"
-          data-actresses="三好佑香"
-          data-tags="ハイビジョン 4k 独占配信 単体作品 フェラ 痴女 中出し 騎乗位 オナサポ"
-        >
-          
-            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/pred00853/pred00853pl.jpg" alt="「精子カラっぽになるまでイカせてあげる（ハート）」【甘とろ囁きで脳イキASMR主観】見つめて中出し！快感オナサポ 三好佑香" loading="lazy">
-          
+  
+</section>
 
-          <div class="pad">
-            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
-              「精子カラっぽになるまでイカせてあげる（ハート）」【甘とろ囁きで脳イキASMR主観】見つめて中出し！快感オナサポ 三好佑香
-            </h2>
-
-            
-              <div class="meta">公開日：2026-03-13 00:00:00</div>
-            
-
-            
-              <div class="tags" style="margin-top:10px;">
-                
-                  <span class="tag">三好佑香</span>
-                
-              </div>
-            
-
-            
-              <div class="tags" style="margin-top:10px;">
-                
-                  <span class="tag">ハイビジョン</span>
-                
-                  <span class="tag">4K</span>
-                
-                  <span class="tag">独占配信</span>
-                
-                  <span class="tag">単体作品</span>
-                
-                  <span class="tag">フェラ</span>
-                
-                  <span class="tag">痴女</span>
-                
-                  <span class="tag">中出し</span>
-                
-                  <span class="tag">騎乗位</span>
-                
-              </div>
-            
-
-            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
-              <a class="btn secondary" href="../../works/pred00853/">詳細を見る</a>
-              
-                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dpred00853&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
-              
-            </div>
-          </div>
-        </article>
-      
-        
-        
-        
-
-        <article class="card work-item"
-          data-title="大型新人第三弾！ 究極の肉感ボディを震わせながら中出し解禁 天然kcupを味わい尽くす超絶品bodyエグヌキ接写アングル 南見京"
-          data-actresses="南見京"
-          data-tags="ハイビジョン 4k 独占配信 アクメ・オーガズム 主観 単体作品 オナサポ パイズリ 中出し"
-        >
-          
-            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/fpre00211/fpre00211pl.jpg" alt="大型新人第三弾！ 究極の肉感ボディを震わせながら中出し解禁 天然Kcupを味わい尽くす超絶品BODYエグヌキ接写アングル 南見京" loading="lazy">
-          
-
-          <div class="pad">
-            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
-              大型新人第三弾！ 究極の肉感ボディを震わせながら中出し解禁 天然Kcupを味わい尽くす超絶品BODYエグヌキ接写アングル 南見京
-            </h2>
-
-            
-              <div class="meta">公開日：2026-03-13 00:00:00</div>
-            
-
-            
-              <div class="tags" style="margin-top:10px;">
-                
-                  <span class="tag">南見京</span>
-                
-              </div>
-            
-
-            
-              <div class="tags" style="margin-top:10px;">
-                
-                  <span class="tag">ハイビジョン</span>
-                
-                  <span class="tag">4K</span>
-                
-                  <span class="tag">独占配信</span>
-                
-                  <span class="tag">アクメ・オーガズム</span>
-                
-                  <span class="tag">主観</span>
-                
-                  <span class="tag">単体作品</span>
-                
-                  <span class="tag">オナサポ</span>
-                
-                  <span class="tag">パイズリ</span>
-                
-              </div>
-            
-
-            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
-              <a class="btn secondary" href="../../works/fpre00211/">詳細を見る</a>
-              
-                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dfpre00211&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
-              
-            </div>
-          </div>
-        </article>
-      
-        
-        
-        
-
-        <article class="card work-item"
-          data-title="「センセ、もう1回しよ？」あざと誘惑に負け脱がしたら…kカップで大興奮！何度も抜かれるオナサポで教師失格体験 天音るな"
-          data-actresses="天音るな"
-          data-tags="ハイビジョン 独占配信 パイズリ 主観 単体作品 オナサポ 女子校生 巨乳"
-        >
-          
-            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/ebwh00314/ebwh00314pl.jpg" alt="「センセ、もう1回しよ？」あざと誘惑に負け脱がしたら…Kカップで大興奮！何度も抜かれるオナサポで教師失格体験 天音るな" loading="lazy">
-          
-
-          <div class="pad">
-            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
-              「センセ、もう1回しよ？」あざと誘惑に負け脱がしたら…Kカップで大興奮！何度も抜かれるオナサポで教師失格体験 天音るな
-            </h2>
-
-            
-              <div class="meta">公開日：2026-03-13 00:00:00</div>
-            
-
-            
-              <div class="tags" style="margin-top:10px;">
-                
-                  <span class="tag">天音るな</span>
-                
-              </div>
-            
-
-            
-              <div class="tags" style="margin-top:10px;">
-                
-                  <span class="tag">ハイビジョン</span>
-                
-                  <span class="tag">独占配信</span>
-                
-                  <span class="tag">パイズリ</span>
-                
-                  <span class="tag">主観</span>
-                
-                  <span class="tag">単体作品</span>
-                
-                  <span class="tag">オナサポ</span>
-                
-                  <span class="tag">女子校生</span>
-                
-                  <span class="tag">巨乳</span>
-                
-              </div>
-            
-
-            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
-              <a class="btn secondary" href="../../works/ebwh00314/">詳細を見る</a>
-              
-                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Debwh00314&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
-              
-            </div>
-          </div>
-        </article>
-      
-        
-        
-        
-
-        <article class="card work-item"
-          data-title="見下し目線で囁く美熟女の淫語asmr m男垂涎！！貴方の脳内が蕩け堕ちる絶対服従！！完全主観バイノーラルオナサポ！！ 橘メアリー"
-          data-actresses="橘メアリー"
-          data-tags="ハイビジョン 独占配信 オナサポ 人妻・主婦 巨乳 熟女 痴女 単体作品"
-        >
-          
-            <img class="thumb" src="https://pics.dmm.co.jp/digital/video/achj00080/achj00080pl.jpg" alt="見下し目線で囁く美熟女の淫語ASMR M男垂涎！！貴方の脳内が蕩け堕ちる絶対服従！！完全主観バイノーラルオナサポ！！ 橘メアリー" loading="lazy">
-          
-
-          <div class="pad">
-            <h2 class="title" style="margin:0 0 6px; font-size:18px;">
-              見下し目線で囁く美熟女の淫語ASMR M男垂涎！！貴方の脳内が蕩け堕ちる絶対服従！！完全主観バイノーラルオナサポ！！ 橘メアリー
-            </h2>
-
-            
-              <div class="meta">公開日：2026-03-06 00:00:00</div>
-            
-
-            
-              <div class="tags" style="margin-top:10px;">
-                
-                  <span class="tag">橘メアリー</span>
-                
-              </div>
-            
-
-            
-              <div class="tags" style="margin-top:10px;">
-                
-                  <span class="tag">ハイビジョン</span>
-                
-                  <span class="tag">独占配信</span>
-                
-                  <span class="tag">オナサポ</span>
-                
-                  <span class="tag">人妻・主婦</span>
-                
-                  <span class="tag">巨乳</span>
-                
-                  <span class="tag">熟女</span>
-                
-                  <span class="tag">痴女</span>
-                
-                  <span class="tag">単体作品</span>
-                
-              </div>
-            
-
-            <div class="actions" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
-              <a class="btn secondary" href="../../works/achj00080/">詳細を見る</a>
-              
-                <a class="btn" href="https://al.fanza.co.jp/?lurl=https%3A%2F%2Fvideo.dmm.co.jp%2Fav%2Fcontent%2F%3Fid%3Dachj00080&amp;af_id=risutotube-990&amp;ch=api" target="_blank" rel="noopener">公式ページを見る</a>
-              
-            </div>
-          </div>
-        </article>
-      
-    </section>
-
-    <footer class="footer" style="margin:22px 0 30px; color:rgba(0,0,0,.5); text-align:center;">
-      © 2026 Review Catalog
-    </footer>
   </main>
 
-  <script>
-    (function(){
-      const q = document.getElementById("q");
-      const actress = document.getElementById("actress");
-      const tag = document.getElementById("tag");
-      const reset = document.getElementById("reset");
-
-      const items = Array.from(document.querySelectorAll(".work-item"));
-      const shownEl = document.getElementById("shown");
-      const totalEl = document.getElementById("total");
-
-      totalEl.textContent = String(items.length);
-
-      function norm(s){ return (s || "").toString().trim().toLowerCase(); }
-
-      function apply(){
-        const kw = norm(q.value);
-        const a = norm(actress.value);
-        const t = norm(tag.value);
-
-        let shown = 0;
-
-        for (const el of items){
-          const title = el.dataset.title || "";
-          const as = el.dataset.actresses || "";
-          const tags = el.dataset.tags || "";
-
-          const okKw = !kw || (title.includes(kw) || as.includes(kw) || tags.includes(kw));
-          const okA  = !a  || as.includes(a);
-          const okT  = !t  || tags.includes(t);
-
-          const ok = okKw && okA && okT;
-
-          el.classList.toggle("is-hidden", !ok);
-          if (ok) shown++;
-        }
-
-        shownEl.textContent = String(shown);
-      }
-
-      q.addEventListener("input", apply);
-      actress.addEventListener("change", apply);
-      tag.addEventListener("change", apply);
-      reset.addEventListener("click", function(){
-        q.value = "";
-        actress.value = "";
-        tag.value = "";
-        apply();
-        q.focus();
-      });
-
-      apply();
-    })();
-  </script>
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <small>© Review Catalog</small>
+      
+      <a class="footer-link" href="https://review-list.github.io/catalog/feed.xml">RSS</a>
+      
+    </div>
+  </footer>
 </body>
 </html>
